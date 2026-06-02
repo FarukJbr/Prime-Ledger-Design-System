@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>טפסים להורדה · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:64px 0 30px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%)}
+  .page-hero h1{margin:14px auto 14px;max-width:600px}
+  .page-hero .lead{max-width:520px;margin:0 auto}
+  .fsearch{max-width:480px;margin:24px auto 0;display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border-strong);border-radius:var(--r-md);padding:0 16px}
+  .fsearch svg{width:18px;height:18px;color:var(--ink-4)}
+  .fsearch input{flex:1;border:none;background:none;font-family:var(--font-sans);font-size:15px;padding:13px 0;outline:none}
+  .fcat{margin-bottom:42px}
+  .fcat h2{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0 0 18px;display:flex;align-items:center;gap:11px}
+  .fcat h2 .ci{width:38px;height:38px;border-radius:var(--r-md);background:var(--brand-50);color:var(--brand-600);display:flex;align-items:center;justify-content:center}
+  .fcat h2 .ci svg{width:20px;height:20px}
+  .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .ffile{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;display:flex;align-items:center;gap:14px;transition:all var(--dur);cursor:pointer}
+  .ffile:hover{border-color:var(--brand-300);box-shadow:var(--shadow-sm)}
+  .ffile .ft{width:42px;height:42px;border-radius:var(--r-sm);background:var(--danger-bg);color:var(--danger);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ffile .ft.xls{background:var(--success-bg);color:var(--success)}
+  .ffile .ft.doc{background:var(--brand-50);color:var(--brand-600)}
+  .ffile .ft svg{width:20px;height:20px}
+  .ffile .fm{flex:1;min-width:0}
+  .ffile .fm b{font-size:14.5px;display:block;line-height:1.3}
+  .ffile .fm small{font-size:12px;color:var(--ink-3);font-family:var(--font-mono)}
+  .ffile .dl{color:var(--ink-3)}
+  .ffile:hover .dl{color:var(--brand-600)}
+  .ffile .dl svg{width:19px;height:19px}
+  @media(max-width:880px){.fgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">מרכז הטפסים</span>
+    <h1 class="h1 reveal d1">טפסים להורדה</h1>
+    <p class="lead reveal d2">כל הטפסים שתצטרכו — מסודרים לפי תחום, מוכנים להורדה ולמילוי.</p>
+    <div class="fsearch reveal d3"><i data-lucide="search"></i><input placeholder="חיפוש טופס..." oninput="filterForms(this.value)"></div>
+  </div>
+</section>
+
+<section style="padding:40px 0 90px">
+  <div class="wrap" id="formsRoot"></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>
+const CATS=window.PLData.data.forms.map(function(c){return [c.cat,c.icon,c.files];});
+function icon(t){return '<i data-lucide="'+(t==='xls'?'sheet':t==='doc'?'file-text':'file')+'"></i>';}
+function build(filter=''){
+  const root=document.getElementById('formsRoot');
+  root.innerHTML=CATS.map(c=>{
+    const files=c[2].filter(f=>!filter||f[0].includes(filter));
+    if(!files.length) return '';
+    return `<div class="fcat"><h2><span class="ci"><i data-lucide="${c[1]}"></i></span>${c[0]}</h2><div class="fgrid">${files.map(f=>`<div class="ffile" onclick="alert('הורדת הטופס: ${f[0]}')"><div class="ft ${f[2]}">${icon(f[2])}</div><div class="fm"><b>${f[0]}</b><small dir="ltr">${f[1]}</small></div><span class="dl"><i data-lucide="download"></i></span></div>`).join('')}</div></div>`;
+  }).join('')||'<p class="muted center">לא נמצאו טפסים תואמים.</p>';
+  lucide.createIcons();
+}
+window.filterForms=build;
+build();
+</script>
+</body>
+</html>

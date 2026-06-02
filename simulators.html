@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סימולטורים · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:64px 0 30px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%)}
+  .page-hero h1{margin:14px auto 14px;max-width:680px}
+  .page-hero .lead{max-width:520px;margin:0 auto}
+  .tabs{display:inline-flex;gap:6px;background:var(--n-100);border:1px solid var(--border);border-radius:var(--r-pill);padding:5px;margin:26px auto 0}
+  .tabs button{font-family:var(--font-sans);font-weight:700;font-size:15px;border:none;background:none;cursor:pointer;padding:10px 22px;border-radius:var(--r-pill);color:var(--ink-3);display:flex;align-items:center;gap:8px;transition:all var(--dur)}
+  .tabs button svg{width:17px;height:17px}
+  .tabs button.on{background:var(--surface);color:var(--brand-600);box-shadow:var(--shadow-sm)}
+  .sim{display:none;max-width:980px;margin:0 auto}
+  .sim.on{display:block}
+  .sim-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--shadow-md);overflow:hidden}
+  .sim-inputs{padding:34px}
+  .sim-inputs h3{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0 0 6px}
+  .sim-inputs .sub{font-size:14px;color:var(--ink-3);margin:0 0 26px}
+  .field{margin-bottom:22px}
+  .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;font-weight:600;color:var(--ink-2);margin-bottom:9px}
+  .field label .v{font-family:var(--font-display);font-weight:900;font-size:18px;color:var(--brand-600)}
+  .field input[type=range]{width:100%;accent-color:var(--brand-500);height:6px}
+  .field .numwrap{display:flex;align-items:center;gap:8px;border:1.5px solid var(--border-strong);border-radius:var(--r-md);padding:0 14px;background:var(--paper)}
+  .field .numwrap:focus-within{border-color:var(--brand-500);box-shadow:var(--ring-brand)}
+  .field .numwrap span{color:var(--ink-3);font-weight:700}
+  .field input[type=number]{flex:1;border:none;background:none;font-family:var(--font-sans);font-size:17px;font-weight:600;padding:12px 0;color:var(--ink);outline:none;-moz-appearance:textfield}
+  .field input[type=number]::-webkit-outer-spin-button,.field input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+  .seg{display:flex;gap:8px}
+  .seg button{flex:1;font-family:var(--font-sans);font-weight:700;font-size:14px;padding:10px;border-radius:var(--r-md);border:1.5px solid var(--border-strong);background:var(--paper);cursor:pointer;color:var(--ink-2)}
+  .seg button.on{border-color:var(--brand-500);background:var(--brand-50);color:var(--brand-600)}
+  .sim-out{background:var(--grad-ink);color:#fff;padding:34px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .sim-out::after{content:"";position:absolute;inset-inline-end:-20%;top:-10%;width:60%;height:60%;background:radial-gradient(circle,rgba(0,84,168,.4),transparent 70%)}
+  .out-label{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);position:relative;z-index:1}
+  .out-big{font-family:var(--font-display);font-weight:900;font-size:58px;line-height:1;margin:10px 0 4px;position:relative;z-index:1}
+  .out-sub{color:rgba(255,255,255,.7);font-size:15px;position:relative;z-index:1;margin-bottom:24px}
+  .breakdown{position:relative;z-index:1;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.1);border-radius:var(--r-md);overflow:hidden;margin-top:auto}
+  .brow{display:flex;justify-content:space-between;padding:13px 16px;background:rgba(255,255,255,.04);font-size:14.5px}
+  .brow b{font-family:var(--font-display);font-weight:700}
+  .brow.tot{background:rgba(255,255,255,.12);font-weight:700}
+  .disc{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:18px;max-width:600px;margin-inline:auto}
+  .more-soon{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:40px;color:var(--ink-3);font-size:14px}
+  .more-soon .badge{background:var(--accent-50);color:var(--accent-600)}
+  @media(max-width:820px){.sim-grid{grid-template-columns:1fr}.sim-out{order:-1}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">כלים חינמיים</span>
+    <h1 class="h1 reveal d1">סימולטורים — תוך דקה, בלי הרשמה.</h1>
+    <p class="lead reveal d2">בדקו בעצמכם כמה החזר מס עשוי להגיע לכם, או כמה ייכנס נטו לחשבון. אנונימי לחלוטין.</p>
+    <div class="tabs reveal d3">
+      <button class="on" data-sim="tax" onclick="showSim('tax')"><i data-lucide="receipt"></i>החזר מס</button>
+      <button data-sim="salary" onclick="showSim('salary')"><i data-lucide="wallet"></i>שכר נטו</button>
+    </div>
+  </div>
+</section>
+
+<section style="padding:40px 0 20px">
+  <div class="wrap">
+
+    <!-- TAX REFUND -->
+    <div class="sim on" id="sim-tax">
+      <div class="sim-grid">
+        <div class="sim-inputs">
+          <h3>סימולטור החזר מס</h3>
+          <p class="sub">לשכירים — בדיקה אם נוכה לכם מס ביתר במהלך השנה.</p>
+          <div class="field">
+            <label>הכנסה שנתית ברוטו <span class="v" id="t_grossv">₪240,000</span></label>
+            <input type="range" id="t_gross" min="40000" max="900000" step="5000" value="240000" oninput="calcTax()">
+          </div>
+          <div class="field">
+            <label>סך המס שנוכה בפועל (שנתי)</label>
+            <div class="numwrap"><span>₪</span><input type="number" id="t_paid" value="34000" oninput="calcTax()"></div>
+          </div>
+          <div class="field">
+            <label>נקודות זיכוי <span class="v" id="t_cpv">2.25</span></label>
+            <input type="range" id="t_cp" min="2.25" max="8" step="0.25" value="2.25" oninput="calcTax()">
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>הפקדות מזכות (פנסיה/השתלמות/תרומות) שנתי</label>
+            <div class="numwrap"><span>₪</span><input type="number" id="t_dep" value="0" oninput="calcTax()"></div>
+          </div>
+        </div>
+        <div class="sim-out">
+          <span class="out-label">החזר מס צפוי</span>
+          <div class="out-big" id="t_result" dir="ltr">₪0</div>
+          <div class="out-sub" id="t_msg">הזינו את הנתונים שלכם</div>
+          <div class="breakdown">
+            <div class="brow"><span>מס לפי מדרגות</span><b id="t_b1" dir="ltr">₪0</b></div>
+            <div class="brow"><span>זיכוי נק' + הפקדות</span><b id="t_b2" dir="ltr">₪0</b></div>
+            <div class="brow"><span>מס לתשלום בפועל</span><b id="t_b3" dir="ltr">₪0</b></div>
+            <div class="brow tot"><span>נוכה — לתשלום = החזר</span><b id="t_b4" dir="ltr">₪0</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NET SALARY -->
+    <div class="sim" id="sim-salary">
+      <div class="sim-grid">
+        <div class="sim-inputs">
+          <h3>סימולטור שכר נטו</h3>
+          <p class="sub">מהברוטו לנטו — כולל מס הכנסה, ביטוח לאומי ופנסיה.</p>
+          <div class="field">
+            <label>שכר ברוטו חודשי <span class="v" id="s_grossv">₪15,000</span></label>
+            <input type="range" id="s_gross" min="5000" max="80000" step="500" value="15000" oninput="calcSalary()">
+          </div>
+          <div class="field">
+            <label>נקודות זיכוי <span class="v" id="s_cpv">2.25</span></label>
+            <input type="range" id="s_cp" min="2.25" max="8" step="0.25" value="2.25" oninput="calcSalary()">
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>הפרשת עובד לפנסיה</label>
+            <div class="seg">
+              <button class="on" data-p="6" onclick="setPension(6)">6%</button>
+              <button data-p="7" onclick="setPension(7)">7%</button>
+              <button data-p="0" onclick="setPension(0)">ללא</button>
+            </div>
+          </div>
+        </div>
+        <div class="sim-out">
+          <span class="out-label">נטו לחודש</span>
+          <div class="out-big" id="s_result" dir="ltr">₪0</div>
+          <div class="out-sub" id="s_msg">השכר שייכנס לחשבון</div>
+          <div class="breakdown">
+            <div class="brow"><span>ברוטו</span><b id="s_b0" dir="ltr">₪0</b></div>
+            <div class="brow"><span>מס הכנסה</span><b id="s_b1" dir="ltr">₪0</b></div>
+            <div class="brow"><span>ביטוח לאומי ובריאות</span><b id="s_b2" dir="ltr">₪0</b></div>
+            <div class="brow"><span>פנסיה (עובד)</span><b id="s_b3" dir="ltr">₪0</b></div>
+            <div class="brow tot"><span>נטו</span><b id="s_b4" dir="ltr">₪0</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="more-soon"><span class="badge">בקרוב</span> סימולטור עלות מעביד · סימולטור מע"מ · סימולטור פרילנסר</div>
+    <p class="disc">הערה: התוצאות הן הערכה כללית בלבד המבוססת על מדרגות המס לשנת 2025 ואינן מהוות ייעוץ מס. לחישוב מדויק ולמימוש החזר — <a href="contact.html" style="color:var(--brand-600);font-weight:700">דברו איתנו</a>.</p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>
+  // --- Israeli income tax (annual brackets, 2025 approx) ---
+  const CAP = [84120,120720,193800,269280,560280,721560,Infinity];
+  const RATE = [0.10,0.14,0.20,0.31,0.35,0.47,0.50];
+  const CREDIT_YEAR = 2976; // value of 1 credit point / year
+  function incomeTaxAnnual(income){
+    let tax=0, prev=0;
+    for(let i=0;i<CAP.length;i++){
+      if(income>CAP[i]){ tax+=(CAP[i]-prev)*RATE[i]; prev=CAP[i]; }
+      else { tax+=(income-prev)*RATE[i]; break; }
+    }
+    return Math.max(0,tax);
+  }
+  const ils = n => '₪'+Math.round(n).toLocaleString('he-IL');
+
+  function calcTax(){
+    const gross=+t_gross.value, paid=+t_paid.value, cp=+t_cp.value, dep=+t_dep.value;
+    t_grossv.textContent=ils(gross); t_cpv.textContent=cp.toFixed(2);
+    const base=incomeTaxAnnual(gross);
+    const credit=cp*CREDIT_YEAR + dep*0.35; // deposits ~35% credit
+    const actual=Math.max(0, base-credit);
+    const refund=paid-actual;
+    t_b1.textContent=ils(base);
+    t_b2.textContent='−'+ils(credit);
+    t_b3.textContent=ils(actual);
+    t_b4.textContent=ils(paid)+' − '+ils(actual);
+    if(refund>50){ t_result.textContent='+'+ils(refund); t_result.style.color='#fff'; t_msg.textContent='ייתכן שמגיע לכם החזר 🎉 — שווה לבדוק'; }
+    else if(refund<-50){ t_result.textContent=ils(actual-paid); t_result.style.color='#FFB39E'; t_msg.textContent='ייתכן השלמת מס לתשלום'; }
+    else { t_result.textContent='₪0'; t_result.style.color='#fff'; t_msg.textContent='אין הפרש משמעותי'; }
+  }
+
+  let pension=6;
+  function setPension(p){ pension=p; document.querySelectorAll('#sim-salary .seg button').forEach(b=>b.classList.toggle('on',+b.dataset.p===p)); calcSalary(); }
+  function calcSalary(){
+    const gross=+s_gross.value, cp=+s_cp.value;
+    s_grossv.textContent=ils(gross); s_cpv.textContent=cp.toFixed(2);
+    // income tax monthly
+    const taxAnnual=Math.max(0, incomeTaxAnnual(gross*12) - cp*CREDIT_YEAR);
+    const incomeTax=taxAnnual/12;
+    // national insurance + health (employee), monthly threshold ~7522
+    const TH=7522;
+    let ni = gross<=TH ? gross*0.035 : TH*0.035 + (Math.min(gross,49030)-TH)*0.12;
+    const pens = gross*pension/100;
+    const net = gross - incomeTax - ni - pens;
+    s_b0.textContent=ils(gross);
+    s_b1.textContent='−'+ils(incomeTax);
+    s_b2.textContent='−'+ils(ni);
+    s_b3.textContent='−'+ils(pens);
+    s_b4.textContent=ils(net);
+    s_result.textContent=ils(net);
+  }
+
+  function showSim(which){
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.sim===which));
+    document.querySelectorAll('.sim').forEach(s=>s.classList.toggle('on',s.id==='sim-'+which));
+    if(location.hash==='#salary'||which==='salary') {} 
+  }
+  // deep-link
+  if(location.hash==='#salary') showSim('salary');
+  calcTax(); calcSalary();
+</script>
+</body>
+</html>

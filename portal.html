@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הפורטל שלי · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body class="portal-body">
+<div class="portal">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a class="p-brand" href="index.html"><img src="assets/logo-mark.png" alt=""><div><b>Prime Ledger</b><small>הפורטל שלי</small></div></a>
+    <nav class="p-nav">
+      <button class="p-link active" data-view="overview"><i data-lucide="layout-dashboard"></i>סקירה כללית</button>
+      <button class="p-link" data-view="subscription"><i data-lucide="credit-card"></i>המנוי שלי</button>
+      <button class="p-link" data-view="appointments"><i data-lucide="calendar"></i>פגישות וזמינות</button>
+      <button class="p-link" data-view="documents"><i data-lucide="folder"></i>מסמכים<span class="p-count">3</span></button>
+      <button class="p-link" data-view="payments"><i data-lucide="receipt"></i>תשלומים</button>
+      <button class="p-link" data-view="settings"><i data-lucide="settings"></i>הגדרות</button>
+    </nav>
+    <div class="p-help">
+      <div class="p-help-card">
+        <i data-lucide="life-buoy"></i>
+        <b>צריכים עזרה?</b>
+        <p>המנהל האישי שלכם זמין בכל שאלה.</p>
+        <a class="btn btn-primary btn-sm btn-block" href="contact.html">דברו איתנו</a>
+      </div>
+      <a class="p-logout" href="login.html"><i data-lucide="log-out"></i>יציאה</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="p-main">
+    <header class="p-top">
+      <button class="p-burger" id="pburger"><i data-lucide="menu"></i></button>
+      <div class="p-search"><i data-lucide="search"></i><input placeholder="חיפוש מסמכים, פגישות..."></div>
+      <div class="p-top-right">
+        <button class="p-icon-btn" title="התראות"><i data-lucide="bell"></i><span class="p-dot"></span></button>
+        <div class="p-user"><div class="p-av">ד</div><div class="p-user-info"><b>דנה כהן</b><small>חברת אורban סטודיו</small></div></div>
+      </div>
+    </header>
+
+    <div class="p-scroll" id="pscroll"></div>
+  </main>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="config.js"></script>
+<script src="backend.js"></script>
+<script src="portal-views.js"></script>
+<script src="portal.js"></script>
+</body>
+</html>

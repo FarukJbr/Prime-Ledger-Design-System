@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prime Ledger — מהרעיון ועד ההשקה</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* ---- HERO ---- */
+  .hero{position:relative;overflow:hidden;padding:64px 0 0}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero h1{margin:18px 0 0}
+  .hero .lead{margin:22px 0 30px;max-width:520px}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-trust{display:flex;gap:30px;margin-top:42px;flex-wrap:wrap}
+  .hero-trust .stat b{font-family:var(--font-display);font-weight:900;font-size:34px;color:var(--ink);display:block;line-height:1}
+  .hero-trust .stat span{font-size:13.5px;color:var(--ink-3);font-weight:600}
+  .hero-blob{position:absolute;inset-inline-start:-12%;top:-20%;width:50%;height:140%;background:radial-gradient(circle at center,rgba(0,84,168,.16),transparent 65%);pointer-events:none;z-index:0}
+
+  /* ---- portal mock ---- */
+  .mock{position:relative;z-index:1}
+  .mock-win{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--shadow-lg);overflow:hidden}
+  .mock-top{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--n-50)}
+  .mock-top i{width:11px;height:11px;border-radius:50%;background:var(--n-300)}
+  .mock-top .mt-title{margin-inline-start:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+  .mock-body{padding:20px}
+  .mock-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .mock-greet{font-family:var(--font-display);font-weight:700;font-size:19px}
+  .mock-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+  .mkpi{background:var(--n-50);border:1px solid var(--border);border-radius:var(--r-md);padding:12px}
+  .mkpi small{font-size:11px;color:var(--ink-3);font-weight:600}
+  .mkpi b{display:block;font-family:var(--font-display);font-weight:900;font-size:22px;margin-top:3px}
+  .mock-card{border:1px solid var(--border);border-radius:var(--r-md);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .mock-bars{display:flex;align-items:flex-end;gap:7px;height:70px;padding:8px 2px 0}
+  .mock-bars div{flex:1;border-radius:4px 4px 0 0;background:var(--brand-200)}
+  .mock-bars div:last-child{background:var(--brand-500)}
+  .float-badge{position:absolute;background:var(--surface);box-shadow:var(--shadow-lg);border:1px solid var(--border);border-radius:var(--r-md);padding:11px 15px;display:flex;align-items:center;gap:10px;z-index:2}
+  .float-1{bottom:-18px;inset-inline-end:-14px}
+  .float-2{top:30px;inset-inline-start:-22px}
+
+  /* ---- generic section heads ---- */
+  .sec-head{max-width:640px;margin-bottom:46px}
+  .sec-head.center{margin-inline:auto;text-align:center}
+  .sec-head .h2{margin:12px 0 14px}
+
+  /* ---- services grid ---- */
+  .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .svc-card{padding:24px;display:flex;flex-direction:column;gap:13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg)}
+  .svc-card h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin:0}
+  .svc-card p{font-size:14.5px;color:var(--ink-3);margin:0;line-height:1.55}
+  .svc-card .more{margin-top:auto;color:var(--brand-600);font-weight:700;font-size:14px;display:flex;align-items:center;gap:5px}
+  .svc-card .more svg{width:15px;height:15px}
+  .svc-wide{grid-column:span 2;background:var(--grad-ink);color:#fff;border:none;justify-content:center}
+  .svc-wide h3{color:#fff;font-size:24px}
+  .svc-wide p{color:rgba(255,255,255,.72);font-size:15px}
+
+  /* ---- process ---- */
+  .proc{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+  .proc-step{position:relative;padding-top:18px}
+  .proc-step::before{counter-increment:s;content:"0" counter(s);font-family:var(--font-mono);font-size:14px;color:var(--accent-600);font-weight:700}
+  .proc-step h4{font-family:var(--font-display);font-size:21px;font-weight:700;margin:8px 0 8px}
+  .proc-step p{font-size:14.5px;color:var(--ink-3);line-height:1.55;margin:0}
+  .proc-step::after{content:"";position:absolute;top:26px;inset-inline-start:-10px;width:1px;height:60%;background:var(--border)}
+  .proc-step:first-child::after{display:none}
+
+  /* ---- examples teaser ---- */
+  .ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .ex-card{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+  .ex-thumb{aspect-ratio:16/11;overflow:hidden;background:var(--n-100)}
+  .ex-thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+  .ex-meta{padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
+  .ex-meta b{font-family:var(--font-display);font-size:18px}
+  .ex-meta span{font-size:12.5px;color:var(--ink-3)}
+
+  /* ---- sim teaser ---- */
+  .sim-band{background:var(--brand-600);border-radius:var(--r-2xl);padding:54px 56px;color:#fff;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+  .sim-band::after{content:"";position:absolute;inset-block:0;inset-inline-end:-5%;width:45%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+  .sim-band h2{color:#fff;font-family:var(--font-display);font-size:36px;font-weight:700;margin:14px 0}
+  .sim-cards{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+  .sim-mini{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--r-md);padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .sim-mini .icon-chip{background:rgba(255,255,255,.16);color:#fff}
+  .sim-mini b{font-size:16px;display:block}
+  .sim-mini small{color:rgba(255,255,255,.7);font-size:13px}
+
+  /* ---- testimonials ---- */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .quote{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;display:flex;flex-direction:column;gap:16px}
+  .quote p{font-size:16px;line-height:1.6;color:var(--ink);margin:0;font-family:var(--font-display);font-weight:500}
+  .quote .who{display:flex;align-items:center;gap:11px;margin-top:auto}
+  .q-av{width:42px;height:42px;border-radius:50%;background:var(--brand-100);color:var(--brand-700);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-display)}
+  .q-av.a2{background:var(--accent-100);color:var(--accent-700)}
+  .q-av.a3{background:var(--n-200);color:var(--ink)}
+  .who b{font-size:14.5px;display:block}
+  .who span{font-size:12.5px;color:var(--ink-3)}
+  .stars{display:flex;gap:2px;color:var(--accent-500)}
+  .stars svg{width:16px;height:16px;fill:currentColor}
+
+  @media(max-width:980px){
+    .hero-grid,.sim-band{grid-template-columns:1fr}
+    .hero{padding-top:40px}
+    .float-2{display:none}
+    .svc-grid{grid-template-columns:1fr 1fr}
+    .svc-wide{grid-column:span 2}
+    .proc{grid-template-columns:1fr 1fr}
+    .ex-grid,.quotes{grid-template-columns:1fr}
+    .proc-step::after{display:none}
+  }
+  @media(max-width:560px){.svc-grid{grid-template-columns:1fr}.svc-wide{grid-column:span 1}.proc{grid-template-columns:1fr}.hero-trust{gap:22px}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow reveal">בית תוכן עסקי אחד · From idea to launch</span>
+      <h1 class="h-display reveal d1">כל מה שהעסק שלכם צריך<br>— תחת קורת גג אחת.</h1>
+      <p class="lead reveal d2">הנהלת חשבונות, חשבות שכר, ייעוץ עסקי ופיננסי, שיווק, מכירות, ציות — ובניית אתרים ומערכות. צוות אחד שמלווה אתכם מהרעיון ועד ההשקה.</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-primary btn-lg" href="contact.html">קביעת פגישת ייעוץ <i data-lucide="arrow-left"></i></a>
+        <a class="btn btn-secondary btn-lg" href="services.html"><i data-lucide="layout-grid"></i> השירותים שלנו</a>
+      </div>
+      <div class="hero-trust reveal d4">
+        <div class="stat"><b>+450</b><span>עסקים פעילים</span></div>
+        <div class="stat"><b>12</b><span>שנות ניסיון</span></div>
+        <div class="stat"><b>7</b><span>תחומי שירות</span></div>
+        <div class="stat"><b>98%</b><span>שימור לקוחות</span></div>
+      </div>
+    </div>
+
+    <!-- portal preview mock -->
+    <div class="mock reveal d3">
+      <div class="mock-win">
+        <div class="mock-top"><i></i><i></i><i></i><span class="mt-title" dir="ltr">portal.primels.co.il</span></div>
+        <div class="mock-body">
+          <div class="mock-row"><div class="mock-greet">שלום, דנה 👋</div><span class="badge" style="background:var(--success-bg);color:var(--success)"><span class="badge-dot" style="background:var(--success)"></span>מנוי פעיל</span></div>
+          <div class="mock-kpis">
+            <div class="mkpi"><small>החזר מס צפוי</small><b style="color:var(--brand-600)">₪4,200</b></div>
+            <div class="mkpi"><small>מסמכים החודש</small><b>23</b></div>
+            <div class="mkpi"><small>פגישה הבאה</small><b style="font-size:15px;padding-top:5px">12.6</b></div>
+          </div>
+          <div class="mock-card"><div class="icon-chip" style="width:40px;height:40px"><i data-lucide="file-check"></i></div><div style="flex:1"><b style="font-size:14.5px">דוח רבעוני Q2</b><div style="font-size:12.5px;color:var(--ink-3)">מוכן לחתימה</div></div><i data-lucide="chevron-left" style="color:var(--ink-3)"></i></div>
+          <div class="mock-card" style="margin-bottom:0;background:var(--n-50)"><div style="flex:1"><small style="font-size:11px;color:var(--ink-3);font-weight:600">תזרים 6 חודשים</small><div class="mock-bars"><div style="height:40%"></div><div style="height:60%"></div><div style="height:50%"></div><div style="height:75%"></div><div style="height:65%"></div><div style="height:90%"></div></div></div></div>
+        </div>
+      </div>
+      <div class="float-badge float-1"><div class="icon-chip accent" style="width:34px;height:34px"><i data-lucide="trending-up"></i></div><div><b style="font-size:13px;display:block">צמיחה</b><span style="font-size:12px;color:var(--ink-3)">+18% רבעוני</span></div></div>
+      <div class="float-badge float-2"><div class="icon-chip" style="width:34px;height:34px;background:var(--success-bg);color:var(--success)"><i data-lucide="shield-check"></i></div><div><b style="font-size:13px;display:block">ציות מלא</b><span style="font-size:12px;color:var(--ink-3)">עדכני 2026</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">השירותים שלנו</span>
+      <h2 class="h2">שבעה תחומים. צוות מומחים אחד.</h2>
+      <p class="lead">במקום לרדוף אחרי חמישה ספקים שונים — הכול מתואם, מסונכרן ומנוהל ממקום אחד.</p>
+    </div>
+    <div class="svc-grid" id="homeSvcGrid"><!-- rendered from data.js --></div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="section" style="background:var(--paper-raised);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow accent">איך זה עובד</span><h2 class="h2">מהרעיון ועד ההשקה — בארבעה צעדים.</h2></div>
+    <div class="proc">
+      <div class="proc-step"><h4>פגישת היכרות</h4><p>מבינים את העסק, היעדים והאתגרים. בלי התחייבות.</p></div>
+      <div class="proc-step"><h4>תוכנית עבודה</h4><p>בונים מפת דרכים ברורה עם לוחות זמנים ותקציב.</p></div>
+      <div class="proc-step"><h4>ביצוע וליווי</h4><p>מתחילים לעבוד — ואתם רואים הכול בפורטל האישי.</p></div>
+      <div class="proc-step"><h4>צמיחה והשקה</h4><p>משיקים, מודדים ומשפרים. אנחנו לצידכם לאורך כל הדרך.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXAMPLES TEASER ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head" style="display:flex;justify-content:space-between;align-items:flex-end;max-width:none">
+      <div><span class="eyebrow">דוגמאות עבודות</span><h2 class="h2" style="margin-top:12px">אתרים שבנינו ללקוחות.</h2></div>
+      <a class="btn btn-secondary" href="examples.html">לכל הדוגמאות <i data-lucide="arrow-left"></i></a>
+    </div>
+    <div class="ex-grid">
+      <a class="ex-card card-hover" href="examples/restaurant.html"><div class="ex-thumb"><img src="examples/thumbs/restaurant.png" alt="אתר מסעדה"></div><div class="ex-meta"><b>לה־טראטוריה</b><span>מסעדנות</span></div></a>
+      <a class="ex-card card-hover" href="examples/clinic.html"><div class="ex-thumb"><img src="examples/thumbs/clinic.png" alt="אתר קליניקה"></div><div class="ex-meta"><b>מרפאת אביב</b><span>רפואה ובריאות</span></div></a>
+      <a class="ex-card card-hover" href="examples/fitness.html"><div class="ex-thumb"><img src="examples/thumbs/fitness.png" alt="אתר סטודיו כושר"></div><div class="ex-meta"><b>פולס סטודיו</b><span>כושר ואורח חיים</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SIMULATORS ===================== -->
+<section class="section-sm">
+  <div class="wrap">
+    <div class="sim-band">
+      <div>
+        <span class="eyebrow" style="color:#fff">כלים חינמיים</span>
+        <h2>בדקו תוך דקה כמה מגיע לכם.</h2>
+        <p style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.6;margin:0 0 24px;max-width:420px">סימולטור החזר מס וסימולטור חשבות שכר — בחינם, בלי הרשמה. כלים נוספים בדרך.</p>
+        <a class="btn btn-accent btn-lg" href="simulators.html">לסימולטורים <i data-lucide="calculator"></i></a>
+      </div>
+      <div class="sim-cards">
+        <a class="sim-mini" href="simulators.html#tax"><div class="icon-chip"><i data-lucide="receipt"></i></div><div><b>סימולטור החזר מס</b><small>גלו אם מגיע לכם החזר</small></div></a>
+        <a class="sim-mini" href="simulators.html#salary"><div class="icon-chip"><i data-lucide="wallet"></i></div><div><b>סימולטור שכר נטו</b><small>מברוטו לנטו בקלות</small></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="section" style="background:var(--paper-raised);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="sec-head center"><span class="eyebrow">מה אומרים עלינו</span><h2 class="h2">לקוחות שגדלים איתנו.</h2></div>
+    <div class="quotes">
+      <div class="quote"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><p>"עברנו אליהם את כל הנהלת החשבונות והשיווק. לראשונה אני באמת מבין את המספרים של העסק."</p><div class="who"><div class="q-av">י</div><div><b>יוסי לוי</b><span>בעלים, סטודיו עיצוב</span></div></div></div>
+      <div class="quote"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><p>"הפורטל מדהים. אני רואה את מצב המנוי, המסמכים והפגישות — הכול במקום אחד."</p><div class="who"><div class="q-av a2">ר</div><div><b>רונית כהן</b><span>מנכ"לית, רשת קמעונאות</span></div></div></div>
+      <div class="quote"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><p>"בנו לנו אתר וגם דאגו לכל הצד הפיננסי. ספק אחד, שקט אחד."</p><div class="who"><div class="q-av a3">א</div><div><b>אבי מזרחי</b><span>מייסד, סטארטאפ פודטק</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NEWSLETTER + CTA ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="newsletter">
+      <div style="position:relative;z-index:1">
+        <span class="eyebrow" style="color:#fff">ניוזלטר</span>
+        <h2 class="h2" style="color:#fff;margin:12px 0 8px">טיפים עסקיים, פעם בחודש.</h2>
+        <p style="color:rgba(255,255,255,.7);font-size:16px;margin:0;max-width:420px">עדכוני רגולציה, מועדי דיווח וטיפים פיננסיים — ישר למייל. בלי ספאם.</p>
+      </div>
+      <form class="news-form" onsubmit="event.preventDefault();this.reset();this.querySelector('input').placeholder='נרשמת! תודה ✓'">
+        <input type="email" placeholder="האימייל שלכם" required>
+        <button class="btn btn-primary" type="submit">הרשמה</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>
+  (function(){
+    var grid=document.getElementById('homeSvcGrid'); if(!grid) return;
+    var svcs=window.PLData.data.services.filter(function(s){return s.visible!==false;});
+    grid.innerHTML = svcs.map(function(s){
+      return '<a class="svc-card card-hover" href="services.html#'+s.id+'"><div class="icon-chip"><i data-lucide="'+s.icon+'"></i></div><h3>'+s.title+'</h3><p>'+(s.short||'')+'</p><span class="more">פרטים <i data-lucide="arrow-left"></i></span></a>';
+    }).join('') + '<a class="svc-card svc-wide card-hover" href="examples.html"><h3>וגם — בונים לכם אתרים ומערכות</h3><p>אתרי תדמית, חנויות ומערכות ניהול מותאמות אישית. ראו דוגמאות מהעבודות שלנו ←</p></a>';
+    if(window.lucide) lucide.createIcons();
+  })();
+</script>
+</body>
+</html>

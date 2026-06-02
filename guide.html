@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מדריך מקצועי · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:64px 0 30px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%)}
+  .page-hero h1{margin:14px auto 14px;max-width:640px}
+  .page-hero .lead{max-width:520px;margin:0 auto}
+  .feat-article{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:50px}
+  .feat-article .fa-img{aspect-ratio:16/11;background:var(--n-100);overflow:hidden}
+  .feat-article .fa-img img{width:100%;height:100%;object-fit:cover}
+  .feat-article .fa-body{padding:36px 40px 36px 0}
+  .feat-article .fa-body .eyebrow{margin-bottom:14px;display:block}
+  .feat-article h2{font-family:var(--font-display);font-size:32px;font-weight:700;line-height:1.15;margin:0 0 14px}
+  .feat-article p{color:var(--ink-2);font-size:16px;line-height:1.6;margin:0 0 22px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .art{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
+  .art .ai{aspect-ratio:16/10;overflow:hidden;background:var(--n-100)}
+  .art .ai img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .art:hover .ai img{transform:scale(1.04)}
+  .art .ab{padding:20px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .art .cat{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand-600);font-weight:500}
+  .art h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin:0;line-height:1.25}
+  .art p{color:var(--ink-3);font-size:14px;margin:0;line-height:1.5;flex:1}
+  .art .meta{display:flex;align-items:center;gap:8px;color:var(--ink-4);font-size:12.5px;margin-top:4px}
+  @media(max-width:880px){.feat-article{grid-template-columns:1fr}.feat-article .fa-body{padding:28px}.feat-article .fa-img{order:-1}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">מדריך מקצועי</span>
+    <h1 class="h1 reveal d1">ידע עסקי, בגובה העיניים.</h1>
+    <p class="lead reveal d2">מאמרים, טיפים ומדריכים מעשיים מצוות המומחים שלנו — כדי שתקבלו החלטות טובות יותר.</p>
+  </div>
+</section>
+
+<section style="padding:30px 0 90px">
+  <div class="wrap">
+    <article class="feat-article">
+      <div class="fa-body">
+        <span class="eyebrow accent">מאמר נבחר · מיסוי</span>
+        <h2>5 החזרי מס שכל שכיר מפספס</h2>
+        <p>רוב השכירים בישראל זכאים להחזר מס ולא יודעים. ריכזנו את חמש הסיבות הנפוצות ביותר להחזר — ואיך לבדוק אם מגיע גם לכם, בלי כאב ראש.</p>
+        <div style="display:flex;gap:12px"><a class="btn btn-primary" href="#" onclick="event.preventDefault()">קריאת המאמר <i data-lucide="arrow-left"></i></a><a class="btn btn-ghost" href="simulators.html">לסימולטור החזר מס</a></div>
+      </div>
+      <div class="fa-img"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt=""></div>
+    </article>
+
+    <div class="grid">
+      ${''}
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80" alt=""></div><div class="ab"><span class="cat">הנהלת חשבונות</span><h3>עוסק פטור או מורשה? המדריך המלא</h3><p>איך לבחור את הסיווג הנכון לעסק שלכם, ומתי כדאי לעבור.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>6 דק' קריאה</div></div></a>
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=600&q=80" alt=""></div><div class="ab"><span class="cat">פיננסים</span><h3>איך לנהל תזרים מזומנים בריא</h3><p>הכלים והעקרונות שימנעו מכם להיקלע למצוקת נזילות.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>8 דק' קריאה</div></div></a>
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt=""></div><div class="ab"><span class="cat">שיווק</span><h3>תקציב שיווק ראשון: מאיפה מתחילים</h3><p>איך לחלק תקציב מוגבל בין הערוצים שבאמת מביאים לקוחות.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>5 דק' קריאה</div></div></a>
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt=""></div><div class="ab"><span class="cat">חשבות שכר</span><h3>עלות מעביד: מה באמת עולה לכם עובד</h3><p>פירוק כל רכיבי העלות מעבר לשכר ברוטו, עם דוגמאות.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>7 דק' קריאה</div></div></a>
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=80" alt=""></div><div class="ab"><span class="cat">ציות</span><h3>הגנת פרטיות: מה עסק קטן חייב לדעת</h3><p>הצעדים הבסיסיים לעמידה בתקנות הגנת המידע ב‑2026.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>9 דק' קריאה</div></div></a>
+      <a class="art card-hover" href="#" onclick="event.preventDefault()"><div class="ai"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80" alt=""></div><div class="ab"><span class="cat">דיגיטל</span><h3>אתר או חנות אונליין: מה מתאים לעסק?</h3><p>השיקולים המרכזיים לפני שמשקיעים בנוכחות דיגיטלית.</p><div class="meta"><i data-lucide="clock" style="width:13px;height:13px"></i>6 דק' קריאה</div></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="wrap"><div class="newsletter">
+    <div style="position:relative;z-index:1"><span class="eyebrow" style="color:#fff">ניוזלטר</span><h2 class="h2" style="color:#fff;margin:12px 0 8px">מאמר חדש כל שבוע, למייל.</h2><p style="color:rgba(255,255,255,.7);margin:0;font-size:16px">הצטרפו ל‑5,000+ בעלי עסקים שכבר מנויים.</p></div>
+    <form class="news-form" onsubmit="event.preventDefault();this.reset();this.querySelector('input').placeholder='נרשמת! תודה ✓'"><input type="email" placeholder="האימייל שלכם" required><button class="btn btn-primary" type="submit">הרשמה</button></form>
+  </div></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+</body>
+</html>

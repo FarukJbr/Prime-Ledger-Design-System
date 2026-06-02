@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מחירון · פריים לדג׳ר</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:72px 0 36px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%);pointer-events:none}
+  .page-hero h1{margin:14px auto 16px;max-width:720px}
+  .page-hero .lead{max-width:560px;margin:0 auto}
+  .toggle{display:inline-flex;align-items:center;gap:0;background:var(--n-100);border:1px solid var(--border);border-radius:var(--r-pill);padding:4px;margin-top:26px}
+  .toggle button{font-family:var(--font-sans);font-weight:700;font-size:14px;border:none;background:none;cursor:pointer;padding:9px 20px;border-radius:var(--r-pill);color:var(--ink-3);transition:all var(--dur)}
+  .toggle button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+  .toggle .save{font-family:var(--font-mono);font-size:11px;color:var(--accent-600);background:var(--accent-50);padding:2px 7px;border-radius:var(--r-pill);margin-inline-start:6px}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
+  .tier{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 28px;display:flex;flex-direction:column;gap:8px;position:relative}
+  .tier.pop{border:2px solid var(--brand-500);box-shadow:var(--shadow-lg)}
+  .tier-tag{position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);background:var(--brand-500);color:#fff;font-size:12px;font-weight:700;padding:5px 14px;border-radius:var(--r-pill)}
+  .tier h3{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0}
+  .tier .desc{font-size:14px;color:var(--ink-3);margin:0 0 8px;min-height:38px}
+  .tier .price{display:flex;align-items:baseline;gap:6px}
+  .tier .price b{font-family:var(--font-display);font-size:46px;font-weight:900;line-height:1}
+  .tier .price span{color:var(--ink-3);font-size:15px;font-weight:600}
+  .tier ul{list-style:none;padding:0;margin:18px 0 24px;display:flex;flex-direction:column;gap:12px}
+  .tier li{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--ink-2)}
+  .tier li svg{width:19px;height:19px;color:var(--success);flex-shrink:0;margin-top:2px}
+  .tier li.off{color:var(--ink-4)}.tier li.off svg{color:var(--n-400)}
+  .tier .btn{margin-top:auto}
+  .addon-table{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+  .addon-row{display:flex;align-items:center;gap:16px;padding:18px 24px;border-bottom:1px solid var(--border)}
+  .addon-row:last-child{border-bottom:none}
+  .addon-row .icon-chip{width:42px;height:42px}
+  .addon-row b{font-size:16px}.addon-row p{margin:2px 0 0;font-size:13.5px;color:var(--ink-3)}
+  .addon-row .ap{margin-inline-start:auto;font-family:var(--font-display);font-weight:900;font-size:20px;white-space:nowrap}
+  .addon-row .ap small{font-family:var(--font-sans);font-size:13px;color:var(--ink-3);font-weight:600}
+  .note{text-align:center;color:var(--ink-3);font-size:13.5px;margin-top:18px}
+  @media(max-width:880px){.tiers{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">מחירון</span>
+    <h1 class="h1 reveal d1">מחירים שקופים. בלי אותיות קטנות.</h1>
+    <p class="lead reveal d2">חבילה חודשית קבועה שמתאימה לשלב שבו העסק נמצא — תמיד אפשר לשדרג.</p>
+    <div class="toggle reveal d3">
+      <button class="on" data-cycle="month" onclick="setCycle('month')">חודשי</button>
+      <button data-cycle="year" onclick="setCycle('year')">שנתי<span class="save">חודשיים מתנה</span></button>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="tiers" id="tiersRoot"><!-- rendered from data.js --></div>
+    <p class="note">המחירים אינם כוללים מע"מ · ניתן לבטל בכל עת · 14 יום התנסות ללא התחייבות</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="wrap">
+    <div class="sec-head center" style="margin-inline:auto;margin-bottom:32px"><span class="eyebrow accent">שירותים נוספים</span><h2 class="h2" style="margin-top:12px">תוספות וחבילות חד־פעמיות</h2></div>
+    <div class="addon-table" id="addonsRoot" style="max-width:860px;margin:0 auto"><!-- rendered from data.js --></div>
+    <p class="note"><a href="examples.html" style="color:var(--brand-600);font-weight:700">ראו דוגמאות אתרים שבנינו ←</a></p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="pricing-render.js"></script>
+</body>
+</html>

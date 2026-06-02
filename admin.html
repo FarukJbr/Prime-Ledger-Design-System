@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ניהול האתר · פריים לדג׳ר</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+<div class="admin">
+  <aside class="a-side" id="aside">
+    <div class="a-brand"><img src="assets/logo-mark-white.png" alt=""><div><b>פריים לדג׳ר</b><small>Admin Panel</small></div></div>
+    <nav class="a-nav">
+      <button class="a-link active" data-v="dashboard"><i data-lucide="layout-dashboard"></i>לוח בקרה</button>
+      <button class="a-link" data-v="services"><i data-lucide="grid-3x3"></i>שירותים</button>
+      <button class="a-link" data-v="pricing"><i data-lucide="tag"></i>מחירון ותוספות</button>
+      <button class="a-link" data-v="forms"><i data-lucide="file-down"></i>טפסים</button>
+      <button class="a-link" data-v="clients"><i data-lucide="users"></i>לקוחות</button>
+      <button class="a-link" data-v="leads"><i data-lucide="inbox"></i>פניות<span style="margin-inline-start:auto;background:var(--accent-500);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center">4</span></button>
+      <button class="a-link" data-v="settings"><i data-lucide="settings"></i>פרטים והגדרות</button>
+    </nav>
+    <div class="a-foot">
+      <a href="setup-supabase.html" target="_blank"><i data-lucide="database"></i>חיבור מסד נתונים</a>
+      <a href="index.html" target="_blank"><i data-lucide="external-link"></i>צפייה באתר</a>
+      <button class="reset" id="resetBtn"><i data-lucide="rotate-ccw"></i>שחזור ברירת מחדל</button>
+      <a href="login.html"><i data-lucide="log-out"></i>יציאה</a>
+    </div>
+  </aside>
+
+  <main class="a-main">
+    <header class="a-top">
+      <button class="a-burger" id="aburger"><i data-lucide="menu"></i></button>
+      <h2 id="aTitle">לוח בקרה</h2>
+      <span class="saved" id="saved"><i data-lucide="check-circle-2"></i>נשמר</span>
+    </header>
+    <div class="a-scroll" id="aScroll"></div>
+  </main>
+</div>
+
+<div class="a-ov" id="modalOv">
+  <div class="a-modal">
+    <div class="a-modal-h"><h3 id="modalTitle">עריכה</h3><button id="modalClose">×</button></div>
+    <div class="a-modal-b" id="modalBody"></div>
+    <div class="a-modal-f"><button class="btn btn-primary" id="modalSave">שמירה</button><button class="btn btn-secondary" id="modalCancel">ביטול</button></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="backend.js"></script>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

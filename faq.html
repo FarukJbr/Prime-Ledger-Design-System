@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שאלות ותשובות · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:64px 0 30px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%)}
+  .page-hero h1{margin:14px auto 14px;max-width:600px}
+  .page-hero .lead{max-width:480px;margin:0 auto}
+  .faq-cats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+  .faq-cats button{font-family:var(--font-sans);font-weight:600;font-size:14px;border:1.5px solid var(--border-strong);background:var(--surface);cursor:pointer;padding:8px 16px;border-radius:var(--r-pill);color:var(--ink-2);transition:all var(--dur)}
+  .faq-cats button.on{background:var(--brand-500);border-color:var(--brand-500);color:#fff}
+  .faq-list{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding-bottom:80px}
+  .faq{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;transition:box-shadow var(--dur)}
+  .faq.open{box-shadow:var(--shadow-md)}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;cursor:pointer;font-weight:700;font-size:16.5px;font-family:var(--font-display)}
+  .faq-q .qi{width:30px;height:30px;border-radius:50%;background:var(--brand-50);color:var(--brand-600);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform var(--dur)}
+  .faq-q .qi svg{width:17px;height:17px}
+  .faq.open .qi{transform:rotate(45deg);background:var(--brand-500);color:#fff}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height var(--dur) var(--ease-out)}
+  .faq-a-inner{padding:0 24px 22px;color:var(--ink-2);font-size:15.5px;line-height:1.65}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">מרכז העזרה</span>
+    <h1 class="h1 reveal d1">שאלות ותשובות</h1>
+    <p class="lead reveal d2">כל מה שרציתם לדעת. לא מצאתם תשובה? אנחנו כאן.</p>
+  </div>
+</section>
+
+<section style="padding-top:30px">
+  <div class="wrap">
+    <div class="faq-list" id="faqs"></div>
+    <div style="text-align:center;padding-bottom:80px"><p class="muted" style="margin-bottom:14px">עדיין יש לכם שאלה?</p><a class="btn btn-primary" href="contact.html">דברו איתנו <i data-lucide="arrow-left"></i></a></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>
+const FAQS=[
+  ['איך מתחילים לעבוד אתכם?','פשוט מאוד — קובעים פגישת היכרות (חינם, בלי התחייבות), אנחנו מבינים את הצרכים, ובונים יחד תוכנית עבודה עם תקציב ברור. תוך כמה ימים אתם כבר באוויר עם פורטל אישי.'],
+  ['כמה עולה השירות?','המחיר תלוי בחבילה ובהיקף הפעילות. יש לנו שלוש חבילות חודשיות קבועות — בסיס, צמיחה ומלא — שמתחילות מ‑₪390 לחודש. אפשר לראות הכול בעמוד המחירון, ותמיד ניתן לשדרג או לבטל.'],
+  ['האם אפשר לבטל בכל עת?','כן. אין התחייבות לתקופה. ניתן לבטל את המנוי בכל חודש, וכל המסמכים שלכם נשארים זמינים להורדה.'],
+  ['מה זה הפורטל האישי?','מערכת מקוונת מאובטחת שבה אתם רואים בזמן אמת את מצב המנוי, כל המסמכים והדוחות, הפגישות הקרובות, ההיסטוריה הפיננסית והתשלומים — הכול במקום אחד, מכל מכשיר.'],
+  ['אתם בונים גם אתרים?','בהחלט. החטיבה הדיגיטלית שלנו בונה אתרי תדמית, חנויות אונליין ומערכות ניהול מותאמות אישית. אפשר לראות דוגמאות חיות בעמוד הדוגמאות.'],
+  ['האם המידע שלי מאובטח?','כן. אנחנו עובדים לפי תקני אבטחה מחמירים, כל המידע מוצפן, והגישה לפורטל מוגנת. פתרונות הציות שלנו עומדים ברגולציה העדכנית.'],
+  ['תוך כמה זמן מקבלים מענה?','בשעות הפעילות (א'+String.fromCharCode(39)+'–ה'+String.fromCharCode(39)+' 09:00–18:00) המענה הוא תוך שעות בודדות. פניות במייל או בוואטסאפ נענות תוך יום עסקים אחד.'],
+  ['האם אפשר לשלם בכרטיס אשראי?','כן, התשלום מתבצע בכרטיס אשראי דרך הפורטל, בצורה מאובטחת. אפשר לנהל אמצעי תשלום, לראות חשבוניות ולהוריד אותן בכל עת.'],
+];
+document.getElementById('faqs').innerHTML=FAQS.map(f=>`
+  <div class="faq"><div class="faq-q" onclick="this.parentNode.classList.toggle('open');var a=this.nextElementSibling;a.style.maxHeight=this.parentNode.classList.contains('open')?a.scrollHeight+'px':0">${f[0]}<span class="qi"><i data-lucide="plus"></i></span></div><div class="faq-a"><div class="faq-a-inner">${f[1]}</div></div></div>`).join('');
+lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>חיבור מסד נתונים · מדריך הקמה · Prime Ledger</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  body{background:var(--n-50)}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 24px 80px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .top img{width:38px}
+  .top b{font-family:var(--font-display);font-weight:900;font-size:20px}
+  h1{font-family:var(--font-display);font-weight:900;font-size:40px;line-height:1.1;margin:18px 0 12px}
+  .lead{font-size:18px;color:var(--ink-3);line-height:1.55;margin:0 0 14px;max-width:62ch}
+  .statusbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 18px;margin:24px 0 36px;box-shadow:var(--shadow-sm)}
+  .statusbar .dot{width:10px;height:10px;border-radius:999px;background:var(--accent-500);flex-shrink:0;box-shadow:0 0 0 4px color-mix(in oklab,var(--accent-500) 18%,transparent)}
+  .statusbar b{font-weight:700}
+  .statusbar span{color:var(--ink-3);font-size:14.5px}
+  .step{display:flex;gap:20px;margin-bottom:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow-sm)}
+  .num{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--grad-brand,var(--brand-500));color:#fff;font-family:var(--font-display);font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;background:var(--brand-500)}
+  .step h3{font-family:var(--font-display);font-weight:800;font-size:21px;margin:4px 0 10px}
+  .step p{color:var(--ink-2);line-height:1.6;margin:0 0 10px;font-size:15.5px}
+  .step ul{margin:0 0 6px;padding-inline-start:20px;color:var(--ink-2);line-height:1.7;font-size:15.5px}
+  .step a{color:var(--brand-600);font-weight:600}
+  code,.kbd{font-family:var(--font-mono,monospace);background:var(--n-100);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:13.5px;direction:ltr;display:inline-block}
+  .codeblock{background:#0f1722;color:#cfe3ff;border-radius:var(--r-md);padding:16px 18px;font-family:var(--font-mono,monospace);font-size:13.5px;line-height:1.7;direction:ltr;text-align:left;overflow:auto;margin:10px 0;white-space:pre}
+  .note{display:flex;gap:11px;align-items:flex-start;background:var(--accent-50);border:1px solid color-mix(in oklab,var(--accent-500) 25%,transparent);border-radius:var(--r-md);padding:13px 15px;margin:12px 0 0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+  .note svg{width:18px;height:18px;color:var(--accent-600);flex-shrink:0;margin-top:1px}
+  .sec-label{font-family:var(--font-mono,monospace);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);margin:44px 0 14px;display:flex;align-items:center;gap:10px}
+  .sec-label::after{content:"";flex:1;height:1px;background:var(--border)}
+  .done-card{background:var(--grad-ink);color:#fff;border-radius:var(--r-lg);padding:30px 32px;margin-top:18px}
+  .done-card h3{font-family:var(--font-display);font-weight:900;font-size:24px;margin:0 0 10px}
+  .done-card p{color:rgba(255,255,255,.85);line-height:1.6;margin:0 0 8px;font-size:15.5px}
+  .files{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .files a{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink-2);text-decoration:none}
+  .files a svg{width:16px;height:16px;color:var(--brand-600)}
+  .files a:hover{border-color:var(--brand-400,var(--brand-500))}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="assets/logo-mark.png" alt=""><b>Prime Ledger</b></div>
+  <h1>חיבור מסד נתונים אמיתי</h1>
+  <p class="lead">מדריך קצר וצעד-אחר-צעד לחיבור האתר ל‑Supabase — מסד הנתונים בענן שמאחסן את הלקוחות, ההרשמות וההתחברויות באמת. כ‑15 דקות, ללא צורך בידע בתכנות.</p>
+
+  <div class="statusbar">
+    <span class="dot" id="statusDot"></span>
+    <b id="statusText">בודק חיבור…</b>
+    <span id="statusSub"></span>
+  </div>
+
+  <div class="sec-label">השלב הראשון — Supabase</div>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h3>פתיחת חשבון ופרויקט</h3>
+      <p>היכנסו ל‑<a href="https://supabase.com" target="_blank">supabase.com</a> ולחצו <b>Start your project</b>. אפשר להתחבר עם חשבון Google.</p>
+      <ul>
+        <li>לחצו <b>New project</b></li>
+        <li>שם: <code>prime-ledger</code></li>
+        <li>בחרו סיסמה למסד (שמרו אותה בצד) ואזור <code>Europe (Frankfurt)</code></li>
+        <li>לחצו <b>Create new project</b> והמתינו דקה-שתיים שייווצר</li>
+      </ul>
+      <div class="note"><i data-lucide="info"></i><span>התוכנית החינמית של Supabase מספיקה בהחלט להתחלה — כולל מסד נתונים, התחברות ואלפי משתמשים.</span></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h3>יצירת הטבלאות</h3>
+      <p>בתפריט הצדדי בחרו <b>SQL Editor</b> → <b>New query</b>. פתחו את הקובץ <code>supabase-schema.sql</code> שהכנתי, העתיקו את כל התוכן, הדביקו בעורך ולחצו <b>Run</b> (▶).</p>
+      <p>זה יוצר אוטומטית את טבלת הלקוחות, הרשאות האבטחה, ורשימת המנהלים — הכל בפעם אחת.</p>
+      <div class="note"><i data-lucide="check-circle-2"></i><span>אם הופיעה הודעת <code>Success</code> — הכל תקין. אפשר לראות את הטבלה החדשה תחת <b>Table Editor → clients</b>.</span></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h3>העתקת המפתחות</h3>
+      <p>בתפריט: <b>Project Settings</b> (גלגל שיניים) → <b>API</b>. שם תמצאו שני ערכים:</p>
+      <ul>
+        <li><b>Project URL</b> — כתובת כמו <code>https://abcd1234.supabase.co</code></li>
+        <li><b>anon public</b> — מפתח ארוך תחת "Project API keys"</li>
+      </ul>
+      <p>פתחו את הקובץ <code>config.js</code> שלנו והדביקו את שני הערכים:</p>
+      <div class="codeblock">window.PL_CONFIG = {
+  SUPABASE_URL: 'https://abcd1234.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOi...המפתח-הארוך-שלכם',
+  ADMIN_EMAILS: ['info@primels.co.il'],
+};</div>
+      <div class="note"><i data-lucide="shield-check"></i><span>המפתח <code>anon public</code> מיועד לדפדפן ובטוח לפרסום — האבטחה האמיתית נאכפת ע״י ה‑RLS שהקמנו בשלב 2. <b>לעולם אל תדביקו את מפתח ה‑service_role.</b></span></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div>
+      <h3>הגדרת התחברות וקישור המנהל</h3>
+      <p>ב‑Supabase: <b>Authentication → Providers</b> — ודאו ש‑<b>Email</b> מופעל. לבדיקות מהירות אפשר לכבות זמנית את <em>"Confirm email"</em> תחת <b>Authentication → Sign In / Providers</b>, כדי שלא תצטרכו לאשר כל מייל.</p>
+      <p>כדי שתקבלו הרשאת מנהל: ודאו שהאימייל שלכם מופיע גם ב‑<code>config.js</code> (ADMIN_EMAILS) וגם בטבלת <code>admins</code> במסד. הירשמו דרך עמוד הכניסה עם אותו אימייל — ומאותו רגע פאנל הניהול פתוח רק לכם.</p>
+    </div>
+  </div>
+
+  <div class="sec-label">השלב השני — האתר באוויר</div>
+
+  <div class="step">
+    <div class="num">5</div>
+    <div>
+      <h3>העלאה לאינטרנט וחיבור הדומיין primels.co.il</h3>
+      <p>אחרי שנסיים את האתר, מעלים את תיקיית האתר לאחסון. הדרך הפשוטה: <a href="https://netlify.com" target="_blank">Netlify</a> או <a href="https://vercel.com" target="_blank">Vercel</a> (חינם) — גוררים את התיקייה והאתר עולה תוך דקה.</p>
+      <ul>
+        <li>מעלים את האתר → מקבלים כתובת זמנית (כמו <code>prime-ledger.netlify.app</code>)</li>
+        <li>בלוח הבקרה של האחסון: <b>Add custom domain</b> → <code>primels.co.il</code></li>
+        <li>אצל ספק הדומיין שלכם מעדכנים את רשומות ה‑DNS לפי ההוראות שהאחסון נותן</li>
+        <li>תוך כמה שעות הדומיין מחובר — עם תעודת אבטחה (HTTPS) אוטומטית</li>
+      </ul>
+      <div class="note"><i data-lucide="info"></i><span>כשנגיע לשלב הזה — אכין לכם חבילת העלאה מסודרת + הוראות מדויקות לספק הדומיין הספציפי שלכם. לא צריך לעשות את זה לבד.</span></div>
+    </div>
+  </div>
+
+  <div class="done-card">
+    <h3>זהו — המערכת חיה 🎉</h3>
+    <p>מרגע שחיברתם את המפתחות, כל הרשמה חדשה נשמרת במסד האמיתי בענן, לקוחות מתחברים מכל מכשיר, ואתם מנהלים, מוסיפים וחוסמים אותם מפאנל הניהול — והכל מסונכרן בזמן אמת.</p>
+    <div class="files">
+      <a href="config.js" target="_blank"><i data-lucide="settings-2"></i>config.js</a>
+      <a href="supabase-schema.sql" target="_blank"><i data-lucide="database"></i>supabase-schema.sql</a>
+      <a href="admin.html"><i data-lucide="layout-dashboard"></i>פאנל הניהול</a>
+      <a href="login.html"><i data-lucide="log-in"></i>עמוד כניסה</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="config.js"></script>
+<script src="backend.js"></script>
+<script>
+  lucide.createIcons();
+  window.PLBackend.ready.then(function(B){
+    var dot=document.getElementById('statusDot'), t=document.getElementById('statusText'), s=document.getElementById('statusSub');
+    if (B.isDemo) {
+      dot.style.background='var(--accent-500)'; dot.style.boxShadow='0 0 0 4px color-mix(in oklab,var(--accent-500) 18%,transparent)';
+      t.textContent='מצב הדגמה פעיל';
+      s.textContent='— הנתונים נשמרים בדפדפן זה בלבד. עקבו אחר השלבים למטה כדי לחבר ענן אמיתי.';
+    } else {
+      dot.style.background='var(--success)'; dot.style.boxShadow='0 0 0 4px color-mix(in oklab,var(--success) 20%,transparent)';
+      t.textContent='מחובר ל‑Supabase ✓';
+      s.textContent='— המערכת עובדת מול מסד הנתונים האמיתי בענן.';
+    }
+  });
+</script>
+</body>
+</html>

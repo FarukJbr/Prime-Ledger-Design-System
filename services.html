@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>השירותים שלנו · פריים לדג׳ר</title>
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  .page-hero{padding:72px 0 56px;text-align:center;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline:0;top:-30%;height:120%;background:radial-gradient(circle at 50% 30%,rgba(0,84,168,.12),transparent 60%);pointer-events:none}
+  .page-hero h1{margin:14px auto 16px;max-width:760px}
+  .page-hero .lead{max-width:600px;margin:0 auto}
+  .svc-block{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:56px 0;border-bottom:1px solid var(--border);scroll-margin-top:90px}
+  .svc-block:nth-child(even) .svc-visual{order:-1}
+  .svc-block .icon-chip{width:60px;height:60px;border-radius:var(--r-lg)}
+  .svc-block .icon-chip svg{width:30px;height:30px}
+  .svc-block h2{font-family:var(--font-display);font-size:32px;font-weight:700;margin:20px 0 14px}
+  .svc-block .lead{margin:0 0 22px}
+  .svc-incl{display:flex;flex-direction:column;gap:11px;margin:0 0 24px;padding:0;list-style:none}
+  .svc-incl li{display:flex;align-items:flex-start;gap:11px;font-size:15.5px;color:var(--ink-2)}
+  .svc-incl li svg{width:20px;height:20px;color:var(--success);flex-shrink:0;margin-top:2px}
+  .svc-visual{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);box-shadow:var(--shadow-md);padding:30px;min-height:280px;display:flex;flex-direction:column;justify-content:center;gap:14px;position:relative;overflow:hidden}
+  .svc-visual.dark{background:var(--grad-ink);color:#fff;border:none}
+  .vrow{display:flex;align-items:center;gap:13px;padding:14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--paper)}
+  .vrow b{font-size:15px}.vrow small{font-size:12.5px;color:var(--ink-3)}
+  @media(max-width:880px){.svc-block{grid-template-columns:1fr;gap:28px;padding:44px 0}.svc-block:nth-child(even) .svc-visual{order:0}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="page-hero">
+  <div class="blob"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">השירותים שלנו</span>
+    <h1 class="h1 reveal d1">שבעה תחומים. ועוד אחד שבונה לכם הכול.</h1>
+    <p class="lead reveal d2">צוות מומחים אחד שמכיר את העסק שלכם לעומק — ומלווה אתכם בכל נקודת מגע, מהמספרים ועד ההשקה.</p>
+  </div>
+</section>
+
+<div class="wrap" id="svcRoot"><!-- rendered from data.js --></div>
+
+<section class="section-sm">
+  <div class="wrap"><div class="newsletter" style="background:var(--grad-brand)">
+    <div style="position:relative;z-index:1"><h2 class="h2" style="color:#fff;margin:0 0 8px">לא בטוחים איזה שירות מתאים לכם?</h2><p style="color:rgba(255,255,255,.85);margin:0;font-size:16px">נשמח לשיחת ייעוץ קצרה — בלי התחייבות.</p></div>
+    <a class="btn btn-lg" style="background:#fff;color:var(--brand-600)" href="contact.html">קביעת פגישה <i data-lucide="calendar"></i></a>
+  </div></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="services-render.js"></script>
+</body>
+</html>
