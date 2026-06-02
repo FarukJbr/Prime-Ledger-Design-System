@@ -11,7 +11,7 @@
 
   var DEFAULTS = {
     settings: {
-      brandName: 'פריים לדג׳ר',
+      brandName: 'פתרונות פריים לדג׳ר',
       tagline: 'הנהלת חשבונות, חשבות שכר ופתרונות פיננסיים',
       phoneSales: '053-926-5062',
       phoneSupport: '055-502-7988',

@@ -6,11 +6,12 @@
    ============================================================ */
 
 @import url('./fonts/fonts.css');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Heebo:wght@400;500;600;700;800&display=swap');
 
 :root {
   /* ---------- TYPE FAMILIES ---------- */
-  --font-display: 'Frank Ruhl Libre', 'Times New Roman', serif;        /* editorial serif headlines (HE+LATIN) */
-  --font-sans:    'Assistant', system-ui, -apple-system, sans-serif;   /* UI + body (HE+LATIN) */
+  --font-display: 'Rubik', 'Assistant', system-ui, sans-serif;          /* friendly geometric headlines (HE+LATIN) */
+  --font-sans:    'Heebo', 'Assistant', system-ui, -apple-system, sans-serif;   /* UI + body (HE+LATIN) */
   --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace; /* technical labels, code (LATIN) */
 
   /* ---------- BASE COLORS ---------- */

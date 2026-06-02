@@ -13,9 +13,9 @@
   .hero h1{margin:18px 0 0}
   .hero .lead{margin:22px 0 30px;max-width:520px}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-  .hero-trust{display:flex;gap:30px;margin-top:42px;flex-wrap:wrap}
-  .hero-trust .stat b{font-family:var(--font-display);font-weight:900;font-size:34px;color:var(--ink);display:block;line-height:1}
-  .hero-trust .stat span{font-size:13.5px;color:var(--ink-3);font-weight:600}
+  .hero-trust{display:flex;flex-direction:column;gap:13px;margin-top:36px}
+  .tpoint{display:flex;align-items:center;gap:11px;font-size:15.5px;color:var(--ink-2);font-weight:600}
+  .tpoint svg{width:21px;height:21px;color:var(--success);flex-shrink:0}
   .hero-blob{position:absolute;inset-inline-start:-12%;top:-20%;width:50%;height:140%;background:radial-gradient(circle at center,rgba(0,84,168,.16),transparent 65%);pointer-events:none;z-index:0}
 
   /* ---- portal mock ---- */
@@ -118,17 +118,16 @@
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow reveal">בית תוכן עסקי אחד · From idea to launch</span>
-      <h1 class="h-display reveal d1">כל מה שהעסק שלכם צריך<br>— תחת קורת גג אחת.</h1>
+      <h1 class="h-display reveal d1">כל מה שהעסק שלכם צריך<br>— תחת קורת גג אחת</h1>
       <p class="lead reveal d2">הנהלת חשבונות, חשבות שכר, ייעוץ עסקי ופיננסי, שיווק, מכירות, ציות — ובניית אתרים ומערכות. צוות אחד שמלווה אתכם מהרעיון ועד ההשקה.</p>
       <div class="hero-cta reveal d3">
         <a class="btn btn-primary btn-lg" href="contact.html">קביעת פגישת ייעוץ <i data-lucide="arrow-left"></i></a>
         <a class="btn btn-secondary btn-lg" href="services.html"><i data-lucide="layout-grid"></i> השירותים שלנו</a>
       </div>
       <div class="hero-trust reveal d4">
-        <div class="stat"><b>+450</b><span>עסקים פעילים</span></div>
-        <div class="stat"><b>12</b><span>שנות ניסיון</span></div>
-        <div class="stat"><b>7</b><span>תחומי שירות</span></div>
-        <div class="stat"><b>98%</b><span>שימור לקוחות</span></div>
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>ספק אחד לכל הצרכים — בלי להתרוצץ בין ספקים</span></div>
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>מנהל לקוח אישי שמכיר אתכם ואת העסק</span></div>
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>שקיפות מלאה — כל המסמכים והנתונים בפורטל אישי</span></div>
       </div>
     </div>
 
@@ -158,7 +157,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">השירותים שלנו</span>
-      <h2 class="h2">שבעה תחומים. צוות מומחים אחד.</h2>
+      <h2 class="h2">שבעה תחומים, צוות מומחים אחד</h2>
       <p class="lead">במקום לרדוף אחרי חמישה ספקים שונים — הכול מתואם, מסונכרן ומנוהל ממקום אחד.</p>
     </div>
     <div class="svc-grid" id="homeSvcGrid"><!-- rendered from data.js --></div>
@@ -168,7 +167,7 @@
 <!-- ===================== PROCESS ===================== -->
 <section class="section" style="background:var(--paper-raised);border-block:1px solid var(--border)">
   <div class="wrap">
-    <div class="sec-head"><span class="eyebrow accent">איך זה עובד</span><h2 class="h2">מהרעיון ועד ההשקה — בארבעה צעדים.</h2></div>
+    <div class="sec-head"><span class="eyebrow accent">איך זה עובד</span><h2 class="h2">מהרעיון ועד ההשקה — בארבעה צעדים</h2></div>
     <div class="proc">
       <div class="proc-step"><h4>פגישת היכרות</h4><p>מבינים את העסק, היעדים והאתגרים. בלי התחייבות.</p></div>
       <div class="proc-step"><h4>תוכנית עבודה</h4><p>בונים מפת דרכים ברורה עם לוחות זמנים ותקציב.</p></div>
@@ -182,7 +181,7 @@
 <section class="section">
   <div class="wrap">
     <div class="sec-head" style="display:flex;justify-content:space-between;align-items:flex-end;max-width:none">
-      <div><span class="eyebrow">דוגמאות עבודות</span><h2 class="h2" style="margin-top:12px">אתרים שבנינו ללקוחות.</h2></div>
+      <div><span class="eyebrow">דוגמאות עבודות</span><h2 class="h2" style="margin-top:12px">אתרים שבנינו ללקוחות</h2></div>
       <a class="btn btn-secondary" href="examples.html">לכל הדוגמאות <i data-lucide="arrow-left"></i></a>
     </div>
     <div class="ex-grid">
@@ -199,7 +198,7 @@
     <div class="sim-band">
       <div>
         <span class="eyebrow" style="color:#fff">כלים חינמיים</span>
-        <h2>בדקו תוך דקה כמה מגיע לכם.</h2>
+        <h2>בדקו תוך דקה כמה מגיע לכם</h2>
         <p style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.6;margin:0 0 24px;max-width:420px">סימולטור החזר מס וסימולטור חשבות שכר — בחינם, בלי הרשמה. כלים נוספים בדרך.</p>
         <a class="btn btn-accent btn-lg" href="simulators.html">לסימולטורים <i data-lucide="calculator"></i></a>
       </div>
@@ -214,7 +213,7 @@
 <!-- ===================== TESTIMONIALS ===================== -->
 <section class="section" style="background:var(--paper-raised);border-block:1px solid var(--border)">
   <div class="wrap">
-    <div class="sec-head center"><span class="eyebrow">מה אומרים עלינו</span><h2 class="h2">לקוחות שגדלים איתנו.</h2></div>
+    <div class="sec-head center"><span class="eyebrow">מה אומרים עלינו</span><h2 class="h2">עסקים שאנחנו גאים ללוות</h2></div>
     <div class="quotes">
       <div class="quote"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><p>"עברנו אליהם את כל הנהלת החשבונות והשיווק. לראשונה אני באמת מבין את המספרים של העסק."</p><div class="who"><div class="q-av">י</div><div><b>יוסי לוי</b><span>בעלים, סטודיו עיצוב</span></div></div></div>
       <div class="quote"><div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><p>"הפורטל מדהים. אני רואה את מצב המנוי, המסמכים והפגישות — הכול במקום אחד."</p><div class="who"><div class="q-av a2">ר</div><div><b>רונית כהן</b><span>מנכ"לית, רשת קמעונאות</span></div></div></div>
@@ -229,7 +228,7 @@
     <div class="newsletter">
       <div style="position:relative;z-index:1">
         <span class="eyebrow" style="color:#fff">ניוזלטר</span>
-        <h2 class="h2" style="color:#fff;margin:12px 0 8px">טיפים עסקיים, פעם בחודש.</h2>
+        <h2 class="h2" style="color:#fff;margin:12px 0 8px">טיפים עסקיים, פעם בחודש</h2>
         <p style="color:rgba(255,255,255,.7);font-size:16px;margin:0;max-width:420px">עדכוני רגולציה, מועדי דיווח וטיפים פיננסיים — ישר למייל. בלי ספאם.</p>
       </div>
       <form class="news-form" onsubmit="event.preventDefault();this.reset();this.querySelector('input').placeholder='נרשמת! תודה ✓'">

@@ -4,18 +4,18 @@
   var SVCNAMES = (window.PLData && window.PLData.data && window.PLData.data.services) || [];
   var NAV = [
     { href: 'index.html', label: 'בית' },
-    { href: 'services.html', label: 'השירותים שלנו' },
+    { href: 'services.html', label: 'שירותים' },
     { href: 'pricing.html', label: 'מחירון' },
     { href: 'examples.html', label: 'דוגמאות' },
-    { href: 'guide.html', label: 'מדריך מקצועי' },
+    { href: 'guide.html', label: 'מדריך' },
     { href: 'simulators.html', label: 'סימולטורים' },
+    { href: 'forms.html', label: 'טפסים' },
+    { href: 'faq.html', label: 'שאלות' },
+    { href: 'about.html', label: 'אודות' },
+    { href: 'contact.html', label: 'צור קשר' },
   ];
   var MORE = [
-    { href: 'about.html', label: 'אודות', icon: 'info' },
-    { href: 'forms.html', label: 'טפסים להורדה', icon: 'file-down' },
-    { href: 'faq.html', label: 'שאלות ותשובות', icon: 'circle-help' },
-    { href: 'contact.html', label: 'צור קשר', icon: 'mail' },
-    { href: 'terms.html', label: 'תנאי שימוש ומדיניות', icon: 'shield-check' },
+    { href: 'terms.html', label: 'תנאי שימוש', icon: 'shield-check' },
   ];
   var SERVICES = [
     'הנהלת חשבונות', 'חשבות שכר', 'ייעוץ עסקי', 'ייעוץ פיננסי',
@@ -39,14 +39,10 @@
 
   var header =
     '<header class="site-header"><div class="wrap header-inner">' +
-      '<a class="brand" href="index.html"><img src="assets/logo-mark.png" alt="פריים לדג׳ר"><div><b>פריים לדג׳ר</b><small>Prime Ledger</small></div></a>' +
+      '<a class="brand" href="index.html"><img src="assets/logo-mark.png" alt="פתרונות פריים לדג׳ר"><div><b>' + (SET.brandName || 'פתרונות פריים לדג׳ר') + '</b><small>Prime Ledger Solutions</small></div></a>' +
       '<nav class="nav">' + navLinks +
-        '<div class="menu-more"><button type="button" aria-label="עוד">עוד <i data-lucide="chevron-down"></i></button>' +
-          '<div class="dropdown">' + moreLinks + '</div>' +
-        '</div>' +
       '</nav>' +
       '<div class="header-cta">' +
-        '<a class="btn btn-ghost" href="contact.html">דברו איתנו</a>' +
         '<a class="btn btn-primary" href="login.html"><i data-lucide="lock"></i>כניסה לפורטל</a>' +
         '<button class="burger" type="button" aria-label="תפריט"><i data-lucide="menu"></i></button>' +
       '</div>' +
