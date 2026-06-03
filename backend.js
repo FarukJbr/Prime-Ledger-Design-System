@@ -145,7 +145,7 @@
           });
         },
         resetPassword: function (email) {
-          return sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/login.html' });
+          return sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/reset-password.html' });
         }
       },
       clients: {
