@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>לה־טראטוריה · מסעדה איטלקית</title>
+<link rel="icon" href="../assets/logo-mark.png">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  *{box-sizing:border-box;margin:0}
+  :root{--gold:#C8A24B;--wine:#5A1E22;--cream:#F4ECDD;--ink:#211712}
+  body{font-family:'Assistant',sans-serif;background:var(--cream);color:var(--ink);direction:rtl}
+  .serif{font-family:'Frank Ruhl Libre',serif}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .pl-ribbon{background:#16181F;color:#fff;font-size:12.5px;text-align:center;padding:9px;font-family:'Assistant'}
+  .pl-ribbon a{color:#93A2FF;font-weight:700}
+  /* nav */
+  .nav{position:sticky;top:0;z-index:40;background:rgba(33,23,18,.92);backdrop-filter:blur(8px);color:var(--cream)}
+  .nav-in{max-width:1140px;margin:0 auto;padding:0 28px;height:76px;display:flex;align-items:center;gap:28px}
+  .logo{font-family:'Frank Ruhl Libre';font-weight:900;font-size:26px;color:var(--gold);letter-spacing:.02em}
+  .nav-links{display:flex;gap:24px;margin-inline-start:auto;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--gold)}
+  .btn{background:var(--gold);color:var(--ink);font-weight:700;padding:11px 22px;border-radius:4px;border:none;cursor:pointer;font-family:'Assistant';font-size:15px;display:inline-flex;gap:8px;align-items:center}
+  .btn:hover{background:#d8b964}
+  .btn-out{background:transparent;border:1.5px solid var(--gold);color:var(--gold)}
+  /* hero */
+  .hero{position:relative;min-height:78vh;display:flex;align-items:center;background:linear-gradient(rgba(33,23,18,.62),rgba(33,23,18,.72)),url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover;color:var(--cream)}
+  .hero-in{max-width:1140px;margin:0 auto;padding:0 28px;width:100%}
+  .hero .kick{color:var(--gold);font-weight:700;letter-spacing:.22em;font-size:13px;text-transform:uppercase}
+  .hero h1{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(44px,7vw,84px);line-height:1.02;margin:18px 0;max-width:760px}
+  .hero p{font-size:20px;max-width:480px;opacity:.92;line-height:1.6;margin-bottom:30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  /* sections */
+  .sec{max-width:1140px;margin:0 auto;padding:90px 28px}
+  .sec-head{text-align:center;margin-bottom:54px}
+  .sec-head .kick{color:var(--wine);font-weight:700;letter-spacing:.18em;font-size:13px;text-transform:uppercase}
+  .sec-head h2{font-family:'Frank Ruhl Libre';font-weight:900;font-size:44px;margin-top:12px}
+  /* menu */
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 56px}
+  .dish{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:18px 0;border-bottom:1px dashed #d8c9a8}
+  .dish .d-name{font-family:'Frank Ruhl Libre';font-weight:700;font-size:21px}
+  .dish .d-desc{font-size:14px;color:#7a6a55;margin-top:3px}
+  .dish .d-price{font-family:'Frank Ruhl Libre';font-weight:900;font-size:22px;color:var(--wine);white-space:nowrap}
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .gal img{aspect-ratio:1;object-fit:cover;border-radius:6px;width:100%}
+  /* reserve */
+  .reserve{background:var(--wine);color:var(--cream)}
+  .res-in{max-width:1140px;margin:0 auto;padding:80px 28px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .res-in h2{font-family:'Frank Ruhl Libre';font-weight:900;font-size:42px;margin-bottom:14px}
+  .res-form{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .res-form input,.res-form select{grid-column:span 1;font-family:'Assistant';padding:13px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-size:15px}
+  .res-form input::placeholder{color:rgba(255,255,255,.6)}
+  .res-form .full{grid-column:span 2}
+  .foot{background:var(--ink);color:rgba(244,236,221,.7);text-align:center;padding:40px 28px;font-size:14px}
+  .foot .logo{margin-bottom:10px}
+  @media(max-width:820px){.nav-links{display:none}.menu-grid,.res-in{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="pl-ribbon">אתר זה נבנה על־ידי <a href="../index.html">Prime Ledger ←</a> · דוגמה להמחשה</div>
+
+<nav class="nav"><div class="nav-in">
+  <span class="logo">La Trattoria</span>
+  <div class="nav-links"><a href="#menu">תפריט</a><a href="#gallery">גלריה</a><a href="#about">אודות</a><a href="#reserve">הזמנת שולחן</a></div>
+  <a class="btn" href="#reserve">הזמנת שולחן</a>
+</div></nav>
+
+<header class="hero"><div class="hero-in">
+  <span class="kick">Cucina Italiana · נוסד 1998</span>
+  <h1>טעם של איטליה,<br>בלב העיר.</h1>
+  <p>פסטה טרייה, פיצה מתנור עצים ויין שנבחר בקפידה — בכל צלחת סיפור.</p>
+  <div class="hero-cta"><a class="btn" href="#reserve">הזמנת שולחן</a><a class="btn btn-out" href="#menu">לתפריט המלא</a></div>
+</div></header>
+
+<section class="sec" id="menu">
+  <div class="sec-head"><span class="kick">Il Menu</span><h2>התפריט שלנו</h2></div>
+  <div class="menu-grid">
+    <div class="dish"><div><div class="d-name">ברוסקטה אל פומודורו</div><div class="d-desc">לחם כפרי, עגבניות, בזיליקום ושמן זית</div></div><span class="d-price">₪42</span></div>
+    <div class="dish"><div><div class="d-name">קרפצ'יו בקר</div><div class="d-desc">פרוסות דקות, רוקט, פרמזן ולימון</div></div><span class="d-price">₪58</span></div>
+    <div class="dish"><div><div class="d-name">טליאטלה רגו</div><div class="d-desc">רוטב בשר עשיר שמתבשל 6 שעות</div></div><span class="d-price">₪72</span></div>
+    <div class="dish"><div><div class="d-name">ניוקי גורגונזולה</div><div class="d-desc">תפו"א, שמנת וגבינה כחולה</div></div><span class="d-price">₪68</span></div>
+    <div class="dish"><div><div class="d-name">פיצה מרגריטה</div><div class="d-desc">מוצרלה באפלו, עגבניות סן מרצאנו</div></div><span class="d-price">₪64</span></div>
+    <div class="dish"><div><div class="d-name">טירמיסו הבית</div><div class="d-desc">מסקרפונה, אספרסו וקקאו</div></div><span class="d-price">₪38</span></div>
+  </div>
+</section>
+
+<section class="sec" id="gallery" style="padding-top:0">
+  <div class="sec-head"><span class="kick">La Galleria</span><h2>רגעים מהמסעדה</h2></div>
+  <div class="gal">
+    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?w=600&q=80" alt="">
+  </div>
+</section>
+
+<section class="reserve" id="reserve"><div class="res-in">
+  <div>
+    <h2>נשמור לכם שולחן.</h2>
+    <p style="opacity:.85;line-height:1.7;font-size:17px">פתוח א'–ה' 12:00–23:00 · ו'–שבת עד חצות.<br>רח' היין 14, תל אביב · 03-555-0123</p>
+  </div>
+  <form class="res-form" onsubmit="event.preventDefault();alert('תודה! קיבלנו את בקשת ההזמנה.')">
+    <input class="full" placeholder="שם מלא" required>
+    <input placeholder="טלפון" required>
+    <input type="number" placeholder="סועדים" min="1" value="2">
+    <input type="date" class="full">
+    <select class="full"><option>19:00</option><option>20:00</option><option>21:00</option></select>
+    <button class="btn full" style="justify-content:center" type="submit">שליחת בקשה</button>
+  </form>
+</div></section>
+
+<footer class="foot"><div class="logo" style="color:var(--gold)">La Trattoria</div>© 2026 La Trattoria · כל הזכויות שמורות</footer>
+</body>
+</html>

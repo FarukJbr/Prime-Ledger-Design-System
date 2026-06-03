@@ -25,6 +25,8 @@
   var here = (location.pathname.split('/').pop() || 'index.html');
   if (here === '') here = 'index.html';
   var isActive = function (h) { return h === here || (here === 'index.html' && h === 'index.html'); };
+  var BRAND_SHORT = 'פריים לדג׳ר';
+  var BRAND_FULL = SET.brandName || 'פתרונות פריים לדג׳ר';
 
   // ---------- HEADER ----------
   var navLinks = NAV.map(function (n) {
@@ -39,7 +41,7 @@
 
   var header =
     '<header class="site-header"><div class="wrap header-inner">' +
-      '<a class="brand" href="index.html"><img src="assets/logo-mark.png" alt="פתרונות פריים לדג׳ר"><div><b>' + (SET.brandName || 'פתרונות פריים לדג׳ר') + '</b><small>Prime Ledger Solutions</small></div></a>' +
+      '<a class="brand" href="index.html"><span class="logo-mark" role="img" aria-label="' + BRAND_FULL + '"></span><div><b>' + BRAND_SHORT + '</b><small>Prime Ledger Solutions</small></div></a>' +
       '<nav class="nav">' + navLinks +
       '</nav>' +
       '<div class="header-cta">' +
@@ -58,7 +60,7 @@
     '<footer class="site-footer"><div class="wrap">' +
       '<div class="footer-grid">' +
         '<div class="footer-brand">' +
-          '<div style="display:flex;align-items:center;gap:11px"><img src="assets/logo-mark-white.png" style="width:38px" alt=""><b>' + (SET.brandName || 'פריים לדג׳ר') + '</b></div>' +
+          '<div style="display:flex;align-items:center;gap:11px"><span class="logo-mark is-white" style="width:38px;height:38px"></span><b>' + BRAND_SHORT + '</b></div>' +
           '<p>בית תוכן עסקי אחד — הנהלת חשבונות, ייעוץ, שיווק ובניית אתרים. מהרעיון ועד ההשקה.</p>' +
           '<div class="footer-social" style="margin-top:20px">' +
             '<a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 22 10.9 22 14.3V21h-4v-5.9c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg></a>' +
@@ -97,11 +99,99 @@
     }
   });
 
-  // ---------- REVEAL on scroll ----------
-  if ('IntersectionObserver' in window) {
+  // ---------- ENHANCEMENTS (motion) ----------
+  document.documentElement.classList.add('has-js');
+
+  // scroll progress bar (top of viewport)
+  var prog = document.createElement('div');
+  prog.className = 'scroll-progress';
+  document.body.appendChild(prog);
+  var tickProg = function () {
+    var st = window.scrollY || document.documentElement.scrollTop;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(st / h, 1) : 0) + ')';
+  };
+  window.addEventListener('scroll', tickProg, { passive: true });
+  window.addEventListener('resize', tickProg); tickProg();
+
+  // header elevation on scroll
+  var hdr = document.querySelector('.site-header');
+  if (hdr) {
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 12); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // count-up for numerals tagged with data-count
+  function countUp(el) {
+    if (el.dataset.counted) return; el.dataset.counted = '1';
+    var raw = el.getAttribute('data-count') || el.textContent;
+    var m = String(raw).match(/^(\D*?)([\d,]+(?:\.\d+)?)(\D*)$/);
+    if (!m) return;
+    var pre = m[1], suf = m[3], numStr = m[2].replace(/,/g, '');
+    var hasComma = m[2].indexOf(',') !== -1;
+    var dec = (numStr.split('.')[1] || '').length;
+    var target = parseFloat(numStr); if (isNaN(target)) return;
+    el.classList.add('counting');
+    var dur = 1500, start = null;
+    var fmt = function (v) { var s = dec ? v.toFixed(dec) : Math.round(v); if (hasComma) s = Number(s).toLocaleString('en-US'); return pre + s + suf; };
+    requestAnimationFrame(function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * e);
+      if (p < 1) requestAnimationFrame(step); else el.textContent = pre + m[2] + suf;
+    });
+  }
+
+  // scroll reveal — auto-tag groups (staggered, directional) + standalone blocks
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // grids: children rise & stagger
+  ['.svc-grid', '.proc', '.vals', '.team', '.quotes', '.stats', '.why-grid', '.promise-grid', '.diff', '.cred-chips', '.hero-trust', '.ah-trust', '.sim-cards'].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (g) {
+      Array.prototype.forEach.call(g.children, function (child, i) {
+        if (!child.classList.contains('reveal-up')) child.classList.add('reveal-up');
+        child.style.transitionDelay = Math.min(i, 7) * 80 + 'ms';
+      });
+    });
+  });
+  // example/work thumbnails zoom in
+  document.querySelectorAll('.ex-grid > *, .grid.works > *, .work').forEach(function (el, i) {
+    el.classList.add('reveal-zoom');
+    el.style.transitionDelay = Math.min(i, 6) * 70 + 'ms';
+  });
+  // headings slide up; side panels slide in from the sides
+  document.querySelectorAll('.sec-head, .newsletter, [data-reveal]').forEach(function (el) { el.classList.add('reveal-up'); });
+  document.querySelectorAll('.sim-band').forEach(function (el) { el.classList.add('reveal-scale'); });
+
+  if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { en.target.style.animationPlayState = 'running'; io.unobserve(en.target); } });
-    }, { threshold: 0.12 });
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        en.target.querySelectorAll('[data-count]').forEach(countUp);
+        if (en.target.matches('[data-count]')) countUp(en.target);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal-up, .reveal-zoom, .reveal-scale, [data-count]').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal-up, .reveal-zoom, .reveal-scale').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // gentle parallax on decorative blobs + hero mock (rAF-throttled)
+  if (!reduce) {
+    var parEls = [];
+    document.querySelectorAll('.hero-blob, .page-hero .blob').forEach(function (el) { parEls.push({ el: el, k: 0.12 }); });
+    document.querySelectorAll('.mock').forEach(function (el) { parEls.push({ el: el, k: -0.05 }); });
+    if (parEls.length) {
+      var raf = false;
+      var doPar = function () {
+        var y = window.scrollY || 0;
+        parEls.forEach(function (p) { p.el.style.transform = 'translate3d(0,' + (y * p.k).toFixed(1) + 'px,0)'; });
+        raf = false;
+      };
+      window.addEventListener('scroll', function () { if (!raf) { raf = true; requestAnimationFrame(doPar); } }, { passive: true });
+    }
   }
 
   if (window.lucide) lucide.createIcons();

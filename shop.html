@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>טרה גודס · מוצרי טבע</title>
+<link rel="icon" href="../assets/logo-mark.png">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  *{box-sizing:border-box;margin:0}
+  :root{--green:#3F6B47;--green-d:#2c4d32;--sand:#F3EEE4;--clay:#C97B4A;--ink:#23291F}
+  body{font-family:'Assistant',sans-serif;background:var(--sand);color:var(--ink);direction:rtl;line-height:1.5}
+  a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+  .pl-ribbon{background:#16181F;color:#fff;font-size:12.5px;text-align:center;padding:9px}
+  .pl-ribbon a{color:#93A2FF;font-weight:700}
+  .nav{position:sticky;top:0;z-index:40;background:rgba(243,238,228,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e0d8c6}
+  .nav-in{max-width:1140px;margin:0 auto;padding:0 28px;height:72px;display:flex;align-items:center;gap:24px}
+  .logo{font-family:'Frank Ruhl Libre';font-weight:900;font-size:24px;color:var(--green)}
+  .nav-links{display:flex;gap:22px;margin-inline-start:auto;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--green)}
+  .cart-btn{position:relative;background:var(--green);color:#fff;border:none;width:44px;height:44px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .cart-btn svg{width:20px;height:20px}
+  .cart-count{position:absolute;top:-6px;inset-inline-start:-6px;background:var(--clay);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  .btn{background:var(--green);color:#fff;font-weight:700;padding:11px 22px;border-radius:10px;border:none;cursor:pointer;font-family:'Assistant';font-size:15px;display:inline-flex;gap:8px;align-items:center}
+  .btn:hover{background:var(--green-d)}
+  .hero{max-width:1140px;margin:0 auto;padding:60px 28px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .hero .kick{color:var(--clay);font-weight:700;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
+  .hero h1{font-family:'Frank Ruhl Libre';font-weight:900;font-size:clamp(40px,5.6vw,66px);line-height:1.04;margin:14px 0}
+  .hero p{font-size:19px;color:#5a604f;max-width:440px;margin-bottom:26px}
+  .hero-img{border-radius:24px;overflow:hidden;aspect-ratio:1;box-shadow:0 30px 60px -22px rgba(63,107,71,.45)}
+  .hero-img img{width:100%;height:100%;object-fit:cover}
+  .sec{max-width:1140px;margin:0 auto;padding:30px 28px 90px}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:34px}
+  .sec-head h2{font-family:'Frank Ruhl Libre';font-weight:900;font-size:38px}
+  .shop{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .prod{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e4dccd;display:flex;flex-direction:column}
+  .prod .pimg{aspect-ratio:1;overflow:hidden;background:#eee}
+  .prod .pimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .prod:hover .pimg img{transform:scale(1.05)}
+  .prod .pb{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .prod h3{font-family:'Frank Ruhl Libre';font-size:18px;font-weight:700}
+  .prod .cat{font-size:12px;color:var(--clay);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .prod .pf{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px}
+  .prod .price{font-family:'Frank Ruhl Libre';font-weight:900;font-size:22px}
+  .add{background:var(--sand);border:1.5px solid var(--green);color:var(--green);font-weight:700;border-radius:9px;padding:8px 14px;cursor:pointer;font-family:'Assistant';font-size:14px;transition:.2s}
+  .add:hover{background:var(--green);color:#fff}
+  /* cart drawer */
+  .overlay{position:fixed;inset:0;background:rgba(35,41,31,.5);opacity:0;visibility:hidden;transition:.3s;z-index:50}
+  .overlay.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;inset-block:0;inset-inline-start:0;width:380px;max-width:90vw;background:var(--sand);z-index:51;transform:translateX(-100%);transition:transform .3s var(--ease-out);display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.3)}
+  [dir=rtl] .drawer{inset-inline-start:auto;inset-inline-end:0;transform:translateX(100%)}
+  .drawer.open{transform:translateX(0)!important}
+  .drawer-top{padding:22px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e0d8c6}
+  .drawer-top h3{font-family:'Frank Ruhl Libre';font-size:22px}
+  .drawer-top button{background:none;border:none;cursor:pointer;font-size:24px;color:var(--ink)}
+  .cart-items{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-direction:column;gap:14px}
+  .ci{display:flex;gap:12px;align-items:center}
+  .ci img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+  .ci .cin{flex:1}.ci b{font-size:15px;font-family:'Frank Ruhl Libre'}.ci small{color:#7a8070;font-size:13px}
+  .ci .rm{background:none;border:none;color:var(--clay);cursor:pointer;font-weight:700;font-size:13px}
+  .empty{text-align:center;color:#7a8070;padding:40px 0}
+  .drawer-foot{padding:22px 24px;border-top:1px solid #e0d8c6}
+  .drawer-foot .tot{display:flex;justify-content:space-between;font-family:'Frank Ruhl Libre';font-weight:900;font-size:22px;margin-bottom:16px}
+  .foot{background:var(--ink);color:rgba(255,255,255,.65);text-align:center;padding:38px 28px;font-size:14px}
+  @media(max-width:880px){.hero{grid-template-columns:1fr}.shop{grid-template-columns:1fr 1fr}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<div class="pl-ribbon">אתר זה נבנה על־ידי <a href="../index.html">Prime Ledger ←</a> · דוגמה להמחשה</div>
+
+<nav class="nav"><div class="nav-in">
+  <span class="logo">Terra Goods</span>
+  <div class="nav-links"><a href="#shop">חנות</a><a href="#shop">חדש</a><a href="#">אודות</a><a href="#">צור קשר</a></div>
+  <button class="cart-btn" onclick="openCart()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span class="cart-count" id="cc" style="display:none">0</span></button>
+</div></nav>
+
+<header class="hero">
+  <div>
+    <span class="kick">100% טבעי · ידידותי לסביבה</span>
+    <h1>טבע אמיתי,<br>ישר אליכם הביתה.</h1>
+    <p>קוסמטיקה טבעית, מוצרי בית אורגניים ומתנות בעבודת יד — מיוצרים באהבה.</p>
+    <a class="btn" href="#shop">לקנייה <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m12 19-7-7 7-7M5 12h14"/></svg></a>
+  </div>
+  <div class="hero-img"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&q=80" alt=""></div>
+</header>
+
+<section class="sec" id="shop">
+  <div class="sec-head"><h2>המוצרים שלנו</h2><span style="color:#7a8070;font-size:14px">8 מוצרים</span></div>
+  <div class="shop" id="grid"></div>
+</section>
+
+<div class="overlay" id="ov" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-top"><h3>העגלה שלי</h3><button onclick="closeCart()">×</button></div>
+  <div class="cart-items" id="citems"><div class="empty">העגלה ריקה</div></div>
+  <div class="drawer-foot"><div class="tot"><span>סה"כ</span><span id="ctot" dir="ltr">₪0</span></div><button class="btn" style="width:100%;justify-content:center" onclick="alert('מעבר לתשלום מאובטח...')">מעבר לתשלום</button></div>
+</aside>
+
+<footer class="foot">© 2026 Terra Goods · כל הזכויות שמורות · משלוח חינם מעל ₪200</footer>
+
+<script>
+const PRODUCTS=[
+  {n:'סבון טבעי לבנדר',c:'טיפוח',p:32,img:'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=500&q=80'},
+  {n:'נר סויה ארומטי',c:'בית',p:58,img:'https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=500&q=80'},
+  {n:'שמן גוף אורגני',c:'טיפוח',p:74,img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&q=80'},
+  {n:'תה צמחים בעבודת יד',c:'מטבח',p:42,img:'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80'},
+  {n:'מברשת במבוק',c:'בית',p:24,img:'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=500&q=80'},
+  {n:'דבש טבעי מקומי',c:'מטבח',p:48,img:'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500&q=80'},
+  {n:'מסכת פנים מינרלית',c:'טיפוח',p:64,img:'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&q=80'},
+  {n:'סט מתנה אקולוגי',c:'מתנות',p:120,img:'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=500&q=80'},
+];
+let cart=[];
+const ils=n=>'₪'+n.toLocaleString('he-IL');
+function render(){
+  document.getElementById('grid').innerHTML=PRODUCTS.map((p,i)=>`
+    <div class="prod"><div class="pimg"><img src="${p.img}" alt=""></div>
+      <div class="pb"><span class="cat">${p.c}</span><h3>${p.n}</h3>
+        <div class="pf"><span class="price">${ils(p.p)}</span><button class="add" onclick="add(${i})">הוספה +</button></div>
+      </div></div>`).join('');
+}
+function add(i){ cart.push(PRODUCTS[i]); upd(); openCart(); }
+function rm(i){ cart.splice(i,1); upd(); }
+function upd(){
+  const cc=document.getElementById('cc');
+  cc.style.display=cart.length?'flex':'none'; cc.textContent=cart.length;
+  const ci=document.getElementById('citems');
+  if(!cart.length){ ci.innerHTML='<div class="empty">העגלה ריקה</div>'; }
+  else ci.innerHTML=cart.map((p,i)=>`<div class="ci"><img src="${p.img}"><div class="cin"><b>${p.n}</b><br><small>${ils(p.p)}</small></div><button class="rm" onclick="rm(${i})">הסר</button></div>`).join('');
+  document.getElementById('ctot').textContent=ils(cart.reduce((s,p)=>s+p.p,0));
+}
+function openCart(){document.getElementById('drawer').classList.add('open');document.getElementById('ov').classList.add('open');}
+function closeCart(){document.getElementById('drawer').classList.remove('open');document.getElementById('ov').classList.remove('open');}
+render();
+</script>
+</body>
+</html>

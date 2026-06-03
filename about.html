@@ -7,48 +7,133 @@
 <link rel="icon" href="assets/logo-mark.png">
 <link rel="stylesheet" href="site.css">
 <style>
-  .page-hero{padding:72px 0 40px;position:relative;overflow:hidden}
-  .page-hero .blob{position:absolute;inset-inline-end:-10%;top:-30%;height:130%;width:50%;background:radial-gradient(circle,rgba(0,84,168,.12),transparent 65%)}
-  .page-hero h1{margin:14px 0 18px;max-width:740px}
-  .page-hero .lead{max-width:600px}
+  /* ---------- HERO ---------- */
+  .page-hero{padding:72px 0 56px;position:relative;overflow:hidden}
+  .page-hero .blob{position:absolute;inset-inline-start:-12%;top:-28%;height:150%;width:55%;background:radial-gradient(circle at center,rgba(0,84,168,.12),transparent 62%);pointer-events:none}
+  .ah-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;position:relative;z-index:1}
+  .page-hero h1{margin:14px 0 18px;font-size:clamp(32px,4vw,52px);line-height:1.1;letter-spacing:-.025em}
+  .page-hero .lead{max-width:560px}
+  .ah-trust{display:flex;flex-direction:column;gap:12px;margin-top:30px}
+  .ah-trust .tpoint{display:flex;align-items:center;gap:11px;font-size:15.5px;color:var(--ink-2);font-weight:600}
+  .ah-trust svg{width:21px;height:21px;color:var(--success);flex-shrink:0}
+
+  /* ---------- branded trust panel ---------- */
+  .trust-panel{background:var(--grad-brand);border-radius:var(--r-2xl);padding:40px 38px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .trust-panel::after{content:"";position:absolute;inset-block:-30%;inset-inline-end:-20%;width:60%;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 70%)}
+  .trust-panel .tp-mark{width:72px;height:72px;border-radius:var(--r-lg);background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);position:relative;z-index:1}
+  .trust-panel .tp-mark img{width:46px}
+  .trust-panel h3{font-family:var(--font-display);font-weight:800;font-size:24px;margin:22px 0 6px;position:relative;z-index:1}
+  .trust-panel p{color:rgba(255,255,255,.82);font-size:15px;line-height:1.6;margin:0;position:relative;z-index:1}
+  .cred-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px;position:relative;z-index:1}
+  .cred-chips span{font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22)}
+  .tp-since{position:absolute;top:32px;inset-inline-end:34px;font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;color:rgba(255,255,255,.7);z-index:1}
+
+  /* ---------- TRUST PILLARS (replaces scale stats) ---------- */
+  .tband{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .tpill{display:flex;flex-direction:column;gap:7px;text-align:center;align-items:center;padding:8px}
+  .tpill .icon-chip{width:56px;height:56px;margin-bottom:4px}
+  .tpill b{font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--ink);line-height:1.15}
+  .tpill span{color:var(--ink-3);font-size:14px;line-height:1.45;max-width:210px}
+  @media(max-width:880px){.tband{grid-template-columns:1fr 1fr;gap:32px}}
+
+  /* ---------- STORY ---------- */
+  .story{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+  .story .lead{margin:14px 0 0}
+  .story p{color:var(--ink-2);font-size:17px;line-height:1.7;margin:0 0 18px}
+  .story p:first-child{margin-top:0}
+  .diff{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+  .diff-item{display:flex;gap:14px;align-items:flex-start}
+  .diff-item .ic{width:38px;height:38px;border-radius:var(--r-md);background:var(--brand-50);color:var(--brand-600);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .diff-item .ic svg{width:20px;height:20px}
+  .diff-item b{font-family:var(--font-display);font-size:17px;font-weight:700;display:block;margin-bottom:2px}
+  .diff-item p{font-size:15px;color:var(--ink-3);margin:0;line-height:1.55}
+
+  /* ---------- VALUES / PROMISE ---------- */
   .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .val{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px}
+  .val{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;transition:transform var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
+  .val:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
   .val .icon-chip{margin-bottom:16px}
   .val h3{font-family:var(--font-display);font-size:21px;font-weight:700;margin:0 0 8px}
   .val p{color:var(--ink-3);font-size:15px;margin:0;line-height:1.6}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
-  .stats b{font-family:var(--font-display);font-weight:900;font-size:50px;color:var(--brand-600);display:block;line-height:1}
-  .stats span{color:var(--ink-3);font-size:15px;font-weight:600}
-  .team{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-  .tm{text-align:center}
-  .tm .av{aspect-ratio:1;border-radius:var(--r-lg);background:var(--n-100);margin-bottom:14px;overflow:hidden}
-  .tm .av img{width:100%;height:100%;object-fit:cover}
-  .tm b{font-family:var(--font-display);font-size:18px;display:block}
-  .tm span{color:var(--brand-600);font-size:14px;font-weight:600}
-  @media(max-width:880px){.vals,.team{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr;gap:30px}}
+
+  .promise-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .promise{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px 24px;position:relative;transition:transform var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
+  .promise:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+  .promise .num{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent-600)}
+  .promise h4{font-family:var(--font-display);font-size:19px;font-weight:700;margin:12px 0 8px}
+  .promise p{color:var(--ink-3);font-size:14.5px;line-height:1.55;margin:0}
+
+  @media(max-width:980px){.ah-grid,.story{grid-template-columns:1fr;gap:36px}.promise-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:880px){.vals{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr;gap:34px}}
+  @media(max-width:560px){.promise-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="site-header"></div>
 
+<!-- ===================== HERO ===================== -->
 <section class="page-hero">
   <div class="blob"></div>
-  <div class="wrap" style="position:relative">
-    <span class="eyebrow reveal">אודות Prime Ledger</span>
-    <h1 class="h-display reveal d1" style="font-size:clamp(40px,5.5vw,68px)">צוות אחד שמדבר<br>גם מספרים וגם עסקים</h1>
-    <p class="lead reveal d2">הוקמנו מתוך אמונה פשוטה: בעלי עסקים לא צריכים לרדוף אחרי חמישה ספקים שונים. ריכזנו תחת קורת גג אחת את כל מה שעסק צריך כדי לגדול — מהנהלת החשבונות ועד ההשקה הדיגיטלית.</p>
+  <div class="wrap ah-grid">
+    <div>
+      <span class="eyebrow reveal">אודות פריים לדג׳ר</span>
+      <h1 class="h-display reveal d1">שותף עסקי אחד —<br>מהמספרים ועד הצמיחה</h1>
+      <p class="lead reveal d2">פריים לדג׳ר נולדה מתוך אמונה פשוטה: בעלי עסקים צריכים להתעסק בעסק שלהם — לא לרדוף בין רואה חשבון, יועץ, מנהל שיווק ומפתח אתרים. ריכזנו את כל מה שעסק צריך כדי לגדול תחת קורת גג אחת, עם מנהל תיק אישי שמכיר אתכם בשם.</p>
+      <div class="ah-trust reveal d3">
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>צוות מקצועי מוסמך — חשבונאות, פיננסים, שיווק ופיתוח</span></div>
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>נקודת קשר אחת לכל הצרכים של העסק</span></div>
+        <div class="tpoint"><i data-lucide="check-circle-2"></i><span>שקיפות מלאה — הכול חי בפורטל האישי שלכם</span></div>
+      </div>
+    </div>
+
+    <aside class="trust-panel reveal d2">
+      <div class="tp-mark"><span class="logo-mark is-white" style="width:46px;height:46px"></span></div>
+      <h3>בית מקצועי אחד לעסק שלכם</h3>
+      <p>תחת מותג אחד מתאחדים כל המומחים שעסק צריך — מתואמים, מסונכרנים, ומדברים ביניהם.</p>
+      <div class="cred-chips">
+        <span>רואי חשבון מוסמכים</span>
+        <span>יועצי מס</span>
+        <span>יועצים פיננסיים</span>
+        <span>אנשי שיווק</span>
+        <span>מפתחי תוכנה</span>
+      </div>
+    </aside>
   </div>
 </section>
 
-<section class="section-sm">
-  <div class="wrap"><div class="stats">
-    <div><b>2014</b><span>שנת הקמה</span></div>
-    <div><b>450+</b><span>עסקים פעילים</span></div>
-    <div><b>28</b><span>אנשי צוות</span></div>
-    <div><b>98%</b><span>שימור לקוחות</span></div>
+<!-- ===================== TRUST PILLARS ===================== -->
+<section class="section-sm" style="background:var(--paper-raised);border-block:1px solid var(--border)">
+  <div class="wrap"><div class="tband">
+    <div class="tpill"><div class="icon-chip"><i data-lucide="user-round-check"></i></div><b>מנהל תיק אישי</b><span>נקודת קשר אחת שמכירה אתכם ואת העסק בשם</span></div>
+    <div class="tpill"><div class="icon-chip"><i data-lucide="layers"></i></div><b><span data-count="7">7</span> תחומים</b><span>כל מה שעסק צריך — תחת קורת גג אחת</span></div>
+    <div class="tpill"><div class="icon-chip"><i data-lucide="clock-4"></i></div><b>מענה תוך <span data-count="24">24</span> ש׳</b><span>שיחה חוזרת באותו יום עסקים</span></div>
+    <div class="tpill"><div class="icon-chip"><i data-lucide="shield-check"></i></div><b>שקיפות מלאה</b><span>כל הנתונים והמסמכים חיים בפורטל האישי</span></div>
   </div></div>
 </section>
 
+<!-- ===================== STORY ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="story">
+      <div class="reveal-up">
+        <span class="eyebrow">הסיפור שלנו</span>
+        <h2 class="h2" style="margin-top:12px">למה הקמנו את פריים לדג׳ר</h2>
+        <div class="diff">
+          <div class="diff-item"><div class="ic"><i data-lucide="git-merge"></i></div><div><b>הכול במקום אחד</b><p>ספק אחד שמחבר בין המספרים, האסטרטגיה והדיגיטל — בלי תיאומים אינסופיים.</p></div></div>
+          <div class="diff-item"><div class="ic"><i data-lucide="user-round-check"></i></div><div><b>מנהל תיק אישי</b><p>אדם אחד שמכיר את העסק לעומק ומלווה אתכם לאורך כל הדרך.</p></div></div>
+          <div class="diff-item"><div class="ic"><i data-lucide="line-chart"></i></div><div><b>החלטות לפי נתונים</b><p>לא תחושות בטן — דוחות חיים, תזרים ויעדים שאפשר למדוד.</p></div></div>
+        </div>
+      </div>
+      <div class="reveal-up">
+        <p class="lead">ראינו את אותה תמונה חוזרת שוב ושוב: בעל עסק מוכשר שמבזבז את האנרגיה שלו על לתאם בין רואה חשבון, יועץ מס, מנהל שיווק ומתכנת — כשכל אחד מהם מדבר בשפה אחרת ואף אחד לא רואה את התמונה המלאה.</p>
+        <p>החלטנו לעשות את זה אחרת. ריכזנו תחת מותג אחד את כל בעלי המקצוע שעסק צריך, חיברנו ביניהם, והעמדנו מולכם נקודת קשר אחת. במקום חמישה חשבונות, חמישה מספרי טלפון וחמש שפות — מנהל תיק אחד שמתרגם בין כולם ודואג שכל הגלגלים יסתובבו לאותו כיוון.</p>
+        <p>אנחנו מלווים עסקים בכל שלב — מעצמאים בתחילת הדרך ועד חברות מבוססות: מהקמת הספרים, דרך הצמיחה והשיווק, ועד בניית המערכות הדיגיטליות שמניעות את העסק קדימה. הכל נשען על טכנולוגיה חכמה וכלים דיגיטליים — כך שאתם רואים את התמונה המלאה בכל רגע.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VALUES ===================== -->
 <section class="section" style="background:var(--paper-raised);border-block:1px solid var(--border)">
   <div class="wrap">
     <div class="sec-head" style="max-width:600px;margin-bottom:46px"><span class="eyebrow">הערכים שלנו</span><h2 class="h2" style="margin-top:12px">איך אנחנו עובדים</h2></div>
@@ -60,21 +145,23 @@
   </div>
 </section>
 
+<!-- ===================== PROMISE (replaces team) ===================== -->
 <section class="section">
   <div class="wrap">
-    <div class="sec-head center" style="margin-inline:auto;margin-bottom:46px"><span class="eyebrow">ההנהלה</span><h2 class="h2" style="margin-top:12px">האנשים שמאחורי המספרים</h2></div>
-    <div class="team">
-      <div class="tm"><div class="av"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80" alt=""></div><b>אבי כהן</b><span>מייסד ומנכ"ל · רו"ח</span></div>
-      <div class="tm"><div class="av"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&q=80" alt=""></div><b>מיכל לוי</b><span>שותפה · ייעוץ פיננסי</span></div>
-      <div class="tm"><div class="av"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&q=80" alt=""></div><b>תומר שגב</b><span>ראש חטיבת דיגיטל</span></div>
-      <div class="tm"><div class="av"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&q=80" alt=""></div><b>נועה אבני</b><span>מנהלת שיווק</span></div>
+    <div class="sec-head center" style="margin-inline:auto;margin-bottom:46px;max-width:640px"><span class="eyebrow">ההבטחה שלנו</span><h2 class="h2" style="margin-top:12px">מה אתם מקבלים כשעובדים איתנו</h2></div>
+    <div class="promise-grid">
+      <div class="promise"><span class="num" dir="ltr">01</span><h4>מענה אנושי וזמין</h4><p>שיחה חוזרת באותו יום עסקים. בלי מוקדים אוטומטיים ובלי להמתין על הקו.</p></div>
+      <div class="promise"><span class="num" dir="ltr">02</span><h4>עמידה בלוחות זמנים</h4><p>דיווחים ומועדים מנוהלים מראש — אתם אף פעם לא מופתעים מתאריך אחרון.</p></div>
+      <div class="promise"><span class="num" dir="ltr">03</span><h4>מחיר ברור מראש</h4><p>הצעת מחיר שקופה לפי הצרכים שלכם. מה שסיכמנו — זה מה שתשלמו.</p></div>
+      <div class="promise"><span class="num" dir="ltr">04</span><h4>ראייה כוללת</h4><p>כל החלטה נבחנת מול התמונה המלאה של העסק — חשבונאות, פיננסים ושיווק יחד.</p></div>
     </div>
   </div>
 </section>
 
+<!-- ===================== CTA ===================== -->
 <section class="section-sm">
   <div class="wrap"><div class="newsletter" style="background:var(--grad-brand)">
-    <div style="position:relative;z-index:1"><h2 class="h2" style="color:#fff;margin:0 0 8px">רוצים להכיר אותנו?</h2><p style="color:rgba(255,255,255,.85);margin:0;font-size:16px">בואו לשיחת היכרות — נשמח לשמוע על העסק שלכם.</p></div>
+    <div style="position:relative;z-index:1"><h2 class="h2" style="color:#fff;margin:0 0 8px">רוצים להכיר אותנו?</h2><p style="color:rgba(255,255,255,.85);margin:0;font-size:16px">בואו לשיחת היכרות — נשמח לשמוע על העסק שלכם, בלי התחייבות.</p></div>
     <a class="btn btn-lg" style="background:#fff;color:var(--brand-600)" href="contact.html">קביעת פגישה <i data-lucide="arrow-left"></i></a>
   </div></div>
 </section>

@@ -22,12 +22,17 @@ img{max-width:100%;display:block}
   position:sticky;top:0;z-index:60;
   background:rgba(246,243,236,0.82);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
+  transition:box-shadow .3s var(--ease-out),background .3s var(--ease-out),border-color .3s var(--ease-out);
 }
-.header-inner{display:flex;align-items:center;gap:24px;height:74px}
-.brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
-.brand img{width:38px;height:38px}
-.brand b{font-family:var(--font-display);font-weight:900;font-size:22px;letter-spacing:-.01em;color:var(--ink)}
-.brand small{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;margin-top:1px}
+.site-header.scrolled{background:rgba(246,243,236,0.94);box-shadow:0 8px 24px -16px rgba(28,26,20,.35);border-bottom-color:transparent}
+.header-inner{display:flex;align-items:center;gap:24px;height:74px;transition:height .3s var(--ease-out)}
+.site-header.scrolled .header-inner{height:64px}
+.brand{display:flex;align-items:center;gap:11px;flex-shrink:0;transition:opacity var(--dur)}
+.brand:hover{opacity:.82}
+.brand .logo-mark{width:48px;height:42px;transition:width .3s var(--ease-out),height .3s var(--ease-out)}
+.site-header.scrolled .brand .logo-mark{width:43px;height:38px}
+.brand b{font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:-.01em;white-space:nowrap;background:var(--grad-wordmark);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--brand-wordmark)}
+.brand small{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;color:var(--ink-4);text-transform:uppercase;margin-top:1px}
 .nav{display:flex;align-items:center;gap:1px;margin-inline-start:auto}
 .nav a{
   font-size:14px;font-weight:600;color:var(--ink-2);padding:8px 10px;border-radius:var(--r-sm);
@@ -60,8 +65,10 @@ img{max-width:100%;display:block}
   transition:all var(--dur) var(--ease-out);text-decoration:none}
 .btn svg{width:17px;height:17px}
 .btn:active{transform:scale(.97)}
-.btn-primary{background:var(--brand-500);color:#fff;box-shadow:var(--shadow-brand)}
+.btn-primary{background:var(--brand-500);color:#fff;box-shadow:var(--shadow-brand);position:relative;overflow:hidden}
 .btn-primary:hover{background:var(--brand-600)}
+.btn-primary::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.32),transparent);transform:skewX(-18deg);transition:inset-inline-start .6s var(--ease-out)}
+.btn-primary:hover::after{inset-inline-start:130%}
 .btn-accent{background:var(--accent-500);color:#fff;box-shadow:var(--shadow-accent)}
 .btn-accent:hover{background:var(--accent-600)}
 .btn-secondary{background:var(--surface);color:var(--ink);border:1.5px solid var(--border-strong)}
@@ -73,10 +80,12 @@ img{max-width:100%;display:block}
 .btn-block{width:100%;justify-content:center}
 
 /* ---------- ELEMENTS ---------- */
-.eyebrow{font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--brand-600);unicode-bidi:plaintext}
+.eyebrow{font-family:var(--font-sans);font-size:14px;font-weight:700;letter-spacing:.04em;
+  color:var(--brand-600);unicode-bidi:plaintext;display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:22px;height:2px;border-radius:2px;background:currentColor;opacity:.55;flex-shrink:0}
+.sec-head.center .eyebrow,.center .eyebrow{justify-content:center}
 .eyebrow.accent{color:var(--accent-600)}
-.h-display{font-family:var(--font-display);font-weight:900;font-size:var(--t-display);line-height:1.04;letter-spacing:-.02em}
+.h-display{font-family:var(--font-display);font-weight:800;font-size:var(--t-display);line-height:1.06;letter-spacing:-.02em}
 .h1{font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:1.12;letter-spacing:-.015em}
 .h2{font-family:var(--font-display);font-weight:700;font-size:var(--t-h2);line-height:1.16}
 .h3{font-weight:700;font-size:var(--t-h3);line-height:1.3}
@@ -104,7 +113,7 @@ img{max-width:100%;display:block}
 .footer-grid h4{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 16px}
 .footer-grid a{display:block;color:rgba(255,255,255,.78);font-size:15px;padding:6px 0;transition:color var(--dur)}
 .footer-grid a:hover{color:#fff}
-.footer-brand b{font-family:var(--font-display);font-weight:900;font-size:22px}
+.footer-brand b{font-family:var(--font-display);font-weight:800;font-size:22px}
 .footer-brand p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.6;max-width:280px;margin:14px 0 0}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;flex-wrap:wrap;gap:14px}
 .footer-bottom span{color:rgba(255,255,255,.45);font-size:13px}
@@ -145,3 +154,57 @@ img{max-width:100%;display:block}
 .reveal.d1{animation-delay:.07s}.reveal.d2{animation-delay:.14s}.reveal.d3{animation-delay:.21s}
 .reveal.d4{animation-delay:.28s}.reveal.d5{animation-delay:.35s}
 @media(prefers-reduced-motion:reduce){.reveal{animation:none}}
+
+/* ---------- SCROLL REVEAL (JS-gated; content always visible without JS) ---------- */
+.has-js .reveal-up{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.has-js .reveal-up.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.has-js .reveal-up{opacity:1;transform:none;transition:none}}
+
+/* ---------- GENTLE FLOAT (hero badges) ---------- */
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.float-badge{will-change:transform}
+.float-badge.float-1{animation:floatY 4.2s var(--ease-in-out) infinite}
+.float-badge.float-2{animation:floatY 5s var(--ease-in-out) infinite .6s}
+@media(prefers-reduced-motion:reduce){.float-badge{animation:none}}
+
+/* ---------- COUNT-UP numerals stay tabular while animating ---------- */
+.counting{font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   MAX-WOW MOTION LAYER
+   ============================================================ */
+/* top scroll-progress bar */
+.scroll-progress{
+  position:fixed;top:0;inset-inline:0;height:3px;z-index:200;
+  background:var(--grad-brand);transform:scaleX(0);transform-origin:right center;
+  will-change:transform;box-shadow:0 1px 6px rgba(0,84,168,.45);
+}
+[dir="ltr"] .scroll-progress{transform-origin:left center}
+
+/* directional reveal variants (JS-gated; visible without JS) */
+.has-js .reveal-zoom{opacity:0;transform:scale(.92);transition:opacity .7s var(--ease-out),transform .8s var(--ease-out)}
+.has-js .reveal-zoom.in{opacity:1;transform:none}
+.has-js .reveal-scale{opacity:0;transform:scale(.95) translateY(20px);transition:opacity .8s var(--ease-out),transform .9s var(--ease-spring)}
+.has-js .reveal-scale.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .has-js .reveal-zoom,.has-js .reveal-scale{opacity:1;transform:none;transition:none}
+  .scroll-progress{display:none}
+}
+
+/* deepen the base reveal-up travel for a more pronounced ride */
+.has-js .reveal-up{transform:translateY(34px)}
+
+/* parallax elements get GPU hint */
+.hero-blob,.page-hero .blob,.mock{will-change:transform}
+
+/* animated sheen on the brand gradient wordmark */
+@keyframes wordmarkShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.brand b{background-size:160% 100%;animation:wordmarkShift 9s var(--ease-in-out) infinite}
+@media(prefers-reduced-motion:reduce){.brand b{animation:none}}
+
+/* card hover gets a touch more lift + faster snap-back */
+.card-hover:hover{box-shadow:var(--shadow-lg)}
+
+/* icon chips gently scale when their card is revealed */
+.has-js .reveal-up .icon-chip,.has-js .reveal-zoom .icon-chip{transition:transform .5s var(--ease-spring) .15s}
+.has-js .reveal-up.in .icon-chip{transform:scale(1)}
