@@ -69,8 +69,8 @@ img{max-width:100%;display:block}
 .btn-primary:hover{background:var(--brand-600)}
 .btn-primary::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.32),transparent);transform:skewX(-18deg);transition:inset-inline-start .6s var(--ease-out)}
 .btn-primary:hover::after{inset-inline-start:130%}
-.btn-accent{background:var(--accent-500);color:#fff;box-shadow:var(--shadow-accent)}
-.btn-accent:hover{background:var(--accent-600)}
+.btn-accent{background:var(--grad-gold);color:#2A1E06;font-weight:800;box-shadow:var(--shadow-accent)}
+.btn-accent:hover{filter:brightness(1.04) saturate(1.05)}
 .btn-secondary{background:var(--surface);color:var(--ink);border:1.5px solid var(--border-strong)}
 .btn-secondary:hover{border-color:var(--ink-3);background:var(--n-50)}
 .btn-ghost{background:transparent;color:var(--brand-600);padding-inline:12px}
@@ -208,3 +208,41 @@ img{max-width:100%;display:block}
 /* icon chips gently scale when their card is revealed */
 .has-js .reveal-up .icon-chip,.has-js .reveal-zoom .icon-chip{transition:transform .5s var(--ease-spring) .15s}
 .has-js .reveal-up.in .icon-chip{transform:scale(1)}
+
+/* ---- LUXE LAYER ---- */
+/* soft-focus on every reveal — content resolves into clarity */
+.has-js .reveal-up,.has-js .reveal-zoom,.has-js .reveal-scale{filter:blur(6px)}
+.has-js .reveal-up.in,.has-js .reveal-zoom.in,.has-js .reveal-scale.in{filter:blur(0)}
+
+/* 3D tilt on interactive cards (driven by JS inline transform) */
+.card-hover{transition:transform .35s var(--ease-out),box-shadow .35s var(--ease-out);transform-style:preserve-3d}
+.card-hover.tilting{transition:transform .08s linear,box-shadow .35s var(--ease-out)}
+
+/* gold sheen sweep on accent buttons */
+.btn-accent{position:relative;overflow:hidden}
+.btn-accent::after{content:"";position:absolute;top:0;bottom:0;inset-inline-start:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:inset-inline-start .7s var(--ease-out)}
+.btn-accent:hover::after{inset-inline-start:130%}
+
+/* hero word-by-word rise — TRANSFORM-ONLY so words are always visible even if the timeline is paused */
+.has-js .hw{display:inline-block;transform:translateY(.55em);transition:transform .7s var(--ease-out);transition-delay:calc(var(--i,0)*.06s)}
+.has-js .hw.in{transform:none}
+
+/* animated aurora drift on dark sections */
+.svc-visual.dark,.sim-band,.section.ink,.grad-ink-bg{position:relative;overflow:hidden}
+.svc-visual.dark::before,.sim-band::before{content:"";position:absolute;inset:-40%;background:
+  radial-gradient(60% 50% at 20% 20%, rgba(42,159,224,.18), transparent 60%),
+  radial-gradient(50% 45% at 85% 75%, rgba(217,181,89,.14), transparent 60%);
+  animation:aurora 14s var(--ease-in-out) infinite alternate;pointer-events:none}
+@keyframes aurora{0%{transform:translate3d(-3%,-2%,0) scale(1)}100%{transform:translate3d(4%,3%,0) scale(1.12)}}
+
+/* gentle float loop for hero floating badges */
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.float-badge{animation:floatY 5.5s var(--ease-in-out) infinite}
+.float-badge.float-2{animation-duration:6.5s;animation-delay:.6s}
+
+@media(prefers-reduced-motion:reduce){
+  .has-js .reveal-up,.has-js .reveal-zoom,.has-js .reveal-scale{filter:none}
+  .has-js .hw{transform:none;transition:none}
+  .svc-visual.dark::before,.sim-band::before,.float-badge{animation:none}
+  .card-hover{transform:none!important}
+}

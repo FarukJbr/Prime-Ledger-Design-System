@@ -58,15 +58,16 @@
   --sky-400: #48B4F0;  /* logo light blue */
   --sky-500: #2A9FE0;
 
-  /* ---------- ACCENT — Coral Signal ---------- */
-  --accent-50:  #FFEEE9;
-  --accent-100: #FFD7CB;
-  --accent-200: #FFB39E;
-  --accent-300: #FF8E70;
-  --accent-400: #FF6E4B;
-  --accent-500: #FF5A36;  /* ACCENT */
-  --accent-600: #E84320;
-  --accent-700: #BC3014;
+  /* ---------- ACCENT — Champagne Gold (luxe) ---------- */
+  --accent-50:  #FBF4E2;
+  --accent-100: #F4E4BD;
+  --accent-200: #E9CE8C;
+  --accent-300: #DBB559;
+  --accent-400: #CCA033;
+  --accent-500: #BC8B1E;  /* ACCENT — deep gold fills */
+  --accent-600: #9A7015;
+  --accent-700: #79570F;
+  --gold-sheen: #E9CE8C;  /* highlight tone for gradients */
 
   /* ---------- SEMANTIC ---------- */
   --success:     #169A55;
@@ -79,9 +80,10 @@
   --info-bg:     var(--brand-50);
 
   /* ---------- BRAND GRADIENTS ---------- */
-  --grad-brand:   linear-gradient(120deg, #0054A8 0%, #2A9FE0 62%, #48B4F0 100%);
-  --grad-energy:  linear-gradient(120deg, #FF5A36 0%, #FF8E70 100%);
-  --grad-ink:     linear-gradient(160deg, #1F222C 0%, #16181F 100%);
+  --grad-brand:   linear-gradient(120deg, #023A78 0%, #0054A8 45%, #2A9FE0 100%);
+  --grad-energy:  linear-gradient(120deg, #9A7015 0%, #BC8B1E 45%, #E9CE8C 100%);
+  --grad-gold:    linear-gradient(120deg, #9A7015 0%, #D9B559 50%, #F2E2B0 100%);
+  --grad-ink:     linear-gradient(160deg, #112138 0%, #0B1A2E 55%, #081320 100%);
 
   /* ---------- SEMANTIC TEXT ROLES ---------- */
   --fg1: var(--ink);
@@ -120,7 +122,7 @@
   --shadow-md: 0 8px 22px -8px rgba(28,26,20,0.16);
   --shadow-lg: 0 22px 48px -16px rgba(28,26,20,0.22);
   --shadow-brand: 0 12px 30px -10px rgba(0,84,168,0.42);
-  --shadow-accent: 0 12px 30px -10px rgba(255,90,54,0.42);
+  --shadow-accent: 0 12px 30px -10px rgba(188,139,30,0.42);
   --ring-brand: 0 0 0 3px rgba(0,84,168,0.20);
 
   /* ---------- MOTION ---------- */

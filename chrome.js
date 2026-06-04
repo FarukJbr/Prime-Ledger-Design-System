@@ -6,7 +6,6 @@
     { href: 'index.html', label: 'בית' },
     { href: 'services.html', label: 'שירותים' },
     { href: 'pricing.html', label: 'מחירון' },
-    { href: 'examples.html', label: 'דוגמאות' },
     { href: 'guide.html', label: 'מדריך' },
     { href: 'simulators.html', label: 'סימולטורים' },
     { href: 'forms.html', label: 'טפסים' },
@@ -70,7 +69,7 @@
           '</div>' +
         '</div>' +
         '<div><h4>השירותים שלנו</h4>' + svcLinks + '</div>' +
-        '<div><h4>החברה</h4><a href="about.html">אודות</a><a href="examples.html">דוגמאות עבודות</a><a href="guide.html">מדריך מקצועי</a><a href="pricing.html">מחירון</a></div>' +
+        '<div><h4>החברה</h4><a href="about.html">אודות</a><a href="guide.html">מדריך מקצועי</a><a href="pricing.html">מחירון</a></div>' +
         '<div><h4>תמיכה</h4><a href="contact.html">צור קשר</a><a href="faq.html">שאלות ותשובות</a><a href="forms.html">טפסים להורדה</a><a href="simulators.html">סימולטורים</a><a href="terms.html">תנאי שימוש</a></div>' +
       '</div>' +
       '<div class="footer-bottom">' +
@@ -154,8 +153,8 @@
       });
     });
   });
-  // example/work thumbnails zoom in
-  document.querySelectorAll('.ex-grid > *, .grid.works > *, .work').forEach(function (el, i) {
+  // work/portfolio thumbnails zoom in
+  document.querySelectorAll('.grid.works > *, .work').forEach(function (el, i) {
     el.classList.add('reveal-zoom');
     el.style.transitionDelay = Math.min(i, 6) * 70 + 'ms';
   });
@@ -192,6 +191,56 @@
       };
       window.addEventListener('scroll', function () { if (!raf) { raf = true; requestAnimationFrame(doPar); } }, { passive: true });
     }
+  }
+
+  // hero headline: split into rising words (premium entrance)
+  if (!reduce) {
+    document.querySelectorAll('.hero h1.h-display, .page-hero h1.h1').forEach(function (h) {
+      if (h.dataset.split) return; h.dataset.split = '1';
+      var i = 0;
+      var walk = function (node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(function (tok) {
+              if (/^\s+$/.test(tok) || tok === '') { frag.appendChild(document.createTextNode(tok)); return; }
+              var s = document.createElement('span');
+              s.className = 'hw'; s.style.setProperty('--i', i++); s.textContent = tok;
+              frag.appendChild(s);
+            });
+            node.replaceChild(frag, n);
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+            walk(n);
+          }
+        });
+      };
+      walk(h);
+      // trigger the staggered transition on the next frame; safety net flips all visible after 1.6s
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          h.querySelectorAll('.hw').forEach(function (s) { s.classList.add('in'); });
+        });
+      });
+      setTimeout(function () { h.querySelectorAll('.hw').forEach(function (s) { s.classList.add('in'); }); }, 1600);
+    });
+  }
+
+  // subtle 3D tilt on cards (pointer-driven, inline transform so it never fights reveals)
+  if (!reduce && window.matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('.card-hover').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        if (!card.classList.contains('in') && card.classList.contains('reveal-zoom')) return;
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.classList.add('tilting');
+        card.style.transform = 'perspective(900px) rotateY(' + (px * 6).toFixed(2) + 'deg) rotateX(' + (-py * 6).toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('pointerleave', function () {
+        card.classList.remove('tilting');
+        card.style.transform = '';
+      });
+    });
   }
 
   if (window.lucide) lucide.createIcons();

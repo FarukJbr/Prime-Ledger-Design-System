@@ -37,7 +37,7 @@
         '<h2>בניית אתרים ומערכות</h2>' +
         '<p class="lead">החטיבה הדיגיטלית שלנו בונה אתרי תדמית, חנויות ומערכות ניהול מותאמות אישית — מהאפיון ועד ההשקה.</p>' +
         '<ul class="svc-incl"><li><i data-lucide="check-circle-2"></i>אתרי תדמית ונחיתה</li><li><i data-lucide="check-circle-2"></i>חנויות אונליין וסליקה</li><li><i data-lucide="check-circle-2"></i>מערכות ניהול ופורטלים</li><li><i data-lucide="check-circle-2"></i>אפליקציות לעסק</li></ul>' +
-        '<div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-accent" href="examples.html">לדוגמאות העבודות <i data-lucide="arrow-left"></i></a><a class="btn btn-ghost" href="contact.html">דברו איתנו</a></div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-accent" href="contact.html">דברו איתנו <i data-lucide="arrow-left"></i></a></div>' +
       '</div>' +
       '<div class="svc-visual dark">' +
         '<div class="mock-top" style="background:rgba(255,255,255,.06);border:none;border-radius:8px;margin:-6px -6px 6px"><i style="background:rgba(255,255,255,.3)"></i><i style="background:rgba(255,255,255,.3)"></i><i style="background:rgba(255,255,255,.3)"></i><span class="mt-title" style="color:rgba(255,255,255,.5)" dir="ltr">yoursite.co.il</span></div>' +
