@@ -156,7 +156,26 @@
     try {
       var r = await B.auth.signIn({ email: document.getElementById('li_email').value.trim(), password: document.getElementById('li_pw').value });
       routeAfterAuth(r.email);
-    } catch (err) { showMsg(err.message || 'שגיאה בכניסה.'); btn.disabled = false; }
+    } catch (err) {
+      btn.disabled = false;
+      if (err.code === 'unconfirmed') {
+        showUnconfirmed(document.getElementById('li_email').value.trim());
+      } else {
+        showMsg(err.message || 'שגיאה בכניסה.');
+      }
+    }
+  }
+
+  function showUnconfirmed(email){
+    msgEl.className = 'msg err';
+    msgEl.innerHTML = '<i data-lucide="mail-warning"></i><span>החשבון קיים אך המייל לא אומת. <a href="#" id="resendLink" style="color:inherit;text-decoration:underline;font-weight:800">שלחו לי מייל אישור שוב</a></span>';
+    lucide.createIcons();
+    var lk = document.getElementById('resendLink');
+    if (lk) lk.onclick = async function(ev){ ev.preventDefault(); lk.textContent = 'שולח…';
+      var B = await window.PLBackend.ready;
+      try { await B.auth.resendConfirm(email); showMsg('שלחנו מייל אישור ל‑' + email + '. בדקו גם בתיבת הספאם.', 'ok'); }
+      catch (e) { showMsg('לא ניתן לשלוח כעת. אם זה חוזר — בטלו את אישור המייל ב‑Supabase (ראו מדריך ההתקנה).'); }
+    };
   }
 
   async function doRegister(e){
@@ -172,7 +191,7 @@
         tax_id: document.getElementById('rg_tax').value.trim(),
         password: document.getElementById('rg_pw').value
       });
-      if (r.needsConfirm) { showMsg('נשלח אליכם מייל לאישור החשבון. אשרו אותו ואז התחברו.', 'ok'); btn.disabled=false; showTab('login'); return; }
+      if (r.needsConfirm) { showMsg('נשלח אליכם מייל לאישור החשבון. אשרו אותו (בדקו גם ספאם) ואז התחברו. אם המייל לא מגיע — בטלו את אישור המייל ב‑Supabase.', 'ok'); btn.disabled=false; showTab('login'); return; }
       routeAfterAuth(r.email);
     } catch (err) { showMsg(err.message || 'שגיאה בהרשמה.'); btn.disabled = false; }
   }

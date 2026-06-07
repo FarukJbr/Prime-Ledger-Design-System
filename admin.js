@@ -4,7 +4,7 @@
   var D = window.PLData;
   var scroll = document.getElementById('aScroll');
   var titleEl = document.getElementById('aTitle');
-  var TITLES = { dashboard: 'לוח בקרה', services: 'שירותים', pricing: 'מחירון ותוספות', forms: 'טפסים', clients: 'לקוחות', leads: 'פניות', settings: 'פרטים והגדרות' };
+  var TITLES = { dashboard: 'לוח בקרה', services: 'שירותים', pricing: 'מחירון ותוספות', forms: 'טפסים', clients: 'לקוחות', leads: 'פניות', admins: 'מנהלים', settings: 'פרטים והגדרות' };
   var ICONS = ['calculator','wallet','briefcase','line-chart','megaphone','handshake','scale','code-xml','receipt','bar-chart-3','shield-check','users','file-text','trending-up','building-2','globe','zap','target','heart-handshake','sheet','file','folder'];
 
   function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -36,7 +36,7 @@
       '<div class="a-grid4">'+
         kpi('users','לקוחות פעילים','450','var(--brand-50)','var(--brand-600)')+
         kpi('trending-up','הכנסה חודשית','₪286K','var(--success-bg)','var(--success)')+
-        kpi('inbox','פניות חדשות','4','var(--accent-50)','var(--accent-600)')+
+        kpi('inbox','פניות חדשות','<span id="dashLeadCount">—</span>','var(--accent-50)','var(--accent-600)')+
         kpi('grid-3x3','שירותים פעילים',String(d.services.filter(function(s){return s.visible!==false;}).length),'var(--n-100)','var(--ink-2)')+
       '</div>'+
       '<div class="a-card"><div class="a-card-h"><h3>פעולות מהירות</h3></div><div class="a-card-b" style="padding:16px 20px;display:flex;gap:10px;flex-wrap:wrap">'+
@@ -45,8 +45,8 @@
         '<button class="btn btn-secondary" onclick="ADMIN.go(\'forms\')"><i data-lucide="file-down"></i>ניהול טפסים</button>'+
         '<button class="btn btn-secondary" onclick="ADMIN.go(\'settings\')"><i data-lucide="settings"></i>פרטי קשר</button>'+
       '</div></div>'+
-      '<div class="a-card"><div class="a-card-h"><h3>פניות אחרונות</h3><button class="btn btn-ghost btn-sm" onclick="ADMIN.go(\'leads\')">לכל הפניות</button></div><div class="a-card-b">'+
-        leadRow('דנה כהן','עניין בחבילת צמיחה','לפני שעה')+leadRow('יוסי לוי','בניית אתר לעסק','לפני 3 שעות')+leadRow('מירב אזולאי','שאלה על החזר מס','אתמול')+
+      '<div class="a-card"><div class="a-card-h"><h3>פניות אחרונות</h3><button class="btn btn-ghost btn-sm" onclick="ADMIN.go(\'leads\')">לכל הפניות</button></div><div class="a-card-b" id="dashLeads">'+
+        '<p class="muted" style="padding:14px 0;text-align:center">טוען…</p>'+
       '</div></div>'+
     '</div>';
   };
@@ -190,10 +190,79 @@
       (realNew ? '<p class="muted" style="font-size:12.5px;margin:2px 0 0">הלקוח יקבל סטטוס "מוזמן" עד שישלים הרשמה באתר עם אותה כתובת אימייל.</p>' : '');
   }
   VIEWS.leads = function(){
-    var rows=[['דנה כהן','053-1234567','עניין בחבילת צמיחה','חדש'],['יוסי לוי','054-7654321','בניית אתר לעסק','חדש'],['מירב אזולאי','052-9988776','שאלה על החזר מס','בטיפול'],['רן דוד','050-1122334','ייעוץ פיננסי','חדש']];
-    var tr=rows.map(function(r){return '<div class="a-item"><div class="a-ic" style="background:var(--accent-50);color:var(--accent-600)"><i data-lucide="user"></i></div><div class="a-main"><b>'+r[0]+' · <span dir="ltr" style="font-weight:600;color:var(--ink-3)">'+r[1]+'</span></b><small>'+r[2]+'</small></div><span class="pbadge" style="font-size:12px;padding:4px 10px;border-radius:999px;font-weight:700;'+(r[3]==='חדש'?'background:var(--brand-50);color:var(--brand-600)':'background:var(--warning-bg);color:var(--warning)')+'">'+r[3]+'</span><button class="a-iconbtn" style="margin-inline-start:8px"><i data-lucide="mail"></i></button></div>';}).join('');
-    return '<div class="a-view"><div class="a-card"><div class="a-card-h"><h3>פניות מהאתר</h3><span class="muted" style="font-size:13px">נתוני דוגמה</span></div><div class="a-card-b">'+tr+'</div></div></div>';
+    return '<div class="a-view"><div class="a-card"><div class="a-card-h"><h3>פניות מהאתר <span id="ldCount" class="muted" style="font-weight:600;font-size:14px"></span></h3><button class="btn btn-ghost btn-sm" onclick="ADMIN.loadLeads()"><i data-lucide="refresh-cw"></i>רענון</button></div>'+
+      '<div class="a-card-b" id="ldWrap"><p class="muted" style="padding:18px 0;text-align:center">טוען פניות…</p></div></div>'+
+      '<p class="muted" style="font-size:13px;text-align:center">כל פנייה מטופס "צור קשר" באתר מופיעה כאן. לחצו על מעטפה כדי להשיב במייל.</p></div>';
   };
+  var _leads=[];
+  function leadCard(l){
+    var st = l.status||'new';
+    var stMap = { 'new':['חדש','background:var(--brand-50);color:var(--brand-600)'], 'חדש':['חדש','background:var(--brand-50);color:var(--brand-600)'], 'in_progress':['בטיפול','background:var(--warning-bg);color:var(--warning)'], 'done':['טופל','background:var(--success-bg);color:var(--success)'] };
+    var sbg = stMap[st]||stMap['new'];
+    var when = l.created_at ? new Date(l.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+    var next = st==='done' ? 'new' : (st==='in_progress' ? 'done' : 'in_progress');
+    return '<div class="a-item" style="align-items:flex-start">'+
+      '<div class="a-ic" style="background:var(--accent-50);color:var(--accent-600)"><i data-lucide="user"></i></div>'+
+      '<div class="a-main"><b>'+esc(l.full_name||'—')+(l.business?' · <span style="font-weight:600;color:var(--ink-3)">'+esc(l.business)+'</span>':'')+'</b>'+
+        '<small style="display:block;margin:2px 0 4px"><span dir="ltr">'+esc(l.phone||'')+'</span>'+(l.email?' · <span dir="ltr">'+esc(l.email)+'</span>':'')+(l.topic?' · '+esc(l.topic):'')+'</small>'+
+        (l.message?'<small style="display:block;color:var(--ink-2);background:var(--n-100);padding:8px 10px;border-radius:8px;white-space:pre-wrap">'+esc(l.message)+'</small>':'')+
+        '<small style="display:block;color:var(--ink-4);margin-top:4px">'+when+'</small></div>'+
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:7px">'+
+        '<span class="pbadge" style="font-size:12px;padding:4px 10px;border-radius:999px;font-weight:700;'+sbg[1]+'">'+sbg[0]+'</span>'+
+        '<div class="a-acts">'+
+          '<button class="a-iconbtn" title="השב במייל" onclick="ADMIN.leadMail(\''+l.id+'\')"><i data-lucide="mail"></i></button>'+
+          '<button class="a-iconbtn" title="שנה סטטוס" onclick="ADMIN.cycleLead(\''+l.id+'\',\''+next+'\')"><i data-lucide="check-circle-2"></i></button>'+
+          '<button class="a-iconbtn danger" title="מחק" onclick="ADMIN.delLead(\''+l.id+'\')"><i data-lucide="trash-2"></i></button>'+
+        '</div></div></div>';
+  }
+  function renderLeads(){
+    var w=document.getElementById('ldWrap'); if(!w) return;
+    var c=document.getElementById('ldCount'); if(c) c.textContent='('+_leads.length+')';
+    w.innerHTML = _leads.length ? _leads.map(leadCard).join('') : '<p class="muted" style="padding:18px 0;text-align:center">אין פניות עדיין.</p>';
+    icons();
+  }
+  function updateLeadBadge(){
+    var n=_leads.filter(function(l){return (l.status||'new')==='new'||l.status==='חדש';}).length;
+    var b=document.getElementById('leadBadge'); if(b){ b.textContent=n; b.style.display=n?'flex':'none'; }
+    var dc=document.getElementById('dashLeadCount'); if(dc) dc.textContent=n;
+    var dl=document.getElementById('dashLeads');
+    if(dl){
+      var recent=_leads.slice(0,4);
+      dl.innerHTML = recent.length ? recent.map(function(l){
+        var when=l.created_at?new Date(l.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'short'}):'';
+        return leadRow(l.full_name||l.email||'—', (l.topic||'')+(l.message?(' · '+l.message):''), when);
+      }).join('') : '<p class="muted" style="padding:14px 0;text-align:center">אין פניות עדיין.</p>';
+      icons();
+    }
+  }
+
+  /* ----- ADMINS (manage who has panel access) ----- */
+  VIEWS.admins = function(){
+    var demo = window.PLBackend && window.PLBackend.isDemo;
+    return '<div class="a-view"><div class="a-card"><div class="a-card-h"><h3>מנהלי המערכת <span id="adCount" class="muted" style="font-weight:600;font-size:14px"></span></h3>'+
+      '<button class="btn btn-primary btn-sm" onclick="ADMIN.addAdmin()"><i data-lucide="user-plus"></i>הוספת מנהל</button></div>'+
+      '<div class="a-card-b" id="adWrap"><p class="muted" style="padding:18px 0;text-align:center">טוען…</p></div></div>'+
+      '<div class="a-card"><div class="a-card-b" style="padding:16px 20px;font-size:13.5px;color:var(--ink-3);line-height:1.7">'+
+        '<b style="color:var(--ink)">גיבוי כפול להרשאות אדמין:</b><br>'+
+        'הוספת מנהל כאן נשמרת במסד הנתונים (Supabase) — כך ההרשאה נשמרת גם אם הקוד ישונה. בנוסף, כל אימייל שרשום ב‑<code>config.js</code> (בשדה ADMIN_EMAILS) הוא מנהל תמיד — גיבוי שני שלא תלוי במסד. כל מנהל חדש צריך להירשם באתר עם אותה כתובת כדי שתהיה לו סיסמה.'+
+        (demo?'<br><br><b style="color:var(--warning)">מצב הדגמה</b> — חברו Supabase כדי שהניהול יעבוד באמת.':'')+
+        '</div></div></div>';
+  };
+  var _admins=[];
+  function renderAdmins(){
+    var w=document.getElementById('adWrap'); if(!w) return;
+    var c=document.getElementById('adCount'); if(c) c.textContent='('+_admins.length+')';
+    if(!_admins.length){ w.innerHTML='<p class="muted" style="padding:18px 0;text-align:center">אין מנהלים.</p>'; return; }
+    w.innerHTML=_admins.map(function(a){
+      var locked=a.source==='config';
+      return '<div class="a-item"><div class="a-ic" style="background:var(--brand-50);color:var(--brand-600)"><i data-lucide="shield"></i></div>'+
+        '<div class="a-main"><b dir="ltr" style="text-align:right">'+esc(a.email)+'</b><small>'+(locked?'מקובע ב‑config.js (גיבוי קבוע)':'נשמר במסד הנתונים')+'</small></div>'+
+        (locked?'<span class="pbadge" style="font-size:11px;padding:4px 10px;border-radius:999px;font-weight:700;background:var(--n-100);color:var(--ink-3)"><i data-lucide="lock" style="width:12px;height:12px;vertical-align:-1px"></i> קבוע</span>'
+          :'<button class="a-iconbtn danger" title="הסרת הרשאה" onclick="ADMIN.removeAdmin(\''+esc(a.email)+'\')"><i data-lucide="user-minus"></i></button>')+
+        '</div>';
+    }).join('');
+    icons();
+  }
 
   /* ----- SETTINGS ----- */
   VIEWS.settings = function(){
@@ -337,16 +406,72 @@
       window.PLBackend.ready.then(function(B){ return B.clients.remove(id); })
         .then(function(){ flash(); ADMIN.loadClients(); })
         .catch(function(e){ alert('שגיאה: '+e.message); });
+    },
+
+    /* ----- LEADS ----- */
+    loadLeads: function(){
+      window.PLBackend.ready.then(function(B){ return B.leads.list(); })
+        .then(function(list){ _leads=list||[]; renderLeads(); updateLeadBadge(); })
+        .catch(function(e){ var w=document.getElementById('ldWrap'); if(w) w.innerHTML='<p class="muted" style="padding:18px 0;text-align:center;color:var(--danger)">שגיאה בטעינת פניות: '+esc(e.message)+'</p>'; });
+    },
+    leadMail: function(id){
+      var l=_leads.filter(function(x){return x.id===id;})[0]; if(!l) return;
+      if(!l.email){ alert('לפנייה זו אין כתובת אימייל. ניתן לחזור בטלפון: '+(l.phone||'—')); return; }
+      var subj=encodeURIComponent('מענה לפנייתך — Prime Ledger');
+      var body=encodeURIComponent('שלום '+(l.full_name||'')+',\n\nתודה על פנייתך'+(l.topic?(' בנושא '+l.topic):'')+'.\n\n');
+      window.location.href='mailto:'+l.email+'?subject='+subj+'&body='+body;
+    },
+    cycleLead: function(id,next){
+      window.PLBackend.ready.then(function(B){ return B.leads.setStatus(id,next); })
+        .then(function(){ flash(); ADMIN.loadLeads(); })
+        .catch(function(e){ alert('שגיאה: '+e.message); });
+    },
+    delLead: function(id){
+      if(!confirm('למחוק פנייה זו?')) return;
+      window.PLBackend.ready.then(function(B){ return B.leads.remove(id); })
+        .then(function(){ flash(); ADMIN.loadLeads(); })
+        .catch(function(e){ alert('שגיאה: '+e.message); });
+    },
+
+    /* ----- ADMINS ----- */
+    loadAdmins: function(){
+      window.PLBackend.ready.then(function(B){ return B.admins.list(); })
+        .then(function(list){ _admins=list||[]; renderAdmins(); })
+        .catch(function(e){ var w=document.getElementById('adWrap'); if(w) w.innerHTML='<p class="muted" style="padding:18px 0;text-align:center;color:var(--danger)">שגיאה: '+esc(e.message)+'</p>'; });
+    },
+    addAdmin: function(){
+      openModal('הוספת מנהל',
+        '<div class="a-mfld"><label>אימייל המנהל</label><input id="ad_email" type="email" dir="ltr" placeholder="name@primels.co.il"></div>'+
+        '<p class="muted" style="font-size:12.5px;margin:2px 0 0">המנהל יקבל גישה מלאה לפאנל הניהול. ודאו שהוא נרשם באתר עם אותה כתובת אימייל כדי שתהיה לו סיסמה.</p>',
+        function(){
+          var email=val('ad_email'); if(!email){ alert('יש להזין אימייל'); return false; }
+          var btn=document.getElementById('modalSave'); btn.disabled=true;
+          window.PLBackend.ready.then(function(B){ return B.admins.add(email); })
+            .then(function(){ btn.disabled=false; closeModal(); flash(); ADMIN.loadAdmins(); })
+            .catch(function(e){ btn.disabled=false; alert('שגיאה: '+e.message); });
+          return false;
+        });
+    },
+    removeAdmin: function(email){
+      if(!confirm('להסיר את הרשאות הניהול של "'+email+'"?')) return;
+      window.PLBackend.ready.then(function(B){ return B.admins.remove(email); })
+        .then(function(){ flash(); ADMIN.loadAdmins(); })
+        .catch(function(e){ alert('שגיאה: '+e.message); });
     }
   };
 
   /* ---------------- ROUTER ---------------- */
-  function render(v){ titleEl.textContent=TITLES[v]||''; scroll.innerHTML=VIEWS[v](); scroll.scrollTop=0; icons(); if(v==='clients') ADMIN.loadClients(); }
+  function render(v){ titleEl.textContent=TITLES[v]||''; scroll.innerHTML=VIEWS[v](); scroll.scrollTop=0; icons(); if(v==='clients') ADMIN.loadClients(); if(v==='leads') ADMIN.loadLeads(); if(v==='admins') ADMIN.loadAdmins(); if(v==='dashboard') updateLeadBadge(); }
   document.querySelectorAll('.a-link').forEach(function(b){ b.onclick=function(){ ADMIN.go(b.dataset.v); document.getElementById('aside').classList.remove('open'); }; });
   document.getElementById('aburger').onclick=function(){ document.getElementById('aside').classList.toggle('open'); };
   document.getElementById('resetBtn').onclick=function(){ if(confirm('לשחזר את כל התוכן לברירת המחדל? פעולה זו תמחק את כל השינויים שביצעת.')){ D.reset(); render('services'); ADMIN.go('services'); } };
 
   render('dashboard');
+
+  // load leads once on startup so the sidebar badge reflects real new-lead count
+  window.PLBackend.ready.then(function(B){ return B.leads.list(); })
+    .then(function(list){ _leads=list||[]; updateLeadBadge(); })
+    .catch(function(){});
 
   /* ---------------- ACCESS GUARD ---------------- */
   // In live Supabase mode, require an admin session. In demo mode the panel is open (prototype).

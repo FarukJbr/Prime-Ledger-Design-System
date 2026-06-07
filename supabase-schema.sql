@@ -9,11 +9,25 @@
 
 -- ---------- 1. טבלת מנהלים ----------
 create table if not exists public.admins (
-  email text primary key
+  email       text primary key,
+  created_at  timestamptz not null default now()
 );
+-- אם הטבלה כבר קיימת מגרסה ישנה — מוסיפים את עמודת התאריך:
+alter table public.admins add column if not exists created_at timestamptz not null default now();
+
 -- הזינו כאן את כתובות האימייל של המנהלים (כמו ב‑config.js):
-insert into public.admins (email) values ('info@primels.co.il')
+insert into public.admins (email) values ('faruq@primels.co.il')
   on conflict (email) do nothing;
+
+alter table public.admins enable row level security;
+-- כל אחד יכול לקרוא את רשימת המנהלים (רק כתובות אימייל) — האבטחה האמיתית היא בטבלאות clients/leads.
+drop policy if exists "admins readable" on public.admins;
+create policy "admins readable" on public.admins for select using (true);
+-- רק מנהל קיים יכול להוסיף / להסיר מנהלים.
+drop policy if exists "admin manages admins" on public.admins;
+create policy "admin manages admins" on public.admins for insert with check (public.is_admin());
+drop policy if exists "admin removes admins" on public.admins;
+create policy "admin removes admins" on public.admins for delete using (public.is_admin());
 
 -- פונקציית עזר: האם המשתמש המחובר הוא מנהל?
 create or replace function public.is_admin()
@@ -97,6 +111,31 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- ---------- 5. טבלת פניות מטופס "צור קשר" ----------
+create table if not exists public.leads (
+  id          uuid primary key default gen_random_uuid(),
+  full_name   text default '',
+  business    text default '',
+  email       text default '',
+  phone       text default '',
+  topic       text default '',
+  message     text default '',
+  status      text not null default 'new',   -- new | in_progress | done
+  created_at  timestamptz not null default now()
+);
+alter table public.leads enable row level security;
+
+-- כל מבקר באתר יכול לשלוח פנייה (insert בלבד).
+drop policy if exists "anyone submits lead" on public.leads;
+create policy "anyone submits lead" on public.leads for insert with check (true);
+-- רק מנהל רואה / מעדכן / מוחק פניות.
+drop policy if exists "admin reads leads" on public.leads;
+create policy "admin reads leads" on public.leads for select using (public.is_admin());
+drop policy if exists "admin updates leads" on public.leads;
+create policy "admin updates leads" on public.leads for update using (public.is_admin());
+drop policy if exists "admin deletes leads" on public.leads;
+create policy "admin deletes leads" on public.leads for delete using (public.is_admin());
 
 -- ============================================================
 --  זהו! עכשיו:

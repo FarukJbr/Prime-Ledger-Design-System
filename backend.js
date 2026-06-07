@@ -12,8 +12,27 @@
   var HAS_SB = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
   var ADMINS = (CFG.ADMIN_EMAILS || []).map(function (e) { return String(e).toLowerCase().trim(); });
 
+  // Merged admin set: starts from config.js, gets extra emails from the DB `admins` table at boot.
+  var ADMIN_SET = {};
+  ADMINS.forEach(function (e) { if (e) ADMIN_SET[e] = true; });
+
   function isAdminEmail(email) {
-    return !!email && ADMINS.indexOf(String(email).toLowerCase().trim()) !== -1;
+    if (!email) return false;
+    return ADMIN_SET[String(email).toLowerCase().trim()] === true;
+  }
+
+  // Translate raw Supabase auth errors into clear Hebrew (so the real reason is never hidden).
+  function authErr(msg) {
+    var m = String(msg || '').toLowerCase();
+    if (m.indexOf('email not confirmed') !== -1 || m.indexOf('not confirmed') !== -1)
+      return { code: 'unconfirmed', message: 'החשבון קיים אבל המייל עדיין לא אומת — אשרו את המייל, או בקשו שליחה מחדש למטה.' };
+    if (m.indexOf('already registered') !== -1 || m.indexOf('already exists') !== -1 || m.indexOf('user already') !== -1)
+      return { code: 'exists', message: 'כתובת האימייל כבר רשומה. נסו להתחבר או לאפס סיסמה.' };
+    if (m.indexOf('invalid login') !== -1 || m.indexOf('invalid credentials') !== -1)
+      return { code: 'bad', message: 'אימייל או סיסמה שגויים.' };
+    if (m.indexOf('rate limit') !== -1 || m.indexOf('too many') !== -1)
+      return { code: 'rate', message: 'יותר מדי ניסיונות. המתינו דקה ונסו שוב.' };
+    return { code: 'other', message: msg || 'אירעה שגיאה. נסו שוב.' };
   }
 
   /* ---------- helpers ---------- */
@@ -31,9 +50,13 @@
      DEMO MODE  (localStorage)
      ============================================================ */
   var DEMO = (function () {
-    var CKEY = 'pl_clients_v1', SKEY = 'pl_session_v1';
+    var CKEY = 'pl_clients_v1', SKEY = 'pl_session_v1', AKEY = 'pl_admins_v1', LKEY = 'pl_leads_v1';
     function readClients() { try { return JSON.parse(localStorage.getItem(CKEY)) || []; } catch (e) { return []; } }
     function writeClients(a) { try { localStorage.setItem(CKEY, JSON.stringify(a)); } catch (e) {} }
+    function readAdmins() { try { return JSON.parse(localStorage.getItem(AKEY)) || []; } catch (e) { return []; } }
+    function writeAdmins(a) { try { localStorage.setItem(AKEY, JSON.stringify(a)); } catch (e) {} }
+    function readLeads() { try { return JSON.parse(localStorage.getItem(LKEY)) || []; } catch (e) { return []; } }
+    function writeLeads(a) { try { localStorage.setItem(LKEY, JSON.stringify(a)); } catch (e) {} }
     function session() { try { return localStorage.getItem(SKEY) || null; } catch (e) { return null; } }
     function setSession(email) { try { email ? localStorage.setItem(SKEY, email) : localStorage.removeItem(SKEY); } catch (e) {} }
 
@@ -43,6 +66,15 @@
       writeClients([
         { id: uid(), full_name: 'דנה כהן', business: 'אורban סטודיו', email: 'dana@urban.co.il', phone: '053-1234567', tax_id: '514882345', tier: 'צמיחה', status: 'active', notes: '', created_at: nowISO(), password: 'demo1234' },
         { id: uid(), full_name: 'יוסי לוי', business: 'לוי עיצובים', email: 'yossi@levi.co.il', phone: '054-7654321', tax_id: '038112233', tier: 'בסיס', status: 'active', notes: '', created_at: nowISO(), password: 'demo1234' }
+      ]);
+    })();
+
+    // seed example leads on first run
+    (function seedLeads() {
+      if (localStorage.getItem(LKEY)) return;
+      writeLeads([
+        { id: uid('ld'), full_name: 'דנה כהן', business: 'אורban סטודיו', email: 'dana@urban.co.il', phone: '053-1234567', topic: 'הנהלת חשבונות', message: 'מעוניינת בחבילת צמיחה לעסק שלי.', status: 'new', created_at: nowISO() },
+        { id: uid('ld'), full_name: 'יוסי לוי', business: 'לוי עיצובים', email: 'yossi@levi.co.il', phone: '054-7654321', topic: 'בניית אתר / מערכת', message: 'צריך אתר תדמית לעסק.', status: 'new', created_at: nowISO() }
       ]);
     })();
 
@@ -82,7 +114,13 @@
           var c = byEmail(em); if (!c) { setSession(null); return Promise.resolve(null); }
           return Promise.resolve({ email: em, client: c, isAdmin: isAdminEmail(em) });
         },
-        resetPassword: function () { return Promise.resolve(); }
+        resetPassword: function () { return Promise.resolve(); },
+        resendConfirm: function () { return Promise.resolve(); },
+        updatePassword: function (newPassword) {
+          var em = session(); if (!em) return Promise.reject(new Error('אין חיבור פעיל.'));
+          var list = readClients(); list.forEach(function (c) { if ((c.email || '').toLowerCase() === em.toLowerCase()) c.password = newPassword; });
+          writeClients(list); return Promise.resolve(true);
+        }
       },
       clients: {
         list: function () { return Promise.resolve(readClients().slice().sort(function (a, b) { return (b.created_at || '').localeCompare(a.created_at || ''); })); },
@@ -99,6 +137,34 @@
         },
         setStatus: function (id, status) { return this.update(id, { status: status }); },
         remove: function (id) { writeClients(readClients().filter(function (c) { return c.id !== id; })); return Promise.resolve(); }
+      },
+      admins: {
+        list: function () {
+          var fromCfg = ADMINS.map(function (e) { return { email: e, source: 'config' }; });
+          var fromLs = readAdmins().map(function (e) { return { email: e, source: 'local' }; });
+          return Promise.resolve(fromCfg.concat(fromLs));
+        },
+        add: function (email) {
+          email = String(email || '').toLowerCase().trim();
+          if (!email) return Promise.reject(new Error('יש להזין אימייל.'));
+          var a = readAdmins(); if (a.indexOf(email) === -1) { a.push(email); writeAdmins(a); }
+          ADMIN_SET[email] = true; return Promise.resolve({ email: email });
+        },
+        remove: function (email) {
+          email = String(email || '').toLowerCase().trim();
+          writeAdmins(readAdmins().filter(function (e) { return e !== email; }));
+          if (ADMINS.indexOf(email) === -1) delete ADMIN_SET[email];
+          return Promise.resolve();
+        }
+      },
+      leads: {
+        list: function () { return Promise.resolve(readLeads().slice().sort(function (a, b) { return (b.created_at || '').localeCompare(a.created_at || ''); })); },
+        add: function (p) {
+          var rec = { id: uid('ld'), full_name: p.full_name || '', business: p.business || '', email: p.email || '', phone: p.phone || '', topic: p.topic || '', message: p.message || '', status: 'new', created_at: nowISO() };
+          var l = readLeads(); l.push(rec); writeLeads(l); return Promise.resolve(rec);
+        },
+        setStatus: function (id, status) { var l = readLeads(); l.forEach(function (x) { if (x.id === id) x.status = status; }); writeLeads(l); return Promise.resolve(); },
+        remove: function (id) { writeLeads(readLeads().filter(function (x) { return x.id !== id; })); return Promise.resolve(); }
       }
     };
   })();
@@ -120,19 +186,24 @@
             email: p.email, password: p.password,
             options: { data: { full_name: p.full_name, business: p.business, phone: p.phone, tax_id: p.tax_id, tier: p.tier || 'בסיס' } }
           }).then(function (r) {
-            if (r.error) throw new Error(r.error.message);
+            if (r.error) { var e = authErr(r.error.message); var err = new Error(e.message); err.code = e.code; throw err; }
             return { email: p.email, client: null, needsConfirm: !r.data.session };
           });
         },
         signIn: function (p) {
           return sb.auth.signInWithPassword({ email: p.email, password: p.password }).then(function (r) {
-            if (r.error) throw new Error('אימייל או סיסמה שגויים.');
+            if (r.error) { var e = authErr(r.error.message); var err = new Error(e.message); err.code = e.code; throw err; }
             return profileFor(r.data.user).then(function (client) {
               if (client && client.status === 'blocked') {
                 return sb.auth.signOut().then(function () { throw new Error('החשבון חסום. אנא צרו קשר עם המשרד.'); });
               }
-              return { email: r.data.user.email, client: client };
+              return { email: r.data.user.email, client: client, isAdmin: isAdminEmail(r.data.user.email) };
             });
+          });
+        },
+        resendConfirm: function (email) {
+          return sb.auth.resend({ type: 'signup', email: email }).then(function (r) {
+            if (r.error) throw new Error(authErr(r.error.message).message);
           });
         },
         signOut: function () { return sb.auth.signOut(); },
@@ -144,8 +215,14 @@
             });
           });
         },
+        updatePassword: function (newPassword) {
+          return sb.auth.updateUser({ password: newPassword }).then(function (r) {
+            if (r.error) throw new Error(authErr(r.error.message).message);
+            return true;
+          });
+        },
         resetPassword: function (email) {
-          return sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/login.html' });
+          return sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, '') + 'reset-password.html' });
         }
       },
       clients: {
@@ -167,6 +244,43 @@
           return sb.from('clients').delete().eq('id', id)
             .then(function (r) { if (r.error) throw new Error(r.error.message); });
         }
+      },
+      admins: {
+        list: function () {
+          return sb.from('admins').select('*').order('created_at', { ascending: true })
+            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data || []; });
+        },
+        add: function (email) {
+          email = String(email || '').toLowerCase().trim();
+          if (!email) return Promise.reject(new Error('\u05d9\u05e9 \u05dc\u05d4\u05d6\u05d9\u05df \u05d0\u05d9\u05de\u05d9\u05d9\u05dc.'));
+          return sb.from('admins').insert({ email: email }).select().single()
+            .then(function (r) { if (r.error) throw new Error(r.error.message); ADMIN_SET[email] = true; return r.data; });
+        },
+        remove: function (email) {
+          email = String(email || '').toLowerCase().trim();
+          return sb.from('admins').delete().eq('email', email)
+            .then(function (r) { if (r.error) throw new Error(r.error.message); delete ADMIN_SET[email]; });
+        }
+      },
+      leads: {
+        list: function () {
+          return sb.from('leads').select('*').order('created_at', { ascending: false })
+            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data || []; });
+        },
+        add: function (p) {
+          var rec = { full_name: p.full_name || '', business: p.business || '', email: p.email || '', phone: p.phone || '', topic: p.topic || '', message: p.message || '', status: 'new' };
+          // No .select() return — public visitors can INSERT but not SELECT leads (RLS), so a returning-select would fail.
+          return sb.from('leads').insert(rec)
+            .then(function (r) { if (r.error) throw new Error(r.error.message); return rec; });
+        },
+        setStatus: function (id, status) {
+          return sb.from('leads').update({ status: status }).eq('id', id).select().single()
+            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data; });
+        },
+        remove: function (id) {
+          return sb.from('leads').delete().eq('id', id)
+            .then(function (r) { if (r.error) throw new Error(r.error.message); });
+        }
       }
     };
   }
@@ -186,6 +300,8 @@
       isAdminEmail: isAdminEmail,
       auth: impl.auth,
       clients: impl.clients,
+      admins: impl.admins,
+      leads: impl.leads,
       config: CFG
     };
     readyResolve(window.PLBackend);
@@ -196,7 +312,10 @@
       .then(function () {
         var sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
         impl = makeSupabase(sb);
-        finish();
+        // Best-effort: merge admin emails stored in the DB so admin rights survive even without config.js.
+        return sb.from('admins').select('email').then(function (r) {
+          if (!r.error && r.data) r.data.forEach(function (row) { if (row && row.email) ADMIN_SET[String(row.email).toLowerCase().trim()] = true; });
+        }).catch(function () {}).then(finish);
       })
       .catch(function () { impl = DEMO; finish(); });
   } else {

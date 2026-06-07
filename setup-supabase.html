@@ -100,9 +100,12 @@
   <div class="step">
     <div class="num">4</div>
     <div>
-      <h3>הגדרת התחברות וקישור המנהל</h3>
-      <p>ב‑Supabase: <b>Authentication → Providers</b> — ודאו ש‑<b>Email</b> מופעל. לבדיקות מהירות אפשר לכבות זמנית את <em>"Confirm email"</em> תחת <b>Authentication → Sign In / Providers</b>, כדי שלא תצטרכו לאשר כל מייל.</p>
-      <p>כדי שתקבלו הרשאת מנהל: ודאו שהאימייל שלכם מופיע גם ב‑<code>config.js</code> (ADMIN_EMAILS) וגם בטבלת <code>admins</code> במסד. הירשמו דרך עמוד הכניסה עם אותו אימייל — ומאותו רגע פאנל הניהול פתוח רק לכם.</p>
+      <h3>הפעלת התחברות — והפתרון לבעיית המייל</h3>
+      <p><b>זו הנקודה הכי חשובה.</b> כברירת מחדל Supabase דורש "אישור מייל" לפני כל כניסה — ושרת המייל החינמי שלו שולח לאט ולרוב נופל לספאם. זו הסיבה שנרשמתם ולא קיבלתם מייל / לא הצלחתם להיכנס.</p>
+      <p><b>הפתרון (2 קליקים):</b> ב‑Supabase → <b>Authentication → Sign In / Providers → Email</b> → כבו את <em>"Confirm email"</em> ושמרו. מעכשיו כל הרשמה עובדת מיד, בלי מייל.</p>
+      <div class="note"><i data-lucide="alert-circle"></i><span>אם <code>faruq@primels.co.il</code> עדיין לא נכנס: לכו ל‑<b>Authentication → Users</b>, מצאו את השורה שלו. אם כתוב "Waiting for verification" — לחצו על שלוש הנקודות → <b>Confirm email</b> (או מחקו ונרשמו מחדש אחרי שכיביתם את האישור). זה משחרר את החשבון.</span></div>
+      <p style="margin-top:12px">כדי שתקבלו הרשאת <b>מנהל</b>: האימייל שלכם נמצא גם ב‑<code>config.js</code> (ADMIN_EMAILS) וגם בטבלת <code>admins</code> — שני גיבויים. הירשמו דרך עמוד הכניסה עם אותו אימייל, וחזרו לכאן.</p>
+      <div class="note"><i data-lucide="shield-check"></i><span>מנהל נוסף אפשר להוסיף משני מקומות: (1) מתוך פאנל הניהול → לשונית <b>מנהלים</b> (נשמר במסד), או (2) בעריכת <code>config.js</code>. כל אחד מהם מספיק — גיבוי כפול.</span></div>
     </div>
   </div>
 
