@@ -21,6 +21,7 @@ window.PL_CONFIG = {
   // גיבוי כפול: כל אימייל כאן הוא מנהל — *וגם* כל שורה בטבלת admins ב‑Supabase.
   // כך שגם אם הקובץ הזה יאבד, ההרשאות נשמרות במסד (וההיפך).
   ADMIN_EMAILS: ['faruq@primels.co.il'],
+  ADMIN_EMAILS: ['farukjbr@yandex.com'],
 
   // --- קבלת פניות מטופס "צור קשר" במייל (אופציונלי אך מומלץ) ---
   // נרשמים חינם ב‑https://web3forms.com → מקבלים Access Key → מדביקים כאן.
