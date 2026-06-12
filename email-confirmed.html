@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אימות אימייל | Prime Ledger Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2440; --navy-2:#16345c; --gold:#c9a14a;
+    --bg:#f5f7fa; --card:#ffffff; --text:#1c2b3a; --muted:#5b6b7c;
+    --ok:#1d7a4f; --err:#b3362b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text);
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .card{
+    background:var(--card); width:100%; max-width:440px; border-radius:14px;
+    box-shadow:0 8px 30px rgba(15,36,64,.10); overflow:hidden; text-align:center;
+  }
+  .card-top{background:linear-gradient(135deg,var(--navy),var(--navy-2)); padding:28px 24px;}
+  .card-top .brand{color:#fff; font-weight:800; font-size:20px; letter-spacing:.3px;}
+  .card-top .brand span{color:var(--gold);}
+  .card-body{padding:32px 28px 36px;}
+  .icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;}
+  .icon.ok{background:#e7f5ee;color:var(--ok);}
+  .icon.err{background:#fbeae8;color:var(--err);}
+  .icon.wait{background:#eef2f7;color:var(--navy);}
+  h1{font-size:22px;font-weight:700;margin-bottom:10px;}
+  p{color:var(--muted);font-size:15px;line-height:1.7;}
+  .btn{
+    display:inline-block;margin-top:24px;background:var(--navy);color:#fff;text-decoration:none;
+    padding:12px 34px;border-radius:8px;font-weight:700;font-size:15px;transition:background .2s;
+  }
+  .btn:hover{background:var(--navy-2);}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-top"><div class="brand">Prime <span>Ledger</span> Solutions</div></div>
+    <div class="card-body">
+
+      <div id="state-loading">
+        <div class="icon wait">⏳</div>
+        <h1>מאמתים את האימייל...</h1>
+        <p>רגע אחד, אנחנו בודקים את הקישור.</p>
+      </div>
+
+      <div id="state-success" class="hidden">
+        <div class="icon ok">✓</div>
+        <h1>האימייל אומת בהצלחה!</h1>
+        <p>החשבון שלך פעיל. אפשר להתחבר ולהתחיל לעבוד.</p>
+        <a class="btn" id="login-link" href="/">כניסה לחשבון</a>
+      </div>
+
+      <div id="state-error" class="hidden">
+        <div class="icon err">!</div>
+        <h1>הקישור אינו תקף</h1>
+        <p id="error-msg">ייתכן שהקישור פג תוקף או שכבר נעשה בו שימוש. נסה להירשם שוב או לבקש קישור חדש.</p>
+        <a class="btn" href="/">חזרה לדף הבית</a>
+      </div>
+
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ====== הגדרות — שנה רק אם צריך ======
+  const LOGIN_URL = "/";   // 👈 שנה לכתובת דף ההתחברות שלך, למשל "/login.html"
+  // =====================================
+
+  const supabase = window.supabase.createClient(
+    "https://urpzikwromhwtuffkhyr.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo"
+  );
+
+  document.getElementById("login-link").href = LOGIN_URL;
+
+  function show(id){
+    ["state-loading","state-success","state-error"].forEach(s =>
+      document.getElementById(s).classList.toggle("hidden", s !== id)
+    );
+  }
+
+  async function init(){
+    // קישור שפג תוקפו מגיע עם error בכתובת
+    const hash = new URLSearchParams(window.location.hash.substring(1));
+    const query = new URLSearchParams(window.location.search);
+    const errCode = hash.get("error_code") || query.get("error_code");
+
+    if (errCode) {
+      if (errCode === "otp_expired") {
+        document.getElementById("error-msg").textContent =
+          "הקישור פג תוקף. בקש קישור אימות חדש דרך מסך ההתחברות.";
+      }
+      show("state-error");
+      return;
+    }
+
+    // Supabase מזהה אוטומטית את הטוקן שב-URL ויוצר session
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      show("state-success");
+    } else {
+      // לפעמים ה-session נוצר שנייה אחרי הטעינה — מאזינים לאירוע
+      let resolved = false;
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (session && !resolved) { resolved = true; show("state-success"); }
+      });
+      setTimeout(() => { if (!resolved) show("state-error"); }, 4000);
+    }
+  }
+  init();
+</script>
+</body>
+</html>
