@@ -36,7 +36,7 @@
   }).join('');
   var mobileLinks = NAV.concat(MORE).map(function (n) {
     return '<a href="' + n.href + '"' + (isActive(n.href) ? ' style="color:var(--brand-600)"' : '') + '>' + n.label + '</a>';
-  }).join('') + '<a href="login.html" style="color:var(--brand-600)">כניסה לפורטל ←</a>';
+  }).join('') + '<a href="https://portal.primels.co.il" style="color:var(--brand-600)">כניסה לפורטל ←</a>';
 
   var header =
     '<header class="site-header"><div class="wrap header-inner">' +
@@ -44,7 +44,7 @@
       '<nav class="nav">' + navLinks +
       '</nav>' +
       '<div class="header-cta">' +
-        '<a class="btn btn-primary" href="login.html"><i data-lucide="lock"></i>כניסה לפורטל</a>' +
+        '<a class="btn btn-primary" href="https://portal.primels.co.il"><i data-lucide="lock"></i>כניסה לפורטל</a>' +
         '<button class="burger" type="button" aria-label="תפריט"><i data-lucide="menu"></i></button>' +
       '</div>' +
     '</div></header>' +
