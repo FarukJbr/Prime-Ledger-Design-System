@@ -173,18 +173,37 @@
      SUPABASE MODE
      ============================================================ */
   function makeSupabase(sb) {
+    // Adapter: profiles (the financial portal's real, single source of truth
+    // for clients) is mapped to the OLD "clients" shape that admin.html /
+    // admin.js already expect (business/tier/status) — so neither of those
+    // files needed to change at all. business<->company_name, tier<->plan,
+    // status<->blocked are the only field-name differences.
+    function clientFromProfile(p) {
+      if (!p) return null;
+      return {
+        id: p.id, full_name: p.full_name || '', business: p.company_name || '',
+        email: p.email || '', phone: p.phone || '', tax_id: p.tax_id || '',
+        tier: p.plan === 'pro' ? 'צמיחה' : 'בסיס', status: p.blocked ? 'blocked' : 'active',
+        notes: '', created_at: p.created_at
+      };
+    }
     function profileFor(user) {
-      return sb.from('clients').select('*').eq('email', user.email).maybeSingle()
-        .then(function (r) { return r.data; });
+      // profiles has no email column (email lives on auth.users) — join by id.
+      return sb.from('profiles').select('*').eq('id', user.id).maybeSingle()
+        .then(function (r) { return clientFromProfile(r.data ? Object.assign({}, r.data, { email: user.email }) : null); });
     }
     return {
       mode: 'supabase',
       _sb: sb,
       auth: {
         signUp: function (p) {
+          // options.data keys (full_name/business/phone/tax_id) are read
+          // directly by the portal-side DB trigger that auto-creates the
+          // matching profiles row the instant this signUp succeeds — see
+          // handle_new_unified_user() in the portal's Supabase project.
           return sb.auth.signUp({
             email: p.email, password: p.password,
-            options: { data: { full_name: p.full_name, business: p.business, phone: p.phone, tax_id: p.tax_id, tier: p.tier || 'בסיס' } }
+            options: { data: { full_name: p.full_name, business: p.business, phone: p.phone, tax_id: p.tax_id, usage_type: 'biz' } }
           }).then(function (r) {
             if (r.error) { var e = authErr(r.error.message); var err = new Error(e.message); err.code = e.code; throw err; }
             return { email: p.email, client: null, needsConfirm: !r.data.session };
@@ -226,23 +245,48 @@
         }
       },
       clients: {
+        // Reuses the portal's own admin_list_users() RPC — it already joins
+        // profiles with auth.users correctly (profiles has no email column
+        // of its own), so this is the same tested code path the portal's
+        // own admin panel uses, not a new parallel query.
         list: function () {
-          return sb.from('clients').select('*').order('created_at', { ascending: false })
-            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data || []; });
+          return sb.rpc('admin_list_users')
+            .then(function (r) {
+              if (r.error) throw new Error(r.error.message);
+              return (r.data || []).filter(function(u){ return u.role !== 'admin'; }).map(function (u) {
+                return {
+                  id: u.id, full_name: u.full_name || '', business: u.company_name || '',
+                  email: u.email || '', phone: u.phone || '', tax_id: u.tax_id || '',
+                  tier: u.plan === 'pro' ? 'צמיחה' : 'בסיס', status: u.blocked ? 'blocked' : 'active',
+                  notes: '', created_at: u.created_at
+                };
+              });
+            });
         },
-        add: function (p) {
-          var rec = { full_name: p.full_name || '', business: p.business || '', email: p.email || '', phone: p.phone || '', tax_id: p.tax_id || '', tier: p.tier || 'בסיס', status: p.status || 'invited', notes: p.notes || '' };
-          return sb.from('clients').insert(rec).select().single()
-            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data; });
+        // Manually pre-adding a not-yet-registered client ("invited" status)
+        // no longer applies: profiles always require a real auth.users
+        // account first (the FK they're built on). Use the portal's own
+        // admin panel ("הוסף לקוח חדש") to create a full account directly.
+        add: function () {
+          return Promise.reject(new Error('הוספת לקוח ידנית עברה לפאנל הניהול בפורטל (portal.primels.co.il) — שם זה יוצר חשבון מלא ומיידי, לא רק רשומה ממתינה.'));
         },
         update: function (id, patch) {
-          return sb.from('clients').update(patch).eq('id', id).select().single()
-            .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data; });
+          var dbPatch = {};
+          if (patch.full_name !== undefined) dbPatch.full_name = patch.full_name;
+          if (patch.business !== undefined) dbPatch.company_name = patch.business;
+          if (patch.phone !== undefined) dbPatch.phone = patch.phone;
+          if (patch.tax_id !== undefined) dbPatch.tax_id = patch.tax_id;
+          if (patch.status !== undefined) dbPatch.blocked = (patch.status === 'blocked');
+          if (patch.tier !== undefined) dbPatch.plan = (patch.tier === 'בסיס') ? 'free' : 'pro';
+          return sb.from('profiles').update(dbPatch).eq('id', id).select().single()
+            .then(function (r) { if (r.error) throw new Error(r.error.message); return clientFromProfile(r.data); });
         },
         setStatus: function (id, status) { return this.update(id, { status: status }); },
-        remove: function (id) {
-          return sb.from('clients').delete().eq('id', id)
-            .then(function (r) { if (r.error) throw new Error(r.error.message); });
+        // Deleting a client account (auth.users + profiles together) needs
+        // elevated privileges this anon-key client doesn't have — use the
+        // portal's own admin panel to block/manage accounts instead.
+        remove: function () {
+          return Promise.reject(new Error('מחיקת לקוח עוברת דרך פאנל הניהול בפורטל (portal.primels.co.il) — אפשר לחסום מכאן, אך למחוק שם.'));
         }
       },
       admins: {
@@ -263,22 +307,25 @@
         }
       },
       leads: {
+        // site_leads (not the old "leads" table) — inserting here also
+        // triggers an instant WhatsApp notification to the office, the same
+        // way upgrade requests and chat messages already do inside the portal.
         list: function () {
-          return sb.from('leads').select('*').order('created_at', { ascending: false })
+          return sb.from('site_leads').select('*').order('created_at', { ascending: false })
             .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data || []; });
         },
         add: function (p) {
           var rec = { full_name: p.full_name || '', business: p.business || '', email: p.email || '', phone: p.phone || '', topic: p.topic || '', message: p.message || '', status: 'new' };
           // No .select() return — public visitors can INSERT but not SELECT leads (RLS), so a returning-select would fail.
-          return sb.from('leads').insert(rec)
+          return sb.from('site_leads').insert(rec)
             .then(function (r) { if (r.error) throw new Error(r.error.message); return rec; });
         },
         setStatus: function (id, status) {
-          return sb.from('leads').update({ status: status }).eq('id', id).select().single()
+          return sb.from('site_leads').update({ status: status }).eq('id', id).select().single()
             .then(function (r) { if (r.error) throw new Error(r.error.message); return r.data; });
         },
         remove: function (id) {
-          return sb.from('leads').delete().eq('id', id)
+          return sb.from('site_leads').delete().eq('id', id)
             .then(function (r) { if (r.error) throw new Error(r.error.message); });
         }
       }
