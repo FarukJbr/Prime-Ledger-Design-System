@@ -50,38 +50,73 @@
     '</div></header>' +
     '<div class="mobile-menu">' + mobileLinks + '</div>';
 
-  // ---------- FOOTER ----------
-  var svcSource = (SVCNAMES.length ? SVCNAMES.filter(function(s){return s.visible!==false;}).map(function(s){return {t:s.title,id:s.id};}) : SERVICES.map(function(s,i){return {t:s,id:'svc-'+i};}));
-  var svcLinks = svcSource.map(function (s) {
-    return '<a href="services.html#' + s.id + '">' + s.t + '</a>';
-  }).join('');
-  var footer =
-    '<footer class="site-footer"><div class="wrap">' +
-      '<div class="footer-grid">' +
-        '<div class="footer-brand">' +
-          '<div style="display:flex;align-items:center;gap:11px"><span class="logo-mark is-white" style="width:38px;height:38px"></span><b>' + BRAND_SHORT + '</b></div>' +
-          '<p>בית תוכן עסקי אחד — הנהלת חשבונות, ייעוץ, שיווק ובניית אתרים. מהרעיון ועד ההשקה.</p>' +
-          '<div class="footer-social" style="margin-top:20px">' +
-            '<a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 22 10.9 22 14.3V21h-4v-5.9c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg></a>' +
-            '<a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>' +
-            '<a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V7c0-1 .3-1.5 1.6-1.5H17V2.2C16.5 2.1 15.4 2 14.5 2 11.9 2 10 3.6 10 6.5V9H7.5v3.5H10V22h4v-9.5h2.7l.4-3.5z"/></svg></a>' +
-            '<a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 0 1 6.5 12.6l-.3.4.7 2.5-2.5-.7-.4.2A8 8 0 1 1 12 4zm-3 4c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.4-.3-.2-1.5-.8-1.8-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.1-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.1-.3 0-.4.1-.5l.4-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4z"/></svg></a>' +
+  // ---------- FOOTER (built as a function so it can be re-called when settings load) ----------
+  function buildFooter(set, svcs) {
+    set = set || {};
+    svcs = svcs || [];
+    var svcSource = (svcs.length
+      ? svcs.filter(function(s){return s.visible!==false;}).map(function(s){return {t:s.title,id:s.id};})
+      : SERVICES.map(function(s,i){return {t:s,id:'svc-'+i};}));
+    var svcLinks = svcSource.map(function (s) {
+      return '<a href="services.html#' + s.id + '">' + s.t + '</a>';
+    }).join('');
+
+    // Social links — each only rendered if a URL is configured
+    function socialLink(url, label, svgPath, isWhatsApp) {
+      if (!url) return '';
+      // WhatsApp: convert phone number to wa.me link if it looks like a number
+      var href = url;
+      if (isWhatsApp && /^[0-9+\s-]+$/.test(url.trim())) {
+        href = 'https://wa.me/' + url.replace(/\D/g,'');
+      } else if (url && !/^https?:\/\//.test(url) && !isWhatsApp) {
+        href = 'https://' + url;
+      }
+      return '<a href="' + href + '" target="_blank" rel="noopener" aria-label="' + label + '">' + svgPath + '</a>';
+    }
+
+    var SVG_LI  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 22 10.9 22 14.3V21h-4v-5.9c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg>';
+    var SVG_IG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>';
+    var SVG_FB  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V7c0-1 .3-1.5 1.6-1.5H17V2.2C16.5 2.1 15.4 2 14.5 2 11.9 2 10 3.6 10 6.5V9H7.5v3.5H10V22h4v-9.5h2.7l.4-3.5z"/></svg>';
+    var SVG_WA  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 0 1 6.5 12.6l-.3.4.7 2.5-2.5-.7-.4.2A8 8 0 1 1 12 4zm-3 4c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.4-.3-.2-1.5-.8-1.8-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.1-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.1-.3 0-.4.1-.5l.4-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4z"/></svg>';
+
+    var socialHtml =
+      socialLink(set.social_linkedin,  'LinkedIn',  SVG_LI,  false) +
+      socialLink(set.social_instagram, 'Instagram', SVG_IG,  false) +
+      socialLink(set.social_facebook,  'Facebook',  SVG_FB,  false) +
+      socialLink(set.social_whatsapp,  'WhatsApp',  SVG_WA,  true);
+
+    return (
+      '<footer class="site-footer"><div class="wrap">' +
+        '<div class="footer-grid">' +
+          '<div class="footer-brand">' +
+            '<div style="display:flex;align-items:center;gap:11px"><span class="logo-mark is-white" style="width:38px;height:38px"></span><b>' + BRAND_SHORT + '</b></div>' +
+            '<p>בית תוכן עסקי אחד — הנהלת חשבונות, ייעוץ, שיווק ובניית אתרים. מהרעיון ועד ההשקה.</p>' +
+            (socialHtml ? '<div class="footer-social" style="margin-top:20px">' + socialHtml + '</div>' : '') +
           '</div>' +
+          '<div><h4>השירותים שלנו</h4>' + svcLinks + '</div>' +
+          '<div><h4>החברה</h4><a href="about.html">אודות</a><a href="guide.html">מדריך מקצועי</a><a href="pricing.html">מחירון</a></div>' +
+          '<div><h4>תמיכה</h4><a href="contact.html">צור קשר</a><a href="faq.html">שאלות ותשובות</a><a href="forms.html">טפסים להורדה</a><a href="simulators.html">סימולטורים</a><a href="terms.html">תנאי שימוש</a></div>' +
         '</div>' +
-        '<div><h4>השירותים שלנו</h4>' + svcLinks + '</div>' +
-        '<div><h4>החברה</h4><a href="about.html">אודות</a><a href="guide.html">מדריך מקצועי</a><a href="pricing.html">מחירון</a></div>' +
-        '<div><h4>תמיכה</h4><a href="contact.html">צור קשר</a><a href="faq.html">שאלות ותשובות</a><a href="forms.html">טפסים להורדה</a><a href="simulators.html">סימולטורים</a><a href="terms.html">תנאי שימוש</a></div>' +
-      '</div>' +
-      '<div class="footer-bottom">' +
-        '<span>© 2026 ' + (SET.brandName || 'פריים לדג׳ר') + ' · כל הזכויות שמורות</span>' +
-        '<span dir="ltr">' + (SET.phoneSales || '053-926-5062') + ' · ' + (SET.email || 'info@primels.co.il') + '</span>' +
-      '</div>' +
-    '</div></footer>';
+        '<div class="footer-bottom">' +
+          '<span>© 2026 ' + (set.brandName || set.brand_name || 'פריים לדג׳ר') + ' · כל הזכויות שמורות</span>' +
+          '<span dir="ltr">' + (set.phoneSales || set.phone_sales || '053-926-5062') + ' · ' + (set.email || 'info@primels.co.il') + '</span>' +
+        '</div>' +
+      '</div></footer>'
+    );
+  }
 
   var h = document.getElementById('site-header');
   var f = document.getElementById('site-footer');
   if (h) h.outerHTML = header;
-  if (f) f.outerHTML = footer;
+  if (f) f.outerHTML = buildFooter(SET, SVCNAMES);
+
+  // Re-render footer when Supabase data arrives (data.js fires this)
+  document.addEventListener('pl:data-ready', function(e) {
+    var liveData = e.detail || (window.PLData && window.PLData.data) || {};
+    var newFooter = buildFooter(liveData.settings, liveData.services);
+    var existingFooter = document.querySelector('footer.site-footer');
+    if (existingFooter) existingFooter.outerHTML = newFooter;
+  });
 
   // ---------- INTERACTIONS ----------
   document.addEventListener('click', function (e) {
