@@ -41,4 +41,10 @@
   };
 
   render();
+
+  /* Re-render when Supabase data arrives (data.js fires this after async fetch) */
+  document.addEventListener('pl:data-ready', function() {
+    d = window.PLData.data;
+    render();
+  });
 })();
