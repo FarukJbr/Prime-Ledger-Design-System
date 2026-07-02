@@ -33,7 +33,9 @@
   function mapSettings(r) {
     return { brandName:r.brand_name||'', tagline:r.tagline||'',
       phoneSales:r.phone_sales||'', phoneSupport:r.phone_support||'',
-      email:r.email||'', address:r.address||'', hours:r.hours||'' };
+      email:r.email||'', address:r.address||'', hours:r.hours||'',
+      social_whatsapp:r.social_whatsapp||'', social_facebook:r.social_facebook||'',
+      social_instagram:r.social_instagram||'', social_linkedin:r.social_linkedin||'' };
   }
 
   /* ---- hard-coded fallback (same content as before, used until fetch) ---- */
