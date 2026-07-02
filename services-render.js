@@ -50,4 +50,11 @@
 
   root.innerHTML = d.services.filter(function (s) { return s.visible !== false; }).map(block).join('') + webBlock;
   if (window.lucide) lucide.createIcons();
+
+  /* Re-render when Supabase data arrives */
+  document.addEventListener('pl:data-ready', function() {
+    d = window.PLData.data;
+    root.innerHTML = d.services.filter(function(s){ return s.visible!==false; }).map(block).join('') + webBlock;
+    if (window.lucide) lucide.createIcons();
+  });
 })();
