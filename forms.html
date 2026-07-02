@@ -56,19 +56,30 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="chrome.js"></script>
 <script>
-const CATS=window.PLData.data.forms.map(function(c){return [c.cat,c.icon,c.files];});
+function getCats(){ return window.PLData.data.forms.map(function(c){return {cat:c.cat,icon:c.icon,files:c.files};}); }
 function icon(t){return '<i data-lucide="'+(t==='xls'?'sheet':t==='doc'?'file-text':'file')+'"></i>';}
-function build(filter=''){
-  const root=document.getElementById('formsRoot');
-  root.innerHTML=CATS.map(c=>{
-    const files=c[2].filter(f=>!filter||f[0].includes(filter));
+function fileCard(f){
+  var name=f[0]||'', size=f[1]||'', type=f[2]||'pdf', url=f[3]||'';
+  if(url){
+    return '<a class="ffile" href="'+url+'" download target="_blank" rel="noopener"><div class="ft '+type+'">'+icon(type)+'</div><div class="fm"><b>'+name+'</b><small dir="ltr">'+size+'</small></div><span class="dl"><i data-lucide="download"></i></span></a>';
+  } else {
+    return '<div class="ffile" style="opacity:.5;cursor:not-allowed" title="הקובץ טרם זמין"><div class="ft '+type+'">'+icon(type)+'</div><div class="fm"><b>'+name+'</b><small dir="ltr">'+size+' · בקרוב</small></div><span class="dl" style="color:var(--ink-3)"><i data-lucide="clock"></i></span></div>';
+  }
+}
+function build(filter){
+  var cats=getCats();
+  var root=document.getElementById('formsRoot');
+  root.innerHTML=cats.map(function(c){
+    var files=(c.files||[]).filter(function(f){return !filter||f[0].includes(filter);});
     if(!files.length) return '';
-    return `<div class="fcat"><h2><span class="ci"><i data-lucide="${c[1]}"></i></span>${c[0]}</h2><div class="fgrid">${files.map(f=>`<div class="ffile" onclick="alert('הורדת הטופס: ${f[0]}')"><div class="ft ${f[2]}">${icon(f[2])}</div><div class="fm"><b>${f[0]}</b><small dir="ltr">${f[1]}</small></div><span class="dl"><i data-lucide="download"></i></span></div>`).join('')}</div></div>`;
+    return '<div class="fcat"><h2><span class="ci"><i data-lucide="'+c.icon+'"></i></span>'+c.cat+'</h2><div class="fgrid">'+files.map(fileCard).join('')+'</div></div>';
   }).join('')||'<p class="muted center">לא נמצאו טפסים תואמים.</p>';
   lucide.createIcons();
 }
 window.filterForms=build;
 build();
+/* Re-render when Supabase live data arrives */
+document.addEventListener('pl:data-ready', function(){ build(); });
 </script>
 </body>
 </html>
