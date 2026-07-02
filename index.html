@@ -230,12 +230,16 @@
 <script src="chrome.js"></script>
 <script>
   (function(){
-    var grid=document.getElementById('homeSvcGrid'); if(!grid) return;
-    var svcs=window.PLData.data.services.filter(function(s){return s.visible!==false;});
-    grid.innerHTML = svcs.map(function(s){
-      return '<a class="svc-card card-hover" href="services.html#'+s.id+'"><div class="icon-chip"><i data-lucide="'+s.icon+'"></i></div><h3>'+s.title+'</h3><p>'+(s.short||'')+'</p><span class="more">פרטים <i data-lucide="arrow-left"></i></span></a>';
-    }).join('') + '<a class="svc-card svc-wide card-hover" href="services.html#svc-web"><h3>וגם — בונים לכם אתרים ומערכות</h3><p>אתרי תדמית, חנויות ומערכות ניהול מותאמות אישית — מהאפיון ועד ההשקה.</p></a>';
-    if(window.lucide) lucide.createIcons();
+    function renderHomeSvcs() {
+      var grid=document.getElementById('homeSvcGrid'); if(!grid) return;
+      var svcs=window.PLData.data.services.filter(function(s){return s.visible!==false;});
+      grid.innerHTML = svcs.map(function(s){
+        return '<a class="svc-card card-hover" href="services.html#'+s.id+'"><div class="icon-chip"><i data-lucide="'+s.icon+'"></i></div><h3>'+s.title+'</h3><p>'+(s.short||'')+'</p><span class="more">פרטים <i data-lucide="arrow-left"></i></span></a>';
+      }).join('') + '<a class="svc-card svc-wide card-hover" href="services.html#svc-web"><h3>וגם — בונים לכם אתרים ומערכות</h3><p>אתרי תדמית, חנויות ומערכות ניהול מותאמות אישית — מהאפיון ועד ההשקה.</p></a>';
+      if(window.lucide) lucide.createIcons();
+    }
+    renderHomeSvcs();
+    document.addEventListener('pl:data-ready', renderHomeSvcs);
   })();
 </script>
 </body>
