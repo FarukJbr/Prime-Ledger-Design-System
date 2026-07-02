@@ -35,7 +35,9 @@
       phoneSales:r.phone_sales||'', phoneSupport:r.phone_support||'',
       email:r.email||'', address:r.address||'', hours:r.hours||'',
       social_whatsapp:r.social_whatsapp||'', social_facebook:r.social_facebook||'',
-      social_instagram:r.social_instagram||'', social_linkedin:r.social_linkedin||'' };
+      social_instagram:r.social_instagram||'', social_linkedin:r.social_linkedin||'',
+      social_tiktok:r.social_tiktok||'', social_youtube:r.social_youtube||'',
+      social_lishka:r.social_lishka||'' };
   }
 
   /* ---- hard-coded fallback (same content as before, used until fetch) ---- */
