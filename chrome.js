@@ -78,12 +78,18 @@
     var SVG_IG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>';
     var SVG_FB  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V7c0-1 .3-1.5 1.6-1.5H17V2.2C16.5 2.1 15.4 2 14.5 2 11.9 2 10 3.6 10 6.5V9H7.5v3.5H10V22h4v-9.5h2.7l.4-3.5z"/></svg>';
     var SVG_WA  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 0 1 6.5 12.6l-.3.4.7 2.5-2.5-.7-.4.2A8 8 0 1 1 12 4zm-3 4c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.4-.3-.2-1.5-.8-1.8-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.1-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.1-.3 0-.4.1-.5l.4-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4z"/></svg>';
+    var SVG_TT  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 3a3.8 3.8 0 0 1-2.6-1.1A3.8 3.8 0 0 1 16 0h-3v16.4a2.3 2.3 0 0 1-2.3 2 2.3 2.3 0 0 1-2.3-2.3 2.3 2.3 0 0 1 2.3-2.3c.2 0 .5 0 .7.1V11a6.1 6.1 0 0 0-.7 0A5.8 5.8 0 0 0 4.9 16.7a5.8 5.8 0 0 0 5.8 5.8 5.8 5.8 0 0 0 5.8-5.8V8.6a7.3 7.3 0 0 0 4.3 1.4V7a3.8 3.8 0 0 1-1.2-.1z"/></svg>';
+    var SVG_YT  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 6.4a2.9 2.9 0 0 0-2-2C18.9 4 12 4 12 4s-6.9 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8 1 12 1 12s0 4 .5 5.6a2.9 2.9 0 0 0 2 2C5.1 20 12 20 12 20s6.9 0 8.5-.4a2.9 2.9 0 0 0 2-2C23 16 23 12 23 12s0-4-.5-5.6zm-13 9V8.6l5.7 3.4-5.7 3.4z"/></svg>';
+    var SVG_LSH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/><line x1="12" y1="12" x2="12" y2="15"/><circle cx="12" cy="11.5" r="1"/></svg>';
 
     var socialHtml =
       socialLink(set.social_linkedin,  'LinkedIn',  SVG_LI,  false) +
       socialLink(set.social_instagram, 'Instagram', SVG_IG,  false) +
       socialLink(set.social_facebook,  'Facebook',  SVG_FB,  false) +
-      socialLink(set.social_whatsapp,  'WhatsApp',  SVG_WA,  true);
+      socialLink(set.social_tiktok,    'TikTok',    SVG_TT,  false) +
+      socialLink(set.social_youtube,   'YouTube',   SVG_YT,  false) +
+      socialLink(set.social_whatsapp,  'WhatsApp',  SVG_WA,  true)  +
+      socialLink(set.social_lishka,    'לשכת מנהלי חשבונות', SVG_LSH, false);
 
     return (
       '<footer class="site-footer"><div class="wrap">' +
