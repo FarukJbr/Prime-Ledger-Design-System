@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>פתרונות ציות (Compliance) · פריים לדג׳ר</title>
+<meta name="description" content="בקרות ציות, תוכניות ציות, סקר פערים וכתיבת נהלים — מסגרת ציות מלאה שמגינה על העסק שלכם. פריים לדג׳ר.">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "פתרונות ציות Compliance",
+  "provider": {"@type": "AccountingService", "name": "פריים לדג׳ר", "url": "https://primels.co.il"},
+  "description": "בקרות ציות, הכנת תוכנית ציות, סקר פערים וזיהוי, כתיבת נהלים ותקנונים — מסגרת ציות מלאה לעסקים בישראל",
+  "areaServed": {"@type": "Country", "name": "Israel"},
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"בקרות ציות","description":"בדיקת עמידה בדרישות רגולטוריות ותיקון ממצאים"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"הכנת תוכנית ציות","description":"מסמך מדיניות, יעדים ולוח זמנים ליישום"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"סקר ציות וזיהוי פערים","description":"אבחון המצב הנוכחי מול דרישות החוק"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"כתיבת נהלים ותקנונים","description":"נהלי עבודה ברורים לכל תחומי הפעילות"}}
+    ]
+  }
+}
+</script>
+<style>
+.comp-hero{padding:80px 0 64px;background:linear-gradient(160deg,#f6f3ec 0%,#eef4fb 55%,#e8f0fc 100%);text-align:center;position:relative;overflow:hidden}
+.comp-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,84,168,.09),transparent 70%);pointer-events:none}
+.shield-icon{width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,#0054a8,#2579d8);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(0,84,168,.25)}
+.shield-icon svg{width:32px;height:32px;color:#fff}
+.comp-hero h1{font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;max-width:760px;margin:0 auto 16px;color:#1a1a2e;line-height:1.12}
+.comp-hero h1 em{font-style:normal;color:#0054a8}
+.comp-hero .lead{max-width:540px;margin:0 auto 28px;font-size:17px;color:#555;line-height:1.65}
+.badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.comp-badge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid rgba(0,84,168,.18);border-radius:50px;padding:7px 16px;font-size:13.5px;font-weight:600;color:#333;box-shadow:0 2px 8px rgba(0,84,168,.06)}
+.comp-badge svg{width:15px;height:15px;color:#0054a8}
+
+.svc-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:48px}
+@media(max-width:680px){.svc-cards{grid-template-columns:1fr}}
+.svc-card-full{border:1px solid #e5e9f0;border-radius:16px;padding:28px;background:#fff;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.svc-card-full:hover{box-shadow:0 12px 36px rgba(0,84,168,.1);transform:translateY(-3px)}
+.svc-card-full::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,#0054a8,#2579d8);border-radius:16px 16px 0 0}
+.card-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#eef4fb,#ddeeff);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.card-icon svg{width:24px;height:24px;color:#0054a8}
+.svc-card-full h3{font-size:19px;font-weight:700;margin:0 0 10px;color:#1a1a2e}
+.svc-card-full .desc{font-size:14.5px;color:#555;line-height:1.65;margin:0 0 18px}
+.svc-card-full ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.svc-card-full li{display:flex;gap:9px;font-size:14px;color:#444;line-height:1.5}
+.svc-card-full li svg{width:16px;height:16px;color:#0054a8;flex-shrink:0;margin-top:3px}
+.svc-tag{display:inline-block;margin-top:18px;background:#eef4fb;color:#0054a8;border-radius:50px;padding:4px 13px;font-size:12px;font-weight:700}
+
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;position:relative}
+.process-grid::before{content:'';position:absolute;top:26px;right:12.5%;left:12.5%;height:2px;background:linear-gradient(90deg,#0054a8,#2579d8);z-index:0}
+@media(max-width:680px){.process-grid{grid-template-columns:1fr 1fr;gap:20px}.process-grid::before{display:none}}
+.proc{text-align:center;padding:0 10px;position:relative;z-index:1}
+.proc-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0054a8,#2579d8);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#fff;font-size:20px;font-weight:800;box-shadow:0 4px 16px rgba(0,84,168,.25)}
+.proc h4{font-size:15px;font-weight:700;margin:0 0 6px;color:#1a1a2e}
+.proc p{font-size:13.5px;color:#666;line-height:1.55;margin:0}
+
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:44px}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+.why-item{display:flex;gap:14px;margin-bottom:20px}
+.why-icon{width:42px;height:42px;border-radius:10px;background:#eef4fb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-icon svg{width:20px;height:20px;color:#0054a8}
+.why-item h4{font-size:15.5px;font-weight:700;margin:0 0 4px;color:#1a1a2e}
+.why-item p{font-size:13.5px;color:#666;margin:0;line-height:1.55}
+.visual-box{background:linear-gradient(145deg,#0054a8,#1a3f7c);border-radius:18px;padding:32px;color:#fff;box-shadow:0 20px 60px rgba(0,84,168,.2)}
+.visual-box h3{font-size:18px;font-weight:700;margin:0 0 20px}
+.cl-item{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14.5px}
+.cl-item:last-child{border:none}
+.cl-box{width:22px;height:22px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cl-done{background:#22c55e}.cl-part{background:#f59e0b}.cl-todo{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3)}
+.cl-box svg{width:13px;height:13px;color:#fff}
+.score-row{margin-top:18px;padding:14px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;justify-content:space-between;align-items:center}
+.score-val{font-size:30px;font-weight:800}
+.score-lbl{font-size:12px;opacity:.8}
+.score-bar{margin-top:6px;background:rgba(255,255,255,.2);border-radius:4px;height:5px}
+.score-fill{height:5px;border-radius:4px;background:#22c55e;width:72%}
+
+.cta-section{padding:72px 0;background:linear-gradient(135deg,#0054a8,#1a3f7c);text-align:center}
+.cta-section h2{color:#fff;font-size:clamp(24px,4.5vw,40px);font-weight:800;margin:0 0 14px}
+.cta-section p{color:rgba(255,255,255,.85);font-size:16px;margin:0 0 28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-white{background:#fff;color:#0054a8;font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:.2s;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn-white:hover{transform:translateY(-2px)}
+.btn-wout{border:2px solid rgba(255,255,255,.55);color:#fff;font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;display:inline-flex;align-items:center;gap:7px;transition:.2s;text-decoration:none}
+.btn-wout:hover{background:rgba(255,255,255,.1)}
+.sec{padding:72px 0}
+.sec-light{background:#f6f3ec}
+.sec-white{background:#fff}
+.sec-title{text-align:center}
+.sec-title .eyebrow{margin-bottom:10px}
+.sec-title h2{font-size:clamp(24px,4vw,38px);font-weight:800;margin:0 0 12px;color:#1a1a2e;letter-spacing:-.015em}
+.sec-title p{max-width:500px;margin:0 auto;font-size:15.5px;color:#666;line-height:1.65}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="comp-hero">
+  <div class="wrap" style="position:relative">
+    <div class="shield-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+    </div>
+    <span class="eyebrow">פתרונות ציות · Compliance</span>
+    <h1>ציות הוא לא רק חובה —<br><em>הוא יתרון עסקי אמיתי</em></h1>
+    <p class="lead">עסק שפועל לפי כללים ברורים, עם נהלים כתובים ובקרות שוטפות, מגן על עצמו מסיכונים, מושך שותפים ולקוחות, ומוכיח אמינות. אנחנו בונים את התשתית הזו בשבילכם.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-primary btn-lg" href="contact.html">קביעת שיחת ייעוץ <i data-lucide="arrow-left"></i></a>
+      <a class="btn btn-lg" href="#services" style="background:rgba(0,84,168,.08);color:#0054a8;border:1px solid rgba(0,84,168,.2)">השירותים שלנו <i data-lucide="chevron-down"></i></a>
+    </div>
+    <div class="badge-row">
+      <span class="comp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>בקרות ציות</span>
+      <span class="comp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>תוכנית ציות</span>
+      <span class="comp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>סקר ציות</span>
+      <span class="comp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>כתיבת נהלים</span>
+    </div>
+  </div>
+</section>
+
+<!-- 4 SERVICES -->
+<section class="sec sec-white" id="services">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">מה אנחנו עושים</span>
+      <h2>ארבעה תחומי מומחיות. מסגרת ציות שלמה.</h2>
+      <p>כל שירות עומד בפני עצמו — ויחד הם יוצרים מערכת ציות אינטגרלית שמגינה על העסק מכל הכיוונים.</p>
+    </div>
+    <div class="svc-cards">
+      <div class="svc-card-full">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <h3>בקרות ציות</h3>
+        <p class="desc">בדיקה שוטפת של עמידת העסק בדרישות הרגולציה — לפני שהפיקוח מגיע. מזהים ממצאים, מתקנים בזמן, ומתעדים הכל.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ביקורת ציות תקופתית לפי לוח זמנים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>זיהוי סיכוני אי-ציות לפני אירוע</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>דוחות ממצאים והמלצות תיקון</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מעקב אחר תיקונים ויישום</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הכנה לביקורת רגולטורית</li>
+        </ul>
+        <span class="svc-tag">בקרה שוטפת</span>
+      </div>
+      <div class="svc-card-full">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <h3>הכנת תוכנית ציות</h3>
+        <p class="desc">מסמך מדיניות מקיף שמגדיר את כל דרישות הציות הרלוונטיות לעסק, יעדים ברורים, ולוח זמנים ישים ליישום.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מיפוי דרישות רגולטוריות ספציפיות לענף</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הגדרת מדיניות ועקרונות מנחים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>תוכנית פעולה עם אחריות ומועדים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מדדי מדידה ובקרה (KPIs)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>עדכון שוטף בהתאם לשינויי חקיקה</li>
+        </ul>
+        <span class="svc-tag">תכנון אסטרטגי</span>
+      </div>
+      <div class="svc-card-full">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <h3>סקר ציות וזיהוי פערים</h3>
+        <p class="desc">אבחון מעמיק של המצב הקיים בעסק מול דרישות החוק — מה עובד, מה חסר, ואיפה הסיכונים הגדולים ביותר.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ראיונות עם בעלי תפקידים מרכזיים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>בדיקת מסמכים ותהליכים קיימים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מיפוי פערים מול דרישות רגולטוריות</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>דירוג סיכונים לפי חומרה ודחיפות</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>דוח מנהלים עם המלצות מעשיות</li>
+        </ul>
+        <span class="svc-tag">אבחון וניתוח</span>
+      </div>
+      <div class="svc-card-full">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <h3>כתיבת נהלים ותקנונים</h3>
+        <p class="desc">נהלי עבודה ברורים, מעשיים ומותאמים לעסק שלכם — לא עותקים גנריים. מסמכים שהעובדים יקראו ויישמו בפועל.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>נהלי אנטי שחיתות ומניעת הלבנת הון</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מדיניות פרטיות והגנת מידע (GDPR)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>נהלי ניהול ניגוד עניינים</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>תקנון עובדים ואתיקה ארגונית</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>נהלי דיווח ועדות חריגים</li>
+        </ul>
+        <span class="svc-tag">תיעוד ומסמכים</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec sec-light">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">התהליך שלנו</span>
+      <h2>ארבעה שלבים לציות מלא</h2>
+      <p>מהאבחון הראשוני ועד הבקרה השוטפת — תהליך מובנה שמבטיח תוצאה אמיתית.</p>
+    </div>
+    <div class="process-grid">
+      <div class="proc">
+        <div class="proc-num">1</div>
+        <h4>אבחון ראשוני</h4>
+        <p>פגישת היכרות, הבנת העסק, מיפוי הסיכונים הרגולטוריים</p>
+      </div>
+      <div class="proc">
+        <div class="proc-num">2</div>
+        <h4>סקר פערים מעמיק</h4>
+        <p>בדיקה מקיפה של המצב, תיעוד ממצאים ודירוג לפי עדיפות</p>
+      </div>
+      <div class="proc">
+        <div class="proc-num">3</div>
+        <h4>בניית מסגרת ציות</h4>
+        <p>כתיבת תוכנית ציות, נהלים ומדיניות מותאמים לעסק</p>
+      </div>
+      <div class="proc">
+        <div class="proc-num">4</div>
+        <h4>ליווי ובקרה שוטפים</h4>
+        <p>בקרות תקופתיות, עדכון בשינויי חקיקה, הכנה לביקורות</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY COMPLIANCE -->
+<section class="sec sec-white">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">למה ציות חשוב</span>
+      <h2>הסיכון באי-ציות גדול ממה שחושבים</h2>
+    </div>
+    <div class="why-grid">
+      <div>
+        <div class="why-item">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div><h4>קנסות ועיצומים כספיים</h4><p>הרשויות מטילות קנסות כבדים על עסקים שאינם עומדים בדרישות — מדרישות מע"מ ועד חוקי הגנת הצרכן.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div><h4>נזק תדמיתי ואובדן לקוחות</h4><p>לקוחות ושותפים בוחנים מצב ציות לפני שמתקשרים. אי-ציות יכול לפגוע קשות במוניטין.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div><h4>קשיי מימון וגיוס הון</h4><p>בנקים ומשקיעים דורשים ציות רגולטורי מלא. עסק ללא מסגרת ציות יתקשה לקבל אשראי.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+          <div><h4>הגנה אישית על בעל העסק</h4><p>נהלים כתובים ובקרות מתועדות מגינים גם על הבעלים אישית במקרה של תביעה או חקירה.</p></div>
+        </div>
+      </div>
+      <div class="visual-box">
+        <h3>✅ רשימת ציות לדוגמה</h3>
+        <div class="cl-item"><div class="cl-box cl-done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span>מדיניות אנטי שחיתות כתובה ומאושרת</span></div>
+        <div class="cl-item"><div class="cl-box cl-done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span>נהלי הגנת מידע ופרטיות (GDPR)</span></div>
+        <div class="cl-item"><div class="cl-box cl-done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span>בקרה שוטפת על דרישות מע"מ</span></div>
+        <div class="cl-item"><div class="cl-box cl-part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span>תקנון עובדים ואתיקה ארגונית</span></div>
+        <div class="cl-item"><div class="cl-box cl-todo"></div><span>נוהל ניהול ניגוד עניינים</span></div>
+        <div class="cl-item"><div class="cl-box cl-todo"></div><span>הכנה לביקורת רגולטורית הבאה</span></div>
+        <div class="score-row">
+          <div><div class="score-val">3/6</div><div class="score-lbl">נהלים מיושמים</div><div class="score-bar"><div class="score-fill"></div></div></div>
+          <div style="text-align:left"><div style="font-size:12px;opacity:.7">אנחנו נסייע לכם</div><div style="font-size:12px;opacity:.7">להגיע ל-6/6 ✅</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="wrap">
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">מוכנים להתחיל?</span>
+    <h2>שיחת ייעוץ ראשונה — בחינם</h2>
+    <p>נבין את הצרכים הספציפיים של העסק שלכם ונציע תוכנית מותאמת, ללא התחייבות.</p>
+    <div class="cta-btns">
+      <a class="btn-white" href="contact.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        קביעת שיחת ייעוץ
+      </a>
+      <a class="btn-wout" href="services.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        כל השירותים שלנו
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>if(window.lucide) lucide.createIcons();</script>
+</body>
+</html>
