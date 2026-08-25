@@ -1,11 +1,80 @@
-/* services.html — renders service blocks from PLData */
+/* services.html — renders service blocks + deep-detail modal */
 (function () {
   var d = window.PLData.data;
   var root = document.getElementById('svcRoot');
   if (!root) return;
 
+  // ── modal markup (injected once) ──
+  if (!document.getElementById('svc-modal')) {
+    var m = document.createElement('div');
+    m.innerHTML =
+      '<div id="svc-modal-bg" onclick="closeSvcModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;backdrop-filter:blur(4px)"></div>' +
+      '<div id="svc-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);z-index:901;width:min(680px,94vw);max-height:88vh;overflow-y:auto;background:#fff;border-radius:20px;box-shadow:0 32px 80px rgba(0,0,0,.22);direction:rtl;transition:transform .2s">' +
+        '<div id="svc-modal-inner"></div>' +
+      '</div>';
+    document.body.appendChild(m.children[0]);
+    document.body.appendChild(m.children[0]);
+  }
+
+  window.openSvcModal = function(sId) {
+    var s = (d.services || []).find(function(x){ return x.id === sId; });
+    if (!s) return;
+    var feats = (s.features || []).map(function(f){
+      return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0">' +
+        '<span style="width:22px;height:22px;border-radius:50%;background:#eef4fb;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#0054a8" stroke-width="2.5" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"/></svg></span>' +
+        '<span style="font-size:15px;color:#333;line-height:1.55">' + f + '</span></div>';
+    }).join('');
+
+    var extraLink = s.id === 'svc-6'
+      ? '<a href="compliance.html" style="display:inline-flex;align-items:center;gap:6px;border:1.5px solid rgba(0,84,168,.35);color:#0054a8;padding:11px 20px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none">קרא עוד על שירותי הציות ←</a>'
+      : '';
+
+    document.getElementById('svc-modal-inner').innerHTML =
+      '<div style="padding:28px 28px 0;display:flex;justify-content:space-between;align-items:flex-start">' +
+        '<div style="display:flex;align-items:center;gap:14px">' +
+          '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#eef4fb,#ddeeff);display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+            '<i data-lucide="' + (s.icon||'briefcase') + '" style="width:24px;height:24px;color:#0054a8"></i>' +
+          '</div>' +
+          '<h2 style="font-size:22px;font-weight:800;margin:0;color:#1a1a2e">' + s.title + '</h2>' +
+        '</div>' +
+        '<button onclick="closeSvcModal()" style="background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;color:#666;font-size:22px;line-height:1;flex-shrink:0">✕</button>' +
+      '</div>' +
+      '<div style="padding:0 28px">' +
+        '<p style="color:#555;font-size:15px;line-height:1.7;margin:16px 0 20px">' + (s.desc || s.short || '') + '</p>' +
+        '<div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0054a8;margin-bottom:6px">מה כלול בשירות</div>' +
+        '<div style="margin-bottom:24px">' + feats + '</div>' +
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;padding-bottom:28px">' +
+          '<a href="contact.html" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#0054a8,#2579d8);color:#fff;padding:12px 22px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 4px 14px rgba(0,84,168,.25)">קביעת שיחת ייעוץ ←</a>' +
+          extraLink +
+        '</div>' +
+      '</div>';
+
+    document.getElementById('svc-modal-bg').style.display = 'block';
+    var modal = document.getElementById('svc-modal');
+    modal.style.display = 'block';
+    modal.scrollTop = 0;
+    setTimeout(function(){ modal.style.transform = 'translate(-50%,-50%) scale(1)'; }, 10);
+    if (window.lucide) lucide.createIcons();
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeSvcModal = function() {
+    var modal = document.getElementById('svc-modal');
+    modal.style.transform = 'translate(-50%,-50%) scale(.96)';
+    setTimeout(function(){
+      modal.style.display = 'none';
+      document.getElementById('svc-modal-bg').style.display = 'none';
+      document.body.style.overflow = '';
+    }, 180);
+  };
+
+  // close on Escape
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.closeSvcModal(); });
+
+  // ── render block ──
   function block(s, idx) {
-    var dark = idx % 3 === 2; // every 3rd panel is a dark gradient
+    var dark = idx % 3 === 2;
     var feats = (s.features || []).map(function (f) {
       return '<li><i data-lucide="check-circle-2"></i>' + f + '</li>';
     }).join('');
@@ -21,12 +90,22 @@
             return '<div class="vrow" style="background:var(--surface)"><div class="icon-chip" style="width:36px;height:36px;background:var(--brand-50);color:var(--brand-600)"><i data-lucide="check"></i></div><div style="flex:1"><b style="font-size:14.5px">' + f + '</b></div></div>';
           }).join('') + '</div>';
 
+    // "קרא עוד" button that opens modal
+    var moreBtn = '<button onclick="openSvcModal(\'' + s.id + '\')" style="display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid rgba(0,84,168,.3);color:#0054a8;padding:9px 18px;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s" onmouseover="this.style.background=\'rgba(0,84,168,.06)\'" onmouseout="this.style.background=\'none\'">פרטים נוספים <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></button>';
+
+    var complianceExtra = s.id === 'svc-6'
+      ? '<a href="compliance.html" style="display:inline-flex;align-items:center;gap:5px;color:#0054a8;font-size:13.5px;font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(0,84,168,.25);padding-bottom:1px">דף ציות מלא ←</a>'
+      : '';
+
     return '<section class="svc-block" id="' + s.id + '">' +
         '<div><div class="icon-chip"><i data-lucide="' + s.icon + '"></i></div>' +
           '<h2>' + s.title + '</h2>' +
           '<p class="lead">' + (s.desc || s.short || '') + '</p>' +
           '<ul class="svc-incl">' + feats + '</ul>' +
-          '<a class="btn btn-primary" href="contact.html">לשיחת ייעוץ <i data-lucide="arrow-left"></i></a>' +
+          '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">' +
+            '<a class="btn btn-primary" href="contact.html">לשיחת ייעוץ <i data-lucide="arrow-left"></i></a>' +
+            moreBtn + complianceExtra +
+          '</div>' +
         '</div>' + visual +
       '</section>';
   }
@@ -48,13 +127,12 @@
       '</div>' +
     '</section>';
 
-  root.innerHTML = d.services.filter(function (s) { return s.visible !== false; }).map(block).join('') + webBlock;
-  if (window.lucide) lucide.createIcons();
-
-  /* Re-render when Supabase data arrives */
-  document.addEventListener('pl:data-ready', function() {
+  function render() {
     d = window.PLData.data;
-    root.innerHTML = d.services.filter(function(s){ return s.visible!==false; }).map(block).join('') + webBlock;
+    root.innerHTML = d.services.filter(function (s) { return s.visible !== false; }).map(block).join('') + webBlock;
     if (window.lucide) lucide.createIcons();
-  });
+  }
+
+  render();
+  document.addEventListener('pl:data-ready', render);
 })();
