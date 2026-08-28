@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מכירות ופיתוח עסקי · פריים לדג׳ר</title>
+<meta name="description" content="בניית משפך מכירות, הטמעת CRM, הדרכת צוות — ממיר עניין להכנסה. פריים לדג׳ר.">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+:root{--acc:#0054a8}
+.pg-hero{padding:80px 0 64px;background:linear-gradient(160deg,#f6f3ec 0%,#eef4fb 55%,#e8f0fc 100%);text-align:center;position:relative;overflow:hidden}
+.pg-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,84,168,.09),transparent 70%);pointer-events:none}
+.hero-icon{width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,var(--acc),#2579d8);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(0,84,168,.25)}
+.hero-icon svg{width:32px;height:32px;color:#fff}
+.pg-hero h1{font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;max-width:760px;margin:0 auto 16px;color:#1a1a2e;line-height:1.12}
+.pg-hero h1 em{font-style:normal;color:var(--acc)}
+.pg-hero .lead{max-width:540px;margin:0 auto 28px;font-size:17px;color:#555;line-height:1.65}
+.badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.pg-badge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid rgba(0,84,168,.18);border-radius:50px;padding:7px 16px;font-size:13.5px;font-weight:600;color:#333;box-shadow:0 2px 8px rgba(0,84,168,.06)}
+.svc-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:48px}
+@media(max-width:680px){.svc-cards{grid-template-columns:1fr}}
+.svc-card{border:1px solid #e5e9f0;border-radius:16px;padding:28px;background:#fff;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.svc-card:hover{box-shadow:0 12px 36px rgba(0,84,168,.1);transform:translateY(-3px)}
+.svc-card::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--acc),#2579d8);border-radius:16px 16px 0 0}
+.card-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#eef4fb,#ddeeff);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.card-icon svg{width:24px;height:24px;color:var(--acc)}
+.svc-card h3{font-size:19px;font-weight:700;margin:0 0 10px;color:#1a1a2e}
+.svc-card .desc{font-size:14.5px;color:#555;line-height:1.65;margin:0 0 18px}
+.svc-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.svc-card li{display:flex;gap:9px;font-size:14px;color:#444;line-height:1.5}
+.svc-card li svg{width:16px;height:16px;color:var(--acc);flex-shrink:0;margin-top:3px}
+.svc-tag{display:inline-block;margin-top:18px;background:#eef4fb;color:var(--acc);border-radius:50px;padding:4px 13px;font-size:12px;font-weight:700}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;position:relative}
+.proc-grid::before{content:'';position:absolute;top:26px;right:12.5%;left:12.5%;height:2px;background:linear-gradient(90deg,var(--acc),#2579d8);z-index:0}
+@media(max-width:680px){.proc-grid{grid-template-columns:1fr 1fr;gap:20px}.proc-grid::before{display:none}}
+.proc{text-align:center;padding:0 10px;position:relative;z-index:1}
+.proc-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--acc),#2579d8);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#fff;font-size:20px;font-weight:800;box-shadow:0 4px 16px rgba(0,84,168,.25)}
+.proc h4{font-size:15px;font-weight:700;margin:0 0 6px;color:#1a1a2e}
+.proc p{font-size:13.5px;color:#666;line-height:1.55;margin:0}
+.why-list{display:flex;flex-direction:column;gap:20px}
+.why-item{display:flex;gap:14px}
+.why-icon{width:42px;height:42px;border-radius:10px;background:#eef4fb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-icon svg{width:20px;height:20px;color:var(--acc)}
+.why-item h4{font-size:15.5px;font-weight:700;margin:0 0 4px;color:#1a1a2e}
+.why-item p{font-size:13.5px;color:#666;margin:0;line-height:1.55}
+.price-box{background:linear-gradient(145deg,var(--acc),#1a3f7c);border-radius:18px;padding:32px;color:#fff;box-shadow:0 20px 60px rgba(0,84,168,.2)}
+.price-box h3{font-size:18px;font-weight:700;margin:0 0 6px}
+.price-box .price{font-size:42px;font-weight:800;margin:8px 0 4px}
+.price-box .price-sub{font-size:13px;opacity:.8;margin-bottom:20px}
+.price-feat{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px}
+.price-feat:last-child{border:none}
+.price-feat svg{width:17px;height:17px;flex-shrink:0;margin-top:2px}
+.cta-sec{padding:72px 0;background:linear-gradient(135deg,var(--acc),#1a3f7c);text-align:center}
+.cta-sec h2{color:#fff;font-size:clamp(24px,4.5vw,40px);font-weight:800;margin:0 0 14px}
+.cta-sec p{color:rgba(255,255,255,.85);font-size:16px;margin:0 0 28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-w{background:#fff;color:var(--acc);font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:.2s}
+.btn-w:hover{transform:translateY(-2px)}
+.btn-o{border:2px solid rgba(255,255,255,.55);color:#fff;font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:.2s}
+.btn-o:hover{background:rgba(255,255,255,.1)}
+.sec{padding:72px 0}
+.sec-light{background:#f6f3ec}
+.sec-white{background:#fff}
+.sec-title{text-align:center}
+.sec-title h2{font-size:clamp(24px,4vw,38px);font-weight:800;margin:8px 0 12px;color:#1a1a2e;letter-spacing:-.015em}
+.sec-title p{max-width:500px;margin:0 auto;font-size:15.5px;color:#666;line-height:1.65}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:44px}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<section class="pg-hero">
+  <div class="wrap" style="position:relative">
+    <div class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+    <span class="eyebrow">מכירות ופיתוח עסקי · Sales</span>
+    <h1>בניית תהליכי מכירה, CRM —<br><em>שממירים עניין להכנסה</em></h1>
+    <p class="lead">מכירות הן ליבת כל עסק — אבל רוב העסקים עובדים בלי תהליך מוגדר. אנחנו בונים מערך מכירות שיטתי: מהלד הראשון, דרך המשפך, ועד הסגירה — עם כלים שמאפשרים לכם לצמוח בלי לאבד עסקאות.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-primary btn-lg" href="contact.html">קביעת שיחת ייעוץ <i data-lucide="arrow-left"></i></a>
+      <a class="btn btn-lg" href="pricing.html" style="background:rgba(0,84,168,.08);color:var(--acc);border:1px solid rgba(0,84,168,.2)">לצפייה במחירון <i data-lucide="tag"></i></a>
+    </div>
+    <div class="badge-row"><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/></svg>משפך מכירות</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>CRM</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/></svg>הדרכת צוות</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M2 20h.01M7 20v-4"/></svg>מעקב המרות</span></div>
+  </div>
+</section>
+<section class="sec sec-white">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">מה כלול בשירות</span>
+      <h2>פירוט מלא של מה שאנחנו עושים בשבילכם</h2>
+      <p>כל סעיף מטופל על ידי מומחים עם ניסיון רב בעבודה עם עסקים קטנים ובינוניים.</p>
+    </div>
+    <div class="svc-cards"><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>בניית משפך מכירות</h3><p class="desc">מיפוי וייעול כל שלבי תהליך המכירה — מהלקוח הפוטנציאלי ועד החתימה על החוזה.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מיפוי מסע הלקוח הנוכחי</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>זיהוי נקודות נטישה ואובדן עסקאות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>עיצוב משפך מכירות אופטימלי</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הגדרת KPIs לכל שלב</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>יישום ומעקב שוטף</li></ul><span class="svc-tag">משפך מכירות</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg></div><h3>הטמעת CRM</h3><p class="desc">בחירה, הגדרה והטמעה של מערכת CRM שתואמת לצרכי העסק שלכם — עם הדרכה לצוות.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>בחירת מערכת CRM מתאימה</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הגדרת שדות ותהליכים</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ייבוא נתוני לקוחות קיימים</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הדרכת צוות המכירות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>אוטומציות ותזכורות</li></ul><span class="svc-tag">הטמעת CRM</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>תסריטי שיחה והדרכה</h3><p class="desc">בניית תסריטי שיחה אפקטיביים ורלוונטיים לענף שלכם — ועבודה עם הצוות ליישומם.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>כתיבת תסריטי שיחה מכירתיים</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>טיפול בהתנגדויות נפוצות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>הדרכת מנהלי ואנשי מכירות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>משחקי תפקידים ותרגול</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מדידת ביצועי צוות המכירות</li></ul><span class="svc-tag">הדרכה ותסריטים</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>מדידה ושיפור מתמיד</h3><p class="desc">מעקב שוטף אחר ביצועי המכירות — עם ניתוח הנתונים ושיפור מתמיד של שיעורי ההמרה.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>דשבורד ביצועי מכירות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ניתוח עסקאות שהפסדנו</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>חיזוי מכירות ותחזיות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ניתוח ביצוע vs יעד</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>המלצות לשיפור מתמיד</li></ul><span class="svc-tag">מדידה ושיפור</span></div></div>
+  </div>
+</section>
+<section class="sec sec-light">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">איך אנחנו עובדים</span>
+      <h2>תהליך עבודה ברור מההתחלה ועד הסוף</h2>
+    </div>
+    <div class="proc-grid"><div class="proc"><div class="proc-num">1</div><h4>ביקורת מכירות</h4><p>ניתוח התהליך הנוכחי, איפה מאבדים עסקאות ומה הפוטנציאל</p></div><div class="proc"><div class="proc-num">2</div><h4>עיצוב משפך</h4><p>בניית משפך מכירות חדש עם שלבים ברורים ו-KPIs מוגדרים</p></div><div class="proc"><div class="proc-num">3</div><h4>כלים והדרכה</h4><p>הטמעת CRM, כתיבת תסריטים והדרכת הצוות לעבוד בשיטה החדשה</p></div><div class="proc"><div class="proc-num">4</div><h4>מעקב ואופטימיזציה</h4><p>בקרה שוטפת על הביצועים ושיפור מתמיד לפי הנתונים</p></div></div>
+  </div>
+</section>
+<section class="sec sec-white">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">למה פריים לדג׳ר</span>
+      <h2>מה מייחד אותנו</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-list"><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/></svg></div><div><h4>גישה שיטתית</h4><p>מכירות שמבוססות על תהליך — לא על כישרון אישי בלבד — ניתנות להרחבה ולשכפול.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div><h4>טכנולוגיה שעובדת</h4><p>CRM נכון חוסך שעות עבודה ומונע אובדן של עסקאות שנפלו בין הכיסאות.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div><h4>תוצאות מדידות</h4><p>מגדירים יחד יעדי מכירות ועוקבים אחריהם — כך יודעים שהשינוי עובד.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/></svg></div><div><h4>ניסיון מהשטח</h4><p>עבדנו עם עסקים בענפים שונים ויודעים מה עובד בכל סוג שוק.</p></div></div></div>
+      <div class="price-box">
+        <div style="font-size:12px;opacity:.7;margin-bottom:6px">כלול בחבילות שלנו</div>
+        <h3>פורטל לקוחות דיגיטלי</h3>
+        <p style="font-size:14px;opacity:.85;line-height:1.6;margin:10px 0 20px">גישה מלאה לפורטל האישי שלכם — צפייה בדוחות, העלאת מסמכים, מעקב תשלומים ותמיכה ישירה 24/7.</p>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>גישה לדוחות בזמן אמת</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>העלאת מסמכים מכל מקום</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>תמיכה ישירה דרך הפורטל</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>עדכונים ועדכוני מצב בוואטסאפ</span></div>
+        <a href="https://portal.primels.co.il" style="display:block;margin-top:20px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:10px;border-radius:8px;text-align:center;font-weight:700;font-size:14px">כניסה לפורטל הלקוחות ←</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cta-sec">
+  <div class="wrap">
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">מוכנים להתחיל?</span>
+    <h2>שיחת ייעוץ ראשונה — בחינם</h2>
+    <p>נבין את הצרכים הספציפיים של העסק שלכם ונציע תוכנית מותאמת, ללא התחייבות.</p>
+    <div class="cta-btns">
+      <a class="btn-w" href="contact.html">קביעת שיחת ייעוץ ←</a>
+      <a class="btn-o" href="services.html">כל השירותים שלנו</a>
+    </div>
+  </div>
+</section>
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>if(window.lucide) lucide.createIcons();</script>
+</body>
+</html>
