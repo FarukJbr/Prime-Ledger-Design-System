@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שיווק ופרסום · פריים לדג׳ר</title>
+<meta name="description" content="קמפיינים בגוגל ובסושיאל, מיתוג, ניהול תוכן — נוכחות דיגיטלית שמביאה לקוחות. פריים לדג׳ר.">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+:root{--acc:#0054a8}
+.pg-hero{padding:80px 0 64px;background:linear-gradient(160deg,#f6f3ec 0%,#eef4fb 55%,#e8f0fc 100%);text-align:center;position:relative;overflow:hidden}
+.pg-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,84,168,.09),transparent 70%);pointer-events:none}
+.hero-icon{width:68px;height:68px;margin:0 auto 20px;background:linear-gradient(135deg,var(--acc),#2579d8);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(0,84,168,.25)}
+.hero-icon svg{width:32px;height:32px;color:#fff}
+.pg-hero h1{font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;max-width:760px;margin:0 auto 16px;color:#1a1a2e;line-height:1.12}
+.pg-hero h1 em{font-style:normal;color:var(--acc)}
+.pg-hero .lead{max-width:540px;margin:0 auto 28px;font-size:17px;color:#555;line-height:1.65}
+.badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.pg-badge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid rgba(0,84,168,.18);border-radius:50px;padding:7px 16px;font-size:13.5px;font-weight:600;color:#333;box-shadow:0 2px 8px rgba(0,84,168,.06)}
+.svc-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:48px}
+@media(max-width:680px){.svc-cards{grid-template-columns:1fr}}
+.svc-card{border:1px solid #e5e9f0;border-radius:16px;padding:28px;background:#fff;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.svc-card:hover{box-shadow:0 12px 36px rgba(0,84,168,.1);transform:translateY(-3px)}
+.svc-card::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--acc),#2579d8);border-radius:16px 16px 0 0}
+.card-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#eef4fb,#ddeeff);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.card-icon svg{width:24px;height:24px;color:var(--acc)}
+.svc-card h3{font-size:19px;font-weight:700;margin:0 0 10px;color:#1a1a2e}
+.svc-card .desc{font-size:14.5px;color:#555;line-height:1.65;margin:0 0 18px}
+.svc-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.svc-card li{display:flex;gap:9px;font-size:14px;color:#444;line-height:1.5}
+.svc-card li svg{width:16px;height:16px;color:var(--acc);flex-shrink:0;margin-top:3px}
+.svc-tag{display:inline-block;margin-top:18px;background:#eef4fb;color:var(--acc);border-radius:50px;padding:4px 13px;font-size:12px;font-weight:700}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;position:relative}
+.proc-grid::before{content:'';position:absolute;top:26px;right:12.5%;left:12.5%;height:2px;background:linear-gradient(90deg,var(--acc),#2579d8);z-index:0}
+@media(max-width:680px){.proc-grid{grid-template-columns:1fr 1fr;gap:20px}.proc-grid::before{display:none}}
+.proc{text-align:center;padding:0 10px;position:relative;z-index:1}
+.proc-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--acc),#2579d8);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#fff;font-size:20px;font-weight:800;box-shadow:0 4px 16px rgba(0,84,168,.25)}
+.proc h4{font-size:15px;font-weight:700;margin:0 0 6px;color:#1a1a2e}
+.proc p{font-size:13.5px;color:#666;line-height:1.55;margin:0}
+.why-list{display:flex;flex-direction:column;gap:20px}
+.why-item{display:flex;gap:14px}
+.why-icon{width:42px;height:42px;border-radius:10px;background:#eef4fb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-icon svg{width:20px;height:20px;color:var(--acc)}
+.why-item h4{font-size:15.5px;font-weight:700;margin:0 0 4px;color:#1a1a2e}
+.why-item p{font-size:13.5px;color:#666;margin:0;line-height:1.55}
+.price-box{background:linear-gradient(145deg,var(--acc),#1a3f7c);border-radius:18px;padding:32px;color:#fff;box-shadow:0 20px 60px rgba(0,84,168,.2)}
+.price-box h3{font-size:18px;font-weight:700;margin:0 0 6px}
+.price-box .price{font-size:42px;font-weight:800;margin:8px 0 4px}
+.price-box .price-sub{font-size:13px;opacity:.8;margin-bottom:20px}
+.price-feat{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px}
+.price-feat:last-child{border:none}
+.price-feat svg{width:17px;height:17px;flex-shrink:0;margin-top:2px}
+.cta-sec{padding:72px 0;background:linear-gradient(135deg,var(--acc),#1a3f7c);text-align:center}
+.cta-sec h2{color:#fff;font-size:clamp(24px,4.5vw,40px);font-weight:800;margin:0 0 14px}
+.cta-sec p{color:rgba(255,255,255,.85);font-size:16px;margin:0 0 28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-w{background:#fff;color:var(--acc);font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:.2s}
+.btn-w:hover{transform:translateY(-2px)}
+.btn-o{border:2px solid rgba(255,255,255,.55);color:#fff;font-weight:700;padding:13px 28px;border-radius:9px;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:.2s}
+.btn-o:hover{background:rgba(255,255,255,.1)}
+.sec{padding:72px 0}
+.sec-light{background:#f6f3ec}
+.sec-white{background:#fff}
+.sec-title{text-align:center}
+.sec-title h2{font-size:clamp(24px,4vw,38px);font-weight:800;margin:8px 0 12px;color:#1a1a2e;letter-spacing:-.015em}
+.sec-title p{max-width:500px;margin:0 auto;font-size:15.5px;color:#666;line-height:1.65}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:44px}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<section class="pg-hero">
+  <div class="wrap" style="position:relative">
+    <div class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <span class="eyebrow">שיווק ופרסום · Marketing</span>
+    <h1>מיתוג, קמפיינים ונוכחות דיגיטלית —<br><em>שמביאים לקוחות אמיתיים</em></h1>
+    <p class="lead">שיווק טוב לא עולה כסף — הוא מכניס כסף. אנחנו בונים אסטרטגיית שיווק מותאמת לעסק שלכם, מריצים קמפיינים שעובדים ומודדים כל שקל שמושקע כדי להגדיל את ה-ROI.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-primary btn-lg" href="contact.html">קביעת שיחת ייעוץ <i data-lucide="arrow-left"></i></a>
+      <a class="btn btn-lg" href="pricing.html" style="background:rgba(0,84,168,.08);color:var(--acc);border:1px solid rgba(0,84,168,.2)">לצפייה במחירון <i data-lucide="tag"></i></a>
+    </div>
+    <div class="badge-row"><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>גוגל ופייסבוק</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5z"/></svg>סושיאל מדיה</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 20h9"/></svg>מיתוג</span><span class="pg-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M2 20h.01M7 20v-4"/></svg>דוחות ביצועים</span></div>
+  </div>
+</section>
+<section class="sec sec-white">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">מה כלול בשירות</span>
+      <h2>פירוט מלא של מה שאנחנו עושים בשבילכם</h2>
+      <p>כל סעיף מטופל על ידי מומחים עם ניסיון רב בעבודה עם עסקים קטנים ובינוניים.</p>
+    </div>
+    <div class="svc-cards"><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>קמפיינים בגוגל ופייסבוק</h3><p class="desc">ניהול קמפיינים ממומנים שמגיעים בדיוק ללקוחות הנכונים — עם מקסום תקציב ומינום עלויות.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>פרסום ממומן בגוגל (Search + Display)</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>קמפיינים בפייסבוק ואינסטגרם</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ניהול תקציב ואופטימיזציה שוטפת</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>A/B testing של מודעות ודפי נחיתה</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>דוחות ביצועים שבועיים</li></ul><span class="svc-tag">פרסום ממומן</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5z"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></div><h3>ניהול רשתות חברתיות</h3><p class="desc">ניהול שוטף של הפרופילים העסקיים שלכם — תוכן שמחזק את המותג ומגדיל את הקהל.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>כתיבת תוכן ועיצוב גרפי</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>פרסום קבוע לפי לוח תוכן</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>מענה לתגובות ומסרים</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ניהול קהילה ועמוד עסקי</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ניתוח ביצועים ותובנות</li></ul><span class="svc-tag">ניהול סושיאל</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>מיתוג ועיצוב</h3><p class="desc">בניית זהות מותגית חזקה שנבדלת מהמתחרים ונשארת בזכרון של הלקוחות.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>פיתוח לוגו וזהות ויזואלית</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>בניית מדריך מותג (Brand Guide)</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>עיצוב חומרי שיווק ופרסום</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>עיצוב גרפי לרשתות חברתיות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>אסטרטגיית מסרים ושפה</li></ul><span class="svc-tag">מיתוג</span></div><div class="svc-card"><div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div><h3>תוכן שיווקי ו-SEO</h3><p class="desc">כתיבת תוכן שמושך לקוחות ומחזק את הדירוג האורגני בגוגל — לטווח ארוך.</p><ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>כתיבת תוכן לאתר ולבלוג</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>אופטימיזציה למנועי חיפוש (SEO)</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>כתיבת ניוזלטרים ומיילים</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>תוכן לרשתות חברתיות</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>קייס סטאדיז ומאמרי מומחה</li></ul><span class="svc-tag">תוכן ו-SEO</span></div></div>
+  </div>
+</section>
+<section class="sec sec-light">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">איך אנחנו עובדים</span>
+      <h2>תהליך עבודה ברור מההתחלה ועד הסוף</h2>
+    </div>
+    <div class="proc-grid"><div class="proc"><div class="proc-num">1</div><h4>אבחון שיווקי</h4><p>ניתוח הנוכחות הנוכחית שלכם ומיפוי ההזדמנויות הגדולות ביותר</p></div><div class="proc"><div class="proc-num">2</div><h4>אסטרטגיה וקהל יעד</h4><p>הגדרת קהל היעד המדויק ובניית מסרים שמדברים אליו</p></div><div class="proc"><div class="proc-num">3</div><h4>השקת קמפיינים</h4><p>הקמת הקמפיינים, עיצוב המודעות ותחילת הפרסום</p></div><div class="proc"><div class="proc-num">4</div><h4>מדידה ואופטימיזציה</h4><p>מעקב שוטף אחר ביצועים ושיפור מתמיד של התוצאות</p></div></div>
+  </div>
+</section>
+<section class="sec sec-white">
+  <div class="wrap">
+    <div class="sec-title">
+      <span class="eyebrow">למה פריים לדג׳ר</span>
+      <h2>מה מייחד אותנו</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-list"><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div><h4>תשואה מדידה</h4><p>כל שקל שמושקע בפרסום נמדד — אנחנו יודעים בדיוק כמה כל לקוח עולה.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div><h4>ניסיון רחב-ענף</h4><p>ניהלנו קמפיינים בתחומים שונים — יודעים מה עובד בכל ענף.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/></svg></div><div><h4>עיצוב מקצועי</h4><p>תוכן ועיצוב שנראים מקצועיים — ומעלים את האמינות של העסק שלכם.</p></div></div><div class="why-item"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div><div><h4>שקיפות מלאה</h4><p>גישה מלאה לכל הנתונים והדוחות — ללא הפתעות.</p></div></div></div>
+      <div class="price-box">
+        <div style="font-size:12px;opacity:.7;margin-bottom:6px">כלול בחבילות שלנו</div>
+        <h3>פורטל לקוחות דיגיטלי</h3>
+        <p style="font-size:14px;opacity:.85;line-height:1.6;margin:10px 0 20px">גישה מלאה לפורטל האישי שלכם — צפייה בדוחות, העלאת מסמכים, מעקב תשלומים ותמיכה ישירה 24/7.</p>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>גישה לדוחות בזמן אמת</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>העלאת מסמכים מכל מקום</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>תמיכה ישירה דרך הפורטל</span></div>
+        <div class="price-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>עדכונים ועדכוני מצב בוואטסאפ</span></div>
+        <a href="https://portal.primels.co.il" style="display:block;margin-top:20px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:10px;border-radius:8px;text-align:center;font-weight:700;font-size:14px">כניסה לפורטל הלקוחות ←</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cta-sec">
+  <div class="wrap">
+    <span class="eyebrow" style="color:rgba(255,255,255,.7)">מוכנים להתחיל?</span>
+    <h2>שיחת ייעוץ ראשונה — בחינם</h2>
+    <p>נבין את הצרכים הספציפיים של העסק שלכם ונציע תוכנית מותאמת, ללא התחייבות.</p>
+    <div class="cta-btns">
+      <a class="btn-w" href="contact.html">קביעת שיחת ייעוץ ←</a>
+      <a class="btn-o" href="services.html">כל השירותים שלנו</a>
+    </div>
+  </div>
+</section>
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>if(window.lucide) lucide.createIcons();</script>
+</body>
+</html>
