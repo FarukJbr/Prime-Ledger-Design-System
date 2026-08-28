@@ -91,7 +91,9 @@
           }).join('') + '</div>';
 
     // "קרא עוד" button that opens modal
-    var moreBtn = '<button onclick="openSvcModal(\'' + s.id + '\')" style="display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid rgba(0,84,168,.3);color:#0054a8;padding:9px 18px;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s" onmouseover="this.style.background=\'rgba(0,84,168,.06)\'" onmouseout="this.style.background=\'none\'">פרטים נוספים <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></button>';
+    var pageMap = {'svc-0':'accounting.html','svc-1':'payroll.html','svc-2':'business.html','svc-3':'finance.html','svc-4':'marketing.html','svc-5':'sales.html','svc-6':'compliance.html'};
+    var pagePath = pageMap[s.id] || 'contact.html';
+    var moreBtn = '<a href="' + pagePath + '" style="display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid rgba(0,84,168,.3);color:#0054a8;padding:9px 18px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;transition:.2s" onmouseover="this.style.background=\'rgba(0,84,168,.06)\'" onmouseout="this.style.background=\'none\'">דף מלא <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>';
 
     var complianceExtra = s.id === 'svc-6'
       ? '<a href="compliance.html" style="display:inline-flex;align-items:center;gap:5px;color:#0054a8;font-size:13.5px;font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(0,84,168,.25);padding-bottom:1px">דף ציות מלא ←</a>'
