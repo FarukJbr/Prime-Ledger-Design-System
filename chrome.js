@@ -11,6 +11,7 @@
     { href: 'forms.html', label: 'טפסים' },
     { href: 'faq.html', label: 'שאלות' },
     { href: 'about.html', label: 'אודות' },
+    { href: 'blog.html', label: 'בלוג' },
     { href: 'contact.html', label: 'צור קשר' },
   ];
   var MORE = [
