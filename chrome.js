@@ -286,3 +286,12 @@
 
   if (window.lucide) lucide.createIcons();
 })();
+
+// ── Auto-load tracker.js on every page ──
+(function(){
+  if (document.querySelector('script[src*="tracker.js"]')) return;
+  var t = document.createElement('script');
+  t.src = 'tracker.js';
+  t.defer = true;
+  document.head.appendChild(t);
+})();
