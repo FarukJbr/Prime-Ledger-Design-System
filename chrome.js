@@ -12,6 +12,7 @@
     { href: 'faq.html', label: 'שאלות' },
     { href: 'about.html', label: 'אודות' },
     { href: 'blog.html', label: 'בלוג' },
+    { href: 'news.html', label: 'עדכונים' },
     { href: 'contact.html', label: 'צור קשר' },
   ];
   var MORE = [
