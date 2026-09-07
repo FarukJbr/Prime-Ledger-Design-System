@@ -280,6 +280,69 @@
 <!-- ===================== NEWSLETTER + CTA ===================== -->
 <section class="section">
   <div class="wrap">
+<!-- ══ NEWS TICKER ══ -->
+<section style="padding:52px 0;background:#fff;border-top:1px solid #e5e9f0">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center">
+      <div style="flex-shrink:0">
+        <span class="eyebrow" style="display:block;margin-bottom:6px">עדכונים שוטפים</span>
+        <h2 style="font-size:clamp(20px,3vw,28px);font-weight:800;margin:0 0 10px;color:#1a1a2e;white-space:nowrap">📢 רגולציה<br>ומיסים</h2>
+        <a href="news.html" style="display:inline-flex;align-items:center;gap:5px;color:#0054a8;font-weight:600;font-size:13.5px;text-decoration:none;border-bottom:1.5px solid rgba(0,84,168,.3)">כל העדכונים ←</a>
+      </div>
+      <div style="overflow:hidden;height:180px;position:relative;border-right:3px solid #0054a8;padding-right:20px">
+        <!-- Fade top/bottom -->
+        <div style="position:absolute;top:0;right:0;left:0;height:36px;background:linear-gradient(to bottom,#fff,transparent);z-index:2;pointer-events:none"></div>
+        <div style="position:absolute;bottom:0;right:0;left:0;height:36px;background:linear-gradient(to top,#fff,transparent);z-index:2;pointer-events:none"></div>
+        <div id="news-ticker-inner" style="display:flex;flex-direction:column;gap:0;animation:tickerScroll 18s linear infinite">
+          <div style="padding:12px 0;color:#999;font-size:14px">טוען עדכונים...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes tickerScroll{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
+}
+#news-ticker-inner:hover{animation-play-state:paused}
+.ticker-item{padding:13px 0;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .15s}
+.ticker-item:hover .ticker-title{color:#0054a8}
+.ticker-cat{font-size:11px;font-weight:700;margin-bottom:3px}
+.ticker-title{font-size:14.5px;font-weight:600;color:#1a1a2e;line-height:1.35;transition:.15s}
+.ticker-date{font-size:11.5px;color:#999;margin-top:3px}
+</style>
+
+<script>
+(function(){
+  var SB='https://urpzikwromhwtuffkhyr.supabase.co';
+  var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
+  var catColors={'מיסים':'color:#b45309','רגולציה':'color:#6d28d9','ביטוח לאומי':'color:#065f46','כללי':'color:#0369a1'};
+  fetch(SB+'/rest/v1/site_news?select=id,title,category,published_at&visible=eq.true&order=published_at.desc&limit=8',
+    {headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+  .then(function(r){return r.json();})
+  .then(function(items){
+    if(!items||!items.length) return;
+    var inner=document.getElementById('news-ticker-inner');
+    if(!inner) return;
+    var html=items.map(function(n){
+      var date=new Date(n.published_at).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'});
+      var col=catColors[n.category]||'color:#0369a1';
+      return '<div class="ticker-item" onclick="location.href='news.html'">' +
+        '<div class="ticker-cat" style="'+col+'">'+n.category+'</div>' +
+        '<div class="ticker-title">'+n.title+'</div>' +
+        '<div class="ticker-date">'+date+'</div></div>';
+    }).join('');
+    // Duplicate for seamless loop
+    inner.innerHTML = html + html;
+    // Adjust speed based on content height
+    var speed = Math.max(12, items.length * 3);
+    inner.style.animation = 'tickerScroll '+speed+'s linear infinite';
+  }).catch(function(){});
+})();
+</script>
+
     <div class="newsletter">
       <div style="position:relative;z-index:1">
         <span class="eyebrow" style="color:#fff">ניוזלטר</span>
