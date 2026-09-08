@@ -3,167 +3,176 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>עדכונים ורגולציה · פריים לדג׳ר</title>
-<meta name="description" content="עדכונים שוטפים מרשות המסים, ביטוח לאומי ורגולטורים — כל מה שבעל עסק צריך לדעת.">
+<title>עדכוני רגולציה ומיסים · פריים לדג׳ר</title>
+<meta name="description" content="עדכונים שוטפים מרשות המסים, ביטוח לאומי ורגולטורים — כתבות מקצועיות לעסקים.">
 <link rel="icon" href="assets/logo-mark.png">
 <link rel="stylesheet" href="site.css">
 <style>
 .news-hero{padding:72px 0 52px;background:linear-gradient(160deg,#f6f3ec,#eef4fb 60%);text-align:center}
-.news-hero h1{font-size:clamp(28px,5vw,46px);font-weight:800;margin:10px 0 14px;color:#1a1a2e}
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:28px}
-.filter-chip{padding:8px 18px;border-radius:50px;border:1.5px solid rgba(0,84,168,.25);background:#fff;color:#555;font-size:13.5px;font-weight:600;cursor:pointer;transition:.2s}
-.filter-chip:hover{border-color:#0054a8;color:#0054a8}
-.filter-chip.active{background:#0054a8;color:#fff;border-color:#0054a8}
-.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
-@media(max-width:900px){.news-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.news-grid{grid-template-columns:1fr}}
-.news-card{background:#fff;border:1px solid #e5e9f0;border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .25s,transform .25s}
-.news-card:hover{box-shadow:0 10px 32px rgba(0,84,168,.1);transform:translateY(-3px)}
-.news-card.featured{border-color:rgba(0,84,168,.35)}
-.card-top{padding:18px 18px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.cat-badge{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:50px;flex-shrink:0}
-.cat-taxes{background:#fef3c7;color:#b45309;border:1px solid #f59e0b40}
-.cat-reg{background:#ede9fe;color:#6d28d9;border:1px solid #8b5cf640}
-.cat-bituach{background:#ecfdf5;color:#065f46;border:1px solid #10b98140}
-.cat-general{background:#f0f9ff;color:#0369a1;border:1px solid #0284c740}
-.featured-badge{background:#0054a8;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
-.card-body{padding:12px 18px 18px}
-.card-body h3{font-size:15.5px;font-weight:700;margin:0 0 8px;color:#1a1a2e;line-height:1.35}
-.card-body p{font-size:13.5px;color:#666;line-height:1.6;margin:0 0 12px}
-.card-meta{font-size:11.5px;color:#999}
+.cat-filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.cat-btn{padding:7px 18px;border-radius:50px;border:1.5px solid #d5dce8;background:#fff;color:#555;font-size:13.5px;font-weight:600;cursor:pointer;transition:.2s}
+.cat-btn:hover,.cat-btn.active{background:#0054a8;color:#fff;border-color:#0054a8}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+@media(max-width:780px){.news-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.news-grid{grid-template-columns:1fr}}
+.news-card{background:#fff;border:1px solid #e5e9f0;border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s}
+.news-card:hover{box-shadow:0 10px 30px rgba(0,84,168,.1);transform:translateY(-2px)}
+.news-card-body{padding:18px}
+.news-cat-badge{display:inline-block;padding:3px 11px;border-radius:50px;font-size:11.5px;font-weight:700;margin-bottom:9px}
+.news-cat-מיסים{background:#fff3e0;color:#e65100}
+.news-cat-ביטוח-לאומי{background:#e8f5e9;color:#1b5e20}
+.news-cat-רגולציה{background:#e8eaf6;color:#1a237e}
+.news-cat-כללי{background:#f0f4ff;color:#0054a8}
+.news-card h3{font-size:16px;font-weight:700;margin:0 0 8px;color:#1a1a2e;line-height:1.4}
+.news-card .summary{font-size:13.5px;color:#666;line-height:1.6;margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.news-card .meta{font-size:11.5px;color:#999;display:flex;justify-content:space-between}
+.news-card .featured-badge{background:#fff3cd;color:#856404;font-size:11px;font-weight:700;padding:2px 8px;border-radius:50px}
+
+/* Modal */
 #news-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;backdrop-filter:blur(4px)}
-#news-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);z-index:901;width:min(720px,95vw);max-height:88vh;overflow-y:auto;background:#fff;border-radius:20px;box-shadow:0 32px 80px rgba(0,0,0,.22);direction:rtl;transition:transform .2s}
-.modal-header{padding:22px 22px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #f0f0f0;padding-bottom:14px}
-.modal-body{padding:22px}
-.modal-body h2{font-size:22px;font-weight:800;margin:0 0 8px;color:#1a1a2e;line-height:1.3}
-.modal-source{font-size:13px;color:#999;margin-bottom:20px}
-.modal-content{font-size:15.5px;color:#444;line-height:1.8}
-.modal-content ul,.modal-content ol{padding-right:20px;margin:12px 0}
-.modal-content li{margin-bottom:8px}
-.modal-content p{margin-bottom:14px}
-.modal-content strong{color:#1a1a2e}
-.close-btn{background:none;border:none;cursor:pointer;font-size:22px;color:#666;line-height:1;flex-shrink:0;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:.15s}
-.close-btn:hover{background:#f5f5f5}
+#news-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);z-index:901;width:min(680px,94vw);max-height:88vh;overflow-y:auto;background:#fff;border-radius:18px;box-shadow:0 32px 80px rgba(0,0,0,.22);direction:rtl}
+#news-modal.open{display:block;animation:popIn .2s ease forwards}
+#news-modal-bg.open{display:block}
+@keyframes popIn{from{opacity:0;transform:translate(-50%,-50%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.modal-header{padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.modal-body{padding:16px 24px 28px;font-size:15.5px;color:#444;line-height:1.8}
+.modal-body h3{font-size:17px;font-weight:700;color:#0054a8;margin:20px 0 8px}
+.modal-body p{margin-bottom:12px}
+.modal-body ul{padding-right:18px;margin-bottom:12px}
+.modal-body li{margin-bottom:6px}
+.modal-close{background:none;border:1px solid #e0e0e0;border-radius:8px;cursor:pointer;padding:6px 10px;font-size:16px;color:#666;flex-shrink:0}
+.modal-close:hover{background:#f5f5f5}
+.modal-source{font-size:12px;color:#999;margin-top:16px;padding-top:12px;border-top:1px solid #eee}
+
+.empty-state{text-align:center;padding:60px 20px;color:#aaa;font-size:16px;grid-column:1/-1}
 </style>
 </head>
 <body>
 <div id="site-header"></div>
 
-<section class="news-hero">
-  <div class="wrap">
-    <span class="eyebrow">עדכונים ורגולציה</span>
-    <h1>כל מה שבעל עסק צריך לדעת</h1>
-    <p style="max-width:500px;margin:0 auto;font-size:16px;color:#555;line-height:1.65">עדכונים שוטפים מרשות המסים, ביטוח לאומי ורגולטורים — בשפה פשוטה ומעשית.</p>
-    <div class="filter-bar">
-      <button class="filter-chip active" onclick="filterNews('הכל',this)">📋 הכל</button>
-      <button class="filter-chip" onclick="filterNews('מיסים',this)">🏛️ מיסים</button>
-      <button class="filter-chip" onclick="filterNews('רגולציה',this)">📜 רגולציה</button>
-      <button class="filter-chip" onclick="filterNews('ביטוח לאומי',this)">🏥 ביטוח לאומי</button>
-      <button class="filter-chip" onclick="filterNews('כללי',this)">💡 כללי</button>
-    </div>
-  </div>
-</section>
-
-<section style="padding:48px 0 72px;background:#f6f3ec">
-  <div class="wrap">
-    <div class="news-grid" id="news-grid">
-      <div style="grid-column:1/-1;text-align:center;color:#999;padding:32px">טוען כתבות...</div>
-    </div>
-    <div id="news-empty" style="display:none;text-align:center;padding:40px;color:#999">לא נמצאו כתבות בקטגוריה זו</div>
-  </div>
-</section>
-
+<!-- MODAL -->
 <div id="news-modal-bg" onclick="closeNewsModal()"></div>
 <div id="news-modal">
   <div class="modal-header">
-    <div id="modal-cat-wrap" style="display:flex;gap:8px;align-items:center">
-      <span id="modal-cat-badge" class="cat-badge cat-general"></span>
+    <div>
+      <div id="modal-badge"></div>
+      <h2 id="modal-title" style="font-size:20px;font-weight:800;margin:6px 0 0;color:#1a1a2e;line-height:1.3"></h2>
     </div>
-    <button class="close-btn" onclick="closeNewsModal()">✕</button>
+    <button class="modal-close" onclick="closeNewsModal()">✕</button>
   </div>
   <div class="modal-body">
-    <h2 id="modal-title"></h2>
-    <div class="modal-source" id="modal-source"></div>
-    <div class="modal-content" id="modal-content"></div>
-    <div style="margin-top:28px;padding-top:20px;border-top:1px solid #f0f0f0">
-      <a class="btn btn-primary" href="contact.html">יש שאלות? בואו נדבר ←</a>
-    </div>
+    <div id="modal-meta" style="font-size:12px;color:#999;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #f0f0f0"></div>
+    <div id="modal-content"></div>
   </div>
 </div>
+
+<!-- HERO -->
+<section class="news-hero">
+  <div class="wrap">
+    <span class="eyebrow">עדכונים שוטפים</span>
+    <h1 style="font-size:clamp(28px,5vw,46px);font-weight:800;margin:10px 0 12px;color:#1a1a2e">עדכוני רגולציה ומיסים לעסקים</h1>
+    <p style="max-width:500px;margin:0 auto;font-size:16px;color:#555;line-height:1.65">כל מה שצריך לדעת — שינויי חקיקה, עדכוני רשות המסים, ביטוח לאומי ועוד.</p>
+    <div class="cat-filters">
+      <button class="cat-btn active" onclick="filterNews('all',this)">הכל</button>
+      <button class="cat-btn" onclick="filterNews('מיסים',this)">💰 מיסים</button>
+      <button class="cat-btn" onclick="filterNews('ביטוח לאומי',this)">🏥 ביטוח לאומי</button>
+      <button class="cat-btn" onclick="filterNews('רגולציה',this)">📋 רגולציה</button>
+      <button class="cat-btn" onclick="filterNews('כללי',this)">📢 כללי</button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS GRID -->
+<section style="padding:48px 0 72px;background:#f6f3ec">
+  <div class="wrap">
+    <div class="news-grid" id="news-grid">
+      <div class="empty-state">⏳ טוען...</div>
+    </div>
+  </div>
+</section>
 
 <div id="site-footer"></div>
 <script src="data.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="chrome.js"></script>
 <script>
-var SB_URL='https://urpzikwromhwtuffkhyr.supabase.co';
-var SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
-var allNews=[], currentFilter='הכל';
+var allNews = [];
+var currentFilter = 'all';
 
-function catClass(cat){
-  return {'מיסים':'cat-taxes','רגולציה':'cat-reg','ביטוח לאומי':'cat-bituach','כללי':'cat-general'}[cat]||'cat-general';
+var CAT_COLORS = {
+  'מיסים':       'news-cat-מיסים',
+  'ביטוח לאומי': 'news-cat-ביטוח-לאומי',
+  'רגולציה':     'news-cat-רגולציה',
+  'כללי':        'news-cat-כללי'
+};
+
+function formatDate(d){
+  return new Date(d).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});
 }
 
-async function loadNews(){
-  try{
-    var r=await fetch(SB_URL+'/rest/v1/site_news?select=*&visible=eq.true&order=published_at.desc',
-      {headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON}});
-    allNews=await r.json();
-  }catch(e){allNews=[];}
-  renderNews();
-}
-
-function renderNews(){
-  var grid=document.getElementById('news-grid');
-  var filtered=currentFilter==='הכל'?allNews:allNews.filter(function(n){return n.category===currentFilter;});
-  document.getElementById('news-empty').style.display=filtered.length?'none':'block';
-  if(!filtered.length){grid.innerHTML='';return;}
-  grid.innerHTML=filtered.map(function(n){
-    var date=new Date(n.published_at).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'});
-    return '<div class="news-card'+(n.is_featured?' featured':'')+'" onclick="openNewsModal(\''+n.id+'\')">'+
-      '<div class="card-top"><span class="cat-badge '+catClass(n.category)+'">'+n.category+'</span>'+
-      (n.is_featured?'<span class="featured-badge">⭐ מומלץ</span>':'')+'</div>'+
-      '<div class="card-body"><h3>'+n.title+'</h3><p>'+n.summary+'</p>'+
-      '<div class="card-meta">📅 '+date+(n.source?' · '+n.source:'')+'</div></div></div>';
+function renderNews(items){
+  var grid = document.getElementById('news-grid');
+  if(!items.length){
+    grid.innerHTML = '<div class="empty-state">אין עדכונים בקטגוריה זו</div>';
+    return;
+  }
+  grid.innerHTML = items.map(function(n){
+    var catClass = CAT_COLORS[n.category] || 'news-cat-כללי';
+    return '<div class="news-card" onclick="openNewsModal(\''+n.id+'\')">' +
+      '<div class="news-card-body">' +
+        '<span class="news-cat-badge '+catClass+'">'+n.category+'</span>' +
+        (n.is_featured ? ' <span class="featured-badge">⭐ מומלץ</span>' : '') +
+        '<h3>'+n.title+'</h3>' +
+        '<p class="summary">'+n.summary+'</p>' +
+        '<div class="meta"><span>'+formatDate(n.published_at)+'</span>' +
+        (n.source ? '<span>מקור: '+n.source+'</span>' : '') +
+        '</div>' +
+      '</div></div>';
   }).join('');
 }
 
-function filterNews(cat,btn){
-  currentFilter=cat;
-  document.querySelectorAll('.filter-chip').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  renderNews();
+function filterNews(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  var filtered = cat === 'all' ? allNews : allNews.filter(function(n){ return n.category === cat; });
+  renderNews(filtered);
 }
 
 function openNewsModal(id){
-  var n=allNews.find(function(x){return x.id===id;}); if(!n) return;
-  var date=new Date(n.published_at).toLocaleDateString('he-IL',{day:'2-digit',month:'long',year:'numeric'});
-  var badge=document.getElementById('modal-cat-badge');
-  badge.className='cat-badge '+catClass(n.category);
-  badge.textContent=n.category;
-  document.getElementById('modal-title').textContent=n.title;
-  document.getElementById('modal-source').textContent=(n.source?n.source+' · ':'')+date;
-  document.getElementById('modal-content').innerHTML=n.content||('<p>'+n.summary+'</p>');
-  var modal=document.getElementById('news-modal');
-  document.getElementById('news-modal-bg').style.display='block';
-  modal.style.display='block';
-  modal.scrollTop=0;
-  setTimeout(function(){modal.style.transform='translate(-50%,-50%) scale(1)';},10);
-  document.body.style.overflow='hidden';
+  var n = allNews.find(function(x){ return x.id === id; });
+  if(!n) return;
+  var catClass = CAT_COLORS[n.category] || 'news-cat-כללי';
+  document.getElementById('modal-badge').innerHTML = '<span class="news-cat-badge '+catClass+'">'+n.category+'</span>';
+  document.getElementById('modal-title').textContent = n.title;
+  document.getElementById('modal-meta').textContent = formatDate(n.published_at) + (n.source ? ' · מקור: '+n.source : '');
+  document.getElementById('modal-content').innerHTML = n.content || '<p>'+n.summary+'</p>';
+  document.getElementById('news-modal').classList.add('open');
+  document.getElementById('news-modal-bg').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeNewsModal(){
-  var modal=document.getElementById('news-modal');
-  modal.style.transform='translate(-50%,-50%) scale(.96)';
-  setTimeout(function(){
-    modal.style.display='none';
-    document.getElementById('news-modal-bg').style.display='none';
-    document.body.style.overflow='';
-  },180);
+  document.getElementById('news-modal').classList.remove('open');
+  document.getElementById('news-modal-bg').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeNewsModal();});
-loadNews();
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeNewsModal(); });
+
+// Load from Supabase
+var SB_URL  = 'https://urpzikwromhwtuffkhyr.supabase.co';
+var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
+
+fetch(SB_URL+'/rest/v1/site_news?visible=eq.true&order=published_at.desc&select=*',{
+  headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON}
+}).then(function(r){ return r.json(); }).then(function(data){
+  allNews = data || [];
+  renderNews(allNews);
+}).catch(function(){
+  document.getElementById('news-grid').innerHTML = '<div class="empty-state">לא ניתן לטעון עדכונים כרגע</div>';
+});
+if(window.lucide) lucide.createIcons();
 </script>
 </body>
 </html>
