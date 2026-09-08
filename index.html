@@ -352,10 +352,33 @@
         <h2 class="h2" style="color:#fff;margin:12px 0 8px">טיפים עסקיים, פעם בחודש</h2>
         <p style="color:rgba(255,255,255,.7);font-size:16px;margin:0;max-width:420px">עדכוני רגולציה, מועדי דיווח וטיפים פיננסיים — ישר למייל. בלי ספאם.</p>
       </div>
-      <form class="news-form" onsubmit="event.preventDefault();this.reset();this.querySelector('input').placeholder='נרשמת! תודה ✓'">
-        <input type="email" placeholder="האימייל שלכם" required>
-        <button class="btn btn-primary" type="submit">הרשמה</button>
+      <form class="news-form" id="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+        <input type="email" id="newsletter-email" placeholder="האימייל שלכם" required>
+        <button class="btn btn-primary" type="submit" id="newsletter-btn">הרשמה</button>
       </form>
+<script>
+async function handleNewsletterSubmit(e){
+  e.preventDefault();
+  var email = document.getElementById('newsletter-email').value.trim();
+  var btn = document.getElementById('newsletter-btn');
+  if(!email) return;
+  btn.disabled = true; btn.textContent = '⏳ שומר...';
+  var SB_URL = 'https://urpzikwromhwtuffkhyr.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
+  try {
+    var r = await fetch(SB_URL+'/rest/v1/site_newsletter', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON,'Prefer':'return=minimal'},
+      body: JSON.stringify({email: email})
+    });
+    if(r.ok || r.status===409) {
+      document.getElementById('newsletter-email').value='';
+      document.getElementById('newsletter-email').placeholder='נרשמת! תודה ✓';
+      btn.textContent='✅ נרשמת';
+    } else { btn.textContent='שגיאה, נסה שוב'; btn.disabled=false; }
+  } catch(err) { btn.textContent='שגיאה, נסה שוב'; btn.disabled=false; }
+}
+</script>
     </div>
   </div>
 </section>
