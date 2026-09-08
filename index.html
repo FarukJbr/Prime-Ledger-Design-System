@@ -358,6 +358,78 @@
 </section>
 
 
+<!-- ══ NEWS TICKER ══ -->
+<section style="padding:40px 0;background:#fff;border-top:1px solid #e5e9f0;border-bottom:1px solid #e5e9f0">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center">
+      <!-- Label -->
+      <div style="background:linear-gradient(135deg,#0054a8,#2579d8);border-radius:10px;padding:12px 16px;text-align:center;flex-shrink:0">
+        <div style="font-size:11px;color:rgba(255,255,255,.8);margin-bottom:3px;font-weight:600">עדכונים</div>
+        <div style="font-size:18px">📢</div>
+      </div>
+      <!-- Ticker window -->
+      <div style="height:90px;overflow:hidden;position:relative">
+        <div id="news-ticker" style="display:flex;flex-direction:column;gap:0;transition:transform .6s ease;position:absolute;width:100%">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+    <div style="text-align:left;margin-top:10px">
+      <a href="news.html" style="font-size:13px;color:#0054a8;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px">
+        כל העדכונים ←
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var SB_URL  = 'https://urpzikwromhwtuffkhyr.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
+  var CAT_COLORS = {'מיסים':'#e65100','ביטוח לאומי':'#1b5e20','רגולציה':'#1a237e','כללי':'#0054a8'};
+  var ticker = document.getElementById('news-ticker');
+  if(!ticker) return;
+
+  fetch(SB_URL+'/rest/v1/site_news?visible=eq.true&order=published_at.desc&limit=6&select=id,title,category,published_at',{
+    headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON}
+  }).then(function(r){return r.json();}).then(function(items){
+    if(!items || !items.length) return;
+    // Duplicate for seamless loop
+    var all = items.concat(items);
+    ticker.innerHTML = all.map(function(n){
+      var color = CAT_COLORS[n.category] || '#0054a8';
+      var date = new Date(n.published_at).toLocaleDateString('he-IL',{day:'2-digit',month:'2-digit'});
+      return '<div style="height:90px;display:flex;align-items:center;gap:12px;padding:0 4px;cursor:pointer;border-bottom:1px solid #f0f0f0" onclick="location.href='news.html'">' +
+        '<span style="background:'+color+'22;color:'+color+';font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px;white-space:nowrap">'+n.category+'</span>' +
+        '<div style="flex:1;overflow:hidden">' +
+          '<div style="font-weight:700;font-size:15px;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+n.title+'</div>' +
+          '<div style="font-size:12px;color:#999;margin-top:3px">'+date+'</div>' +
+        '</div>' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#0054a8" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 5 12 12 19"/></svg>' +
+      '</div>';
+    }).join('');
+
+    // Auto-scroll animation
+    var idx = 0;
+    var total = items.length;
+    setInterval(function(){
+      idx++;
+      ticker.style.transform = 'translateY(-'+(idx*90)+'px)';
+      // reset seamlessly after full loop
+      if(idx >= total){
+        setTimeout(function(){
+          ticker.style.transition = 'none';
+          ticker.style.transform = 'translateY(0)';
+          idx = 0;
+          setTimeout(function(){ ticker.style.transition = 'transform .6s ease'; }, 50);
+        }, 700);
+      }
+    }, 3500);
+  }).catch(function(){});
+})();
+</script>
+
+
 <!-- ══ FAQ SECTION — AI Visibility ══ -->
 <section style="padding:72px 0;background:#f6f3ec">
   <div class="wrap">
