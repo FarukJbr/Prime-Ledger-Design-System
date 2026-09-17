@@ -76,4 +76,123 @@
       })
     });
   } catch (e) { /* silent fail — never block the page */ }
+
+  /* ============================================================
+     prime_analytics_events — additive, does not touch site_visits above.
+     Anon-safe (allow-listed event_name/source_app via RLS+CHECK on the
+     table itself), fire-and-forget, never throws, never blocks the page.
+     ============================================================ */
+  var utmCont = params.get('utm_content') || '';
+
+  // Channel taxonomy required for prime_analytics_events / site_leads / profiles:
+  // google_organic | google_ads | facebook | instagram | whatsapp | tiktok |
+  // referral | email | direct | portal | unknown
+  function detectChannelV2() {
+    var src = (utmSrc || '').toLowerCase();
+    var med = (utmMed || '').toLowerCase();
+    if (src) {
+      if (src.indexOf('google') !== -1) return /cpc|ppc|paid|ads?/.test(med) ? 'google_ads' : 'google_organic';
+      if (src.indexOf('facebook') !== -1 || src.indexOf('fb') !== -1) return 'facebook';
+      if (src.indexOf('instagram') !== -1 || src === 'ig') return 'instagram';
+      if (src.indexOf('whatsapp') !== -1 || src === 'wa') return 'whatsapp';
+      if (src.indexOf('tiktok') !== -1) return 'tiktok';
+      if (med === 'email' || src.indexOf('email') !== -1 || src.indexOf('newsletter') !== -1) return 'email';
+    }
+    if (med === 'email') return 'email';
+    if (med === 'cpc' || med === 'ppc' || med === 'paid') return 'google_ads';
+    if (!ref) return 'direct';
+    if (/(^|\/\/)([a-z0-9-]+\.)*google\./i.test(ref)) return 'google_organic';
+    if (/facebook\.com|fb\.com|fb\.me/i.test(ref)) return 'facebook';
+    if (/instagram\.com/i.test(ref)) return 'instagram';
+    if (/whatsapp\.com|wa\.me/i.test(ref)) return 'whatsapp';
+    if (/tiktok\.com/i.test(ref)) return 'tiktok';
+    if (/(^|\/\/)([a-z0-9-]+\.)*(primels\.co\.il)/i.test(ref)) return 'portal';
+    if (/^https?:\/\//i.test(ref)) return 'referral';
+    return 'unknown';
+  }
+
+  // Long-lived anonymous visitor id (separate from the per-tab session id above)
+  var aid;
+  try {
+    aid = localStorage.getItem('pl_aid');
+    if (!aid) { aid = 'a-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10); localStorage.setItem('pl_aid', aid); }
+  } catch (e) { aid = null; }
+
+  // First-touch attribution — captured once, kept until the visitor converts.
+  // Read later by contact.html (lead form) and, on the portal side, at signup.
+  var ATTR_KEY = 'pl_attribution_v1';
+  function readAttr() { try { return JSON.parse(localStorage.getItem(ATTR_KEY)) || null; } catch (e) { return null; } }
+  function writeAttr(a) { try { localStorage.setItem(ATTR_KEY, JSON.stringify(a)); } catch (e) {} }
+  var landingPage = location.pathname.split('/').pop() || 'index.html';
+  if (!landingPage) landingPage = 'index.html';
+  var channelV2 = detectChannelV2();
+  if (!readAttr()) {
+    writeAttr({
+      channel: channelV2,
+      utm_source: utmSrc || null,
+      utm_medium: utmMed || null,
+      utm_campaign: utmCamp || null,
+      utm_content: utmCont || null,
+      referrer: ref ? ref.slice(0, 500) : null,
+      landing_page: landingPage
+    });
+  }
+
+  function deviceType() { return detectDevice(); }
+
+  function sendAnalyticsEvent(eventName, extra) {
+    try {
+      var body = {
+        event_name: eventName,
+        source_app: 'website',
+        session_id: sid,
+        anonymous_id: aid,
+        path: location.pathname || '/',
+        page_title: (document && document.title) ? document.title.slice(0, 200) : null,
+        referrer: ref ? ref.slice(0, 500) : null,
+        channel: channelV2,
+        utm_source: utmSrc || null,
+        utm_medium: utmMed || null,
+        utm_campaign: utmCamp || null,
+        utm_content: utmCont || null,
+        device_type: deviceType(),
+        browser: detectBrowser(),
+        metadata: (extra && extra.metadata) || {}
+      };
+      if (extra) {
+        if (extra.channel) body.channel = extra.channel;
+        if (extra.path) body.path = extra.path;
+      }
+      fetch(SB_URL + '/rest/v1/prime_analytics_events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SB_ANON,
+          'Authorization': 'Bearer ' + SB_ANON,
+          'Prefer': 'return=minimal' // no RETURNING → no SELECT-back RLS needed for the anon insert-only policy
+        },
+        body: JSON.stringify(body)
+      });
+    } catch (e) { /* silent fail — analytics must never break the site */ }
+  }
+
+  // page_view — every page load
+  sendAnalyticsEvent('page_view');
+
+  // session_start — once per browser tab session
+  try {
+    if (!sessionStorage.getItem('pl_ss_fired')) {
+      sessionStorage.setItem('pl_ss_fired', '1');
+      sendAnalyticsEvent('session_start');
+    }
+  } catch (e) {}
+
+  // Exposed for other pages/scripts (e.g. contact.html lead form) —
+  // never throws, always returns a usable object.
+  window.PLTracker = {
+    sessionId: sid,
+    anonymousId: aid,
+    getAttribution: function () { return readAttr() || { channel: 'unknown', utm_source: null, utm_medium: null, utm_campaign: null, utm_content: null, referrer: null, landing_page: landingPage }; },
+    track: function (eventName, extra) { sendAnalyticsEvent(eventName, extra); }
+  };
 })();
