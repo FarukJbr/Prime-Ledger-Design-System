@@ -82,20 +82,51 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="chrome.js"></script>
 <script>
+  // lead_form_started — fires once, on the visitor's first interaction with the form
+  (function(){
+    var f=document.getElementById('contactForm');
+    if(!f) return;
+    var fired=false;
+    f.addEventListener('focusin', function(){
+      if(fired) return; fired=true;
+      try{ window.PLTracker && window.PLTracker.track('lead_form_started'); }catch(e){}
+    });
+  })();
+
+  // stable id for this exact submission attempt (dedup key — same id reused on retry)
+  function plNewSubmissionId(){
+    try{ if(window.crypto && crypto.randomUUID) return crypto.randomUUID(); }catch(e){}
+    return 'sub-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);
+  }
+  var CONTACT_SUBMISSION_ID = plNewSubmissionId();
+
   async function submitContact(e){
     e.preventDefault();
     var btn=document.getElementById('cf_btn'); btn.disabled=true;
+    var attr=(window.PLTracker && window.PLTracker.getAttribution()) || {};
     var data={
       full_name: document.getElementById('cf_name').value.trim(),
       business: document.getElementById('cf_biz').value.trim(),
       phone: document.getElementById('cf_phone').value.trim(),
       email: document.getElementById('cf_email').value.trim(),
       topic: document.getElementById('cf_topic').value,
-      message: document.getElementById('cf_msg').value.trim()
+      message: document.getElementById('cf_msg').value.trim(),
+      source: 'website',
+      channel: attr.channel || 'unknown',
+      utm_source: attr.utm_source || null,
+      utm_medium: attr.utm_medium || null,
+      utm_campaign: attr.utm_campaign || null,
+      utm_content: attr.utm_content || null,
+      referrer: attr.referrer || null,
+      landing_page: attr.landing_page || null,
+      client_submission_id: CONTACT_SUBMISSION_ID
     };
     var CFG=window.PL_CONFIG||{};
-    // 1) store the lead so it shows in the admin panel (Supabase or demo)
+    // 1) store the lead so it shows in the admin panel (Supabase or demo).
+    //    client_submission_id + a unique DB index guarantee exactly one row per
+    //    submission even if the button is double-clicked or the request is retried.
     try { var B=await window.PLBackend.ready; await B.leads.add(data); } catch(err){ /* keep going — still try email */ }
+    try{ window.PLTracker && window.PLTracker.track('lead_submitted', {channel: data.channel}); }catch(err){}
     // 2) optional email notification via Web3Forms (only if a key is configured)
     if (CFG.CONTACT_ACCESS_KEY) {
       try {
