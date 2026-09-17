@@ -316,9 +316,28 @@
         },
         add: function (p) {
           var rec = { full_name: p.full_name || '', business: p.business || '', email: p.email || '', phone: p.phone || '', topic: p.topic || '', message: p.message || '', status: 'new' };
+          // Optional source/attribution columns (additive — omitted entirely if not supplied,
+          // so any older caller that only sends the 6 fields above still works unchanged).
+          if (p.source) rec.source = p.source;
+          if (p.channel) rec.channel = p.channel;
+          if (p.utm_source) rec.utm_source = p.utm_source;
+          if (p.utm_medium) rec.utm_medium = p.utm_medium;
+          if (p.utm_campaign) rec.utm_campaign = p.utm_campaign;
+          if (p.utm_content) rec.utm_content = p.utm_content;
+          if (p.referrer) rec.referrer = p.referrer;
+          if (p.landing_page) rec.landing_page = p.landing_page;
+          if (p.client_submission_id) rec.client_submission_id = p.client_submission_id;
           // No .select() return — public visitors can INSERT but not SELECT leads (RLS), so a returning-select would fail.
           return sb.from('site_leads').insert(rec)
-            .then(function (r) { if (r.error) throw new Error(r.error.message); return rec; });
+            .then(function (r) {
+              if (r.error) {
+                // Duplicate submit (same client_submission_id retried/double-clicked): the unique
+                // index already has exactly one row for it — treat as success, not an error.
+                if (p.client_submission_id && r.error.code === '23505') return rec;
+                throw new Error(r.error.message);
+              }
+              return rec;
+            });
         },
         setStatus: function (id, status) {
           return sb.from('site_leads').update({ status: status }).eq('id', id).select().single()
