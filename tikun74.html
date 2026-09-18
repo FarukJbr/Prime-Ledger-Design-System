@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בדיקת חובת הקלטת שיחות — תיקון 74 · פריים לדג׳ר</title>
+<meta name="description" content="בדיקה ראשונית האם חובת הקלטת שיחות לפי תיקון 74 לחוק הגנת הצרכן עשויה לחול על העסק שלכם. כלי מידע בחינם מאת פריים לדג׳ר.">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ═══════════════ VARIABLES ═══════════════ */
+:root{
+  --brand:#0054a8; --brand2:#2579d8;
+  --green:#16a34a; --green-bg:#f0fdf4; --green-border:#bbf7d0;
+  --orange:#d97706; --orange-bg:#fffbeb; --orange-border:#fde68a;
+  --red:#dc2626; --red-bg:#fef2f2; --red-border:#fecaca;
+  --paper:#f6f3ec; --white:#fff;
+  --text:#1a1a2e; --muted:#6b7280; --border:#e5e9f0;
+}
+
+/* ═══════════════ PAGE HERO ═══════════════ */
+.t74-hero{padding:56px 0 40px;background:linear-gradient(160deg,#f6f3ec,#eef4fb 55%,#e8f0fc);text-align:center;border-bottom:1px solid var(--border)}
+.t74-hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,84,168,.1);color:var(--brand);border:1px solid rgba(0,84,168,.2);border-radius:50px;padding:5px 14px;font-size:12.5px;font-weight:700;margin-bottom:14px}
+.t74-hero h1{font-size:clamp(22px,4.5vw,40px);font-weight:800;color:var(--text);margin:0 0 12px;line-height:1.25;max-width:720px;margin-left:auto;margin-right:auto}
+.t74-hero .sub{max-width:560px;margin:0 auto;font-size:15px;color:var(--muted);line-height:1.65}
+.law-notice{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;margin-top:18px;font-size:13px;color:#92400e;max-width:620px;margin-left:auto;margin-right:auto;text-align:right}
+
+/* ═══════════════ STATUS CARD ═══════════════ */
+.status-card{background:var(--brand);color:#fff;border-radius:10px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:620px;margin:18px auto 0;font-size:13px;flex-wrap:wrap}
+.status-card strong{font-size:14px}
+.status-card .countdown{background:rgba(255,255,255,.2);border-radius:6px;padding:4px 10px;font-weight:700;font-size:13px}
+
+/* ═══════════════ WIZARD CONTAINER ═══════════════ */
+.t74-wrap{max-width:660px;margin:0 auto;padding:32px 16px 64px}
+
+/* Progress */
+.progress-row{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.progress-bar-bg{flex:1;height:6px;background:#e5e9f0;border-radius:10px;overflow:hidden}
+.progress-bar-fill{height:6px;border-radius:10px;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .4s ease}
+.progress-label{font-size:12px;color:var(--muted);white-space:nowrap;font-weight:600}
+
+/* Step card */
+.step-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(0,84,168,.06);animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-badge{display:inline-block;background:#eef4fb;color:var(--brand);font-size:12px;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:10px}
+.step-card h2{font-size:clamp(17px,3vw,22px);font-weight:700;color:var(--text);margin:0 0 6px;line-height:1.35}
+.step-card .step-desc{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+
+/* Options */
+.options-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.opt-btn{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;text-align:right;font-family:inherit;font-size:14px;line-height:1.5;color:var(--text);transition:all .18s;position:relative}
+.opt-btn:hover{border-color:var(--brand);background:#f0f7ff}
+.opt-btn.selected{border-color:var(--brand);background:#eef4fb}
+.opt-btn .opt-icon{width:34px;height:34px;border-radius:8px;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;margin-top:1px}
+.opt-btn .opt-text strong{display:block;font-weight:600;margin-bottom:2px}
+.opt-btn .opt-text small{color:var(--muted);font-size:12.5px}
+.opt-btn .opt-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:6px;margin-right:auto}
+.opt-btn.selected .opt-check{background:var(--brand);border-color:var(--brand)}
+.opt-btn.selected .opt-check::after{content:'✓';color:#fff;font-size:12px;font-weight:700}
+/* Tooltip */
+.opt-tip{position:absolute;left:8px;top:8px}
+.tip-icon{width:18px;height:18px;border-radius:50%;background:#f0f4ff;border:1px solid var(--border);cursor:help;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--brand);font-weight:700}
+.tip-popup{display:none;position:absolute;left:0;top:24px;z-index:10;background:#1a1a2e;color:#fff;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.55;width:220px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.tip-popup::before{content:'';position:absolute;top:-5px;left:8px;width:10px;height:10px;background:#1a1a2e;transform:rotate(45deg)}
+.opt-tip:hover .tip-popup,.opt-tip:focus-within .tip-popup{display:block}
+
+/* Nav buttons */
+.nav-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-next{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:none;border-radius:9px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-next:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-back{background:none;border:1.5px solid var(--border);border-radius:9px;padding:11px 20px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+.btn-back:hover{border-color:var(--brand);color:var(--brand)}
+.btn-restart{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;margin-right:auto}
+
+/* ═══════════════ RESULT SCREEN ═══════════════ */
+.result-card{border-radius:16px;padding:24px;margin-bottom:16px}
+.result-card.green{background:var(--green-bg);border:1.5px solid var(--green-border)}
+.result-card.orange{background:var(--orange-bg);border:1.5px solid var(--orange-border)}
+.result-card.red{background:var(--red-bg);border:1.5px solid var(--red-border)}
+.result-icon{font-size:36px;margin-bottom:12px}
+.result-label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.result-card.green .result-label{color:var(--green)}
+.result-card.orange .result-label{color:var(--orange)}
+.result-card.red .result-label{color:var(--red)}
+.result-title{font-size:clamp(18px,3.5vw,24px);font-weight:800;color:var(--text);margin-bottom:10px}
+.result-desc{font-size:15px;color:#374151;line-height:1.7}
+.effective-note{font-size:13px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.08)}
+
+/* Why explanation */
+.why-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
+.why-card h3{font-size:14px;font-weight:700;color:var(--brand);margin:0 0 12px;display:flex;align-items:center;gap:6px}
+.why-item{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;padding:6px 0;border-bottom:1px solid #f0f0f0}
+.why-item:last-child{border:none}
+.why-item .wi-icon{font-size:14px;flex-shrink:0;margin-top:2px}
+.why-item.positive{color:#166534}
+.why-item.negative{color:#991b1b}
+.why-item.neutral{color:var(--muted)}
+
+/* Obligations list */
+.oblig-list{list-style:none;padding:0;margin:14px 0 0}
+.oblig-list li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#374151;line-height:1.55}
+.oblig-list li:last-child{border:none}
+.oblig-list li::before{content:'•';color:var(--red);font-weight:800;flex-shrink:0;margin-top:2px}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:14px 0 0}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13.5px;color:#374151;line-height:1.55}
+.checklist li:last-child{border:none}
+.checklist .cb{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:2px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.checklist li:hover .cb{border-color:var(--brand)}
+.checklist .cl-info{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+
+/* Plan steps */
+.plan-steps{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.plan-step{display:flex;gap:12px;align-items:flex-start;padding:12px;background:#f8faff;border-radius:10px}
+.ps-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:1px}
+.ps-body strong{display:block;font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.ps-body span{font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* Summary of answers */
+.answers-summary{background:#f8faff;border:1px solid #d0e4f7;border-radius:10px;padding:16px;margin-bottom:14px}
+.answers-summary h4{font-size:13px;font-weight:700;color:var(--brand);margin:0 0 10px}
+.ans-row{display:flex;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid #e8f0fb}
+.ans-row:last-child{border:none}
+.ans-q{color:var(--muted);flex:1}
+.ans-v{font-weight:600;color:var(--text);flex:1;text-align:left}
+
+/* CTA buttons */
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.cta-primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:none;border-radius:9px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.cta-primary:hover{opacity:.9;transform:translateY(-1px)}
+.cta-wa{background:#25d366;color:#fff;border:none;border-radius:9px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.cta-secondary{background:#fff;border:1.5px solid var(--border);color:var(--text);border-radius:9px;padding:12px 20px;font-size:13.5px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.cta-secondary:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Lead form */
+.lead-form-wrap{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;margin-top:16px}
+.lead-form-wrap h3{font-size:15px;font-weight:700;margin:0 0 4px;color:var(--text)}
+.lead-form-wrap p{font-size:13px;color:var(--muted);margin:0 0 16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:520px){.form-row{grid-template-columns:1fr}}
+.f-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.f-group input,.f-group select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;color:var(--text);background:#fff;direction:rtl}
+.f-group input:focus,.f-group select:focus{outline:none;border-color:var(--brand)}
+.consent-row{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text);margin:12px 0;line-height:1.5}
+.consent-row input{margin-top:3px;flex-shrink:0;accent-color:var(--brand)}
+.form-submit-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:none;border-radius:9px;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:4px;transition:.2s}
+.form-submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.form-success{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;color:#166534;font-size:14px;font-weight:600;text-align:center;display:none}
+
+/* Legal source */
+.legal-source{background:#f8faff;border:1px solid #d0e4f7;border-radius:10px;padding:14px 16px;font-size:13px;color:var(--muted);margin-top:12px}
+.legal-source a{color:var(--brand);font-weight:600}
+
+/* Disclaimer */
+.disclaimer{background:#f9f9f9;border:1px solid #e0e0e0;border-radius:10px;padding:14px 16px;font-size:12.5px;color:var(--muted);line-height:1.65;margin-top:14px}
+
+/* Updated label */
+.updated-lbl{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+
+/* Responsive */
+@media(max-width:520px){
+  .step-card{padding:20px}
+  .result-card{padding:18px}
+  .cta-row{flex-direction:column}
+  .cta-primary,.cta-wa,.cta-secondary{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="t74-hero">
+  <div class="wrap">
+    <div class="badge">🛡️ תיקון 74 · חוק הגנת הצרכן</div>
+    <h1>האם העסק שלי חייב להקליט שיחות לפי תיקון 74?</h1>
+    <p class="sub">בדיקה ראשונית — לא ייעוץ משפטי. ענה על מספר שאלות וגלה אם חובת ההקלטה עשויה לחול על העסקאות שלך.</p>
+    <div class="law-notice">⚖️ <strong>תיקון 74 לחוק הגנת הצרכן</strong> קובע חובת הקלטה, שמירה ומסירה של שיחות בעסקאות מסוימות. <strong>מועד תחילת ההוראות: 22.03.2027.</strong> הכלי מספק בדיקה ראשונית בלבד.</div>
+    <div class="status-card">
+      <div>
+        <strong>מועד כניסה לתוקף</strong><br>
+        <span style="font-size:12px;opacity:.85">ייתכנו שינויים או דחייה — בדוק קרוב למועד</span>
+      </div>
+      <div class="countdown">22.03.2027</div>
+    </div>
+  </div>
+</section>
+
+<!-- WIZARD -->
+<div class="t74-wrap">
+  <div id="wizard"></div>
+</div>
+
+<div id="site-footer"></div>
+<script src="data.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIG — all legal data separate from UI
+// ══════════════════════════════════════════════════════
+const CONFIG = {
+  effectiveDate: '22.03.2027',
+  thresholdAmount: 750,
+  lastLegalReviewDate: '18.09.2026',
+  officialSourceURL: 'https://main.knesset.gov.il/Laws/Data/law/2080/2080.pdf',
+  wikisourceURL: 'https://he.wikisource.org/wiki/%D7%97%D7%95%D7%A7_%D7%94%D7%92%D7%A0%D7%AA_%D7%94%D7%A6%D7%A8%D7%9B%D7%9F',
+  retentionPeriods: { dealConcluded: 'שנתיים (2 שנים)', noDeal: 'שישה חודשים (6 חודשים)' },
+  legalSection: 'סעיף 16ד והתוספת התשיעית לחוק הגנת הצרכן, התשמ"א–1981',
+
+  // Ninth Schedule categories — exact legal text
+  categories: [
+    {
+      id: 'goods_marketing',
+      label: 'מכירת טובין (שאינם מזון) בעקבות פנייה שיווקית',
+      desc: 'מכירת מוצרים שאינם מזון, כאשר הקשר נוצר מיוזמת העסק',
+      example: 'מכירת מכשיר חשמלי, ריהוט, ציוד — שהעסק יזם את הפנייה לצרכן',
+      needsInitiatorQ: true,
+      exclusion: 'פנייה שנעשתה לאחר שהצרכן פנה לעסק וביקש שיחזרו אליו'
+    },
+    {
+      id: 'loan_brokerage',
+      label: 'תיווך לקבלת הלוואה',
+      desc: 'שירות תיווך בין לווים למלווים',
+      example: 'ברוקר הלוואות, גורם המתווך אשראי',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'funds_search',
+      label: 'שירות לאיתור כספים',
+      desc: 'שירות המסייע לאתר כספים, חסכונות או זכויות כספיות',
+      example: 'שירות איתור פיקדונות ישנים, כספים עזובים',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'medical_rights',
+      label: 'בדיקת זכויות הנובעות ממצב רפואי',
+      desc: 'שירות בדיקת זכויות כגון ביטוח, פיצויים, קצבאות בשל מצב רפואי',
+      example: 'שירות בדיקת זכאות לביטוח נכות, תביעות רפואיות',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'tax_refund',
+      label: 'בדיקת זכאות להחזר מס — שלא ע"י רו"ח / יועץ מס מורשה',
+      desc: 'שירות בדיקת זכאות להחזר מס, כאשר נותן השירות אינו בעל רישיון רו"ח או יועץ מס',
+      example: 'חברות "החזרי מס" שאינן מורשות; נותן שירות שאינו רו"ח מוסמך',
+      note: 'אם נותן השירות הוא רואה חשבון מוסמך או יועץ מס מורשה — קטגוריה זו אינה חלה',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'telephony',
+      label: 'שירותי טלפוניה',
+      desc: 'שירותי תקשורת קולית',
+      example: 'ספקי טלפון סלולרי, טלפון קווי',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'internet',
+      label: 'שירותי גישה לאינטרנט',
+      desc: 'שירותי אינטרנט ביתיים ועסקיים',
+      example: 'ספקי אינטרנט (ISP)',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'broadcasting',
+      label: 'שירותי שידורים / טלוויזיה / תוכן',
+      desc: 'שידורי טלוויזיה, שירותי סטרימינג ושירותי תוכן רלוונטיים',
+      example: 'HOT, YES, ספקי שירותי שידורים ותוכן',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'credit_repair',
+      label: 'שירות לתיקון / שיפור / מחיקת נתוני אשראי',
+      desc: 'שירות לשיפור ציון אשראי, מחיקת נתונים, בהתאם לתנאים הקבועים בחוק',
+      example: 'שירותי "תיקון" ציון אשראי שלא על ידי גורם מורשה',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'ongoing_repair',
+      label: 'שירות תיקונים ותחזוקה מתמשך',
+      desc: 'עסקה מתמשכת (חוזה שוטף) לשירותי תיקון ותחזוקה',
+      example: 'חוזה תחזוקה שנתי למוצרי חשמל, מזגן, דוד מים',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'ongoing_medical',
+      label: 'עסקה מתמשכת לשירותי רפואה',
+      desc: 'עסקה מתמשכת למתן שירותי רפואה, בהתאם להגדרות החוק',
+      example: 'מנוי לשירות רפואי פרטי מתמשך',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'gas',
+      label: 'אספקת גז ע"י ספק גז מורשה',
+      desc: 'אספקת גז לבית או לעסק בהתאם להגדרות החוק',
+      example: 'ספקי גז ביתיים מורשים',
+      needsInitiatorQ: false
+    },
+    {
+      id: 'other',
+      label: 'אחר — השירות/המוצר שלי אינו מופיע ברשימה',
+      desc: 'סוג עסקה שאינו ברשימת התוספת התשיעית',
+      example: 'הנהלת חשבונות, עריכת דין, עיצוב, בנייה וכדומה (ברוב המקרים)',
+      isOther: true
+    },
+    {
+      id: 'unsure_cat',
+      label: 'לא בטוח',
+      desc: 'איני בטוח לאיזו קטגוריה שייכת העסקה שלי',
+      isUnsure: true
+    }
+  ]
+};
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let STATE = {
+  screen: 'intro',
+  customerType: null,     // 'b2c','b2b','mixed','unsure'
+  voiceCall: null,        // 'yes','no','unsure'
+  category: null,         // category id
+  initiator: null,        // 'business','consumer_request','consumer_callback','unsure'
+  price: null,            // 'below','above','unknown','unsure'
+  result: null,           // 'LIKELY_APPLIES','LIKELY_NOT_APPLICABLE','REVIEW_REQUIRED'
+  reasonFlags: [],
+  uncertainty: false,
+  formSubmitted: false
+};
+
+const screens = ['intro','customer','voice','category','initiator','price','result'];
+
+function stepIndex(){ return screens.indexOf(STATE.screen); }
+function totalSteps(){ return 6; } // intro is 0, result is 6
+function progressPct(){
+  const map = {intro:0,customer:16,voice:33,category:50,initiator:66,price:82,result:100};
+  return map[STATE.screen]||0;
+}
+
+// ══════════════════════════════════════════════════════
+// DECISION ENGINE
+// ══════════════════════════════════════════════════════
+function decide(){
+  const flags = [];
+  let result = null;
+
+  // B2B → not applicable
+  if(STATE.customerType==='b2b'){
+    flags.push({type:'negative',text:'לקוח/ה העסקה הוא עסק/חברה — אין "צרכן" לפי חוק הגנת הצרכן'});
+    return {result:'LIKELY_NOT_APPLICABLE', flags};
+  }
+  if(STATE.customerType==='mixed'||STATE.customerType==='unsure'){
+    flags.push({type:'neutral',text:'סוג הלקוח אינו ברור — ייתכן שימוש מעורב פרטי/עסקי'});
+    return {result:'REVIEW_REQUIRED', flags};
+  }
+  flags.push({type:'positive',text:'הלקוח הוא צרכן פרטי — תנאי B2C מתקיים'});
+
+  // No voice call → not applicable
+  if(STATE.voiceCall==='no'){
+    flags.push({type:'negative',text:'אין שיחה קולית עם הצרכן — תנאי הקלטה אינו מתקיים'});
+    return {result:'LIKELY_NOT_APPLICABLE', flags};
+  }
+  if(STATE.voiceCall==='unsure'){
+    flags.push({type:'neutral',text:'אי-ודאות לגבי קיום שיחה קולית'});
+    return {result:'REVIEW_REQUIRED', flags};
+  }
+  flags.push({type:'positive',text:'קיימת שיחה קולית עם הצרכן'});
+
+  // Category check
+  const cat = CONFIG.categories.find(c=>c.id===STATE.category);
+  if(!cat||cat.isOther){
+    flags.push({type:'negative',text:'סוג העסקה אינו מופיע בתוספת התשיעית לחוק'});
+    flags.push({type:'neutral',text:'⚠️ רף המחיר 750 ₪ לבדו אינו יוצר חובת הקלטה — יש צורך שהעסקה תהיה מסוג המנוי בתוספת'});
+    return {result:'REVIEW_REQUIRED', flags};
+  }
+  if(cat.isUnsure){
+    flags.push({type:'neutral',text:'קטגוריית העסקה אינה ברורה'});
+    return {result:'REVIEW_REQUIRED', flags};
+  }
+  flags.push({type:'positive',text:`סוג השירות/העסקה נמצא בתוספת התשיעית: "${cat.label}"`});
+
+  // Special case: goods marketing + initiator
+  if(STATE.category==='goods_marketing'){
+    if(STATE.initiator==='consumer_callback'){
+      flags.push({type:'negative',text:'הצרכן פנה לעסק וביקש שיחזרו אליו — חל חריג מפורש בתוספת התשיעית'});
+      flags.push({type:'neutral',text:'החריג קובע: "למעט פנייה שיווקית שנעשתה לאחר שהצרכן פנה לעוסק וביקש ממנו שיחזור אליו"'});
+      return {result:'REVIEW_REQUIRED', flags};
+    }
+    if(STATE.initiator==='consumer'){
+      flags.push({type:'negative',text:'הצרכן פנה לעסק — ייתכן שחל חריג; נדרשת בדיקה'});
+      return {result:'REVIEW_REQUIRED', flags};
+    }
+    if(STATE.initiator==='unsure'){
+      flags.push({type:'neutral',text:'אי-ודאות לגבי מי יזם את הפנייה'});
+      return {result:'REVIEW_REQUIRED', flags};
+    }
+    flags.push({type:'positive',text:'העסק יזם את הפנייה השיווקית — חריג הצרכן-יוזם אינו חל'});
+  }
+
+  // Price check
+  if(STATE.price==='below'){
+    flags.push({type:'negative',text:`מחיר העסקה פחות מ-₪${CONFIG.thresholdAmount} — רף המחיר אינו מתקיים`});
+    return {result:'LIKELY_NOT_APPLICABLE', flags};
+  }
+  if(STATE.price==='unsure'){
+    flags.push({type:'neutral',text:'אי-ודאות לגבי מחיר העסקה'});
+    return {result:'REVIEW_REQUIRED', flags};
+  }
+  if(STATE.price==='unknown'){
+    flags.push({type:'positive',text:`מחיר העסקה אינו ידוע בזמן השיחה — לפי הוראות הסעיף, דינו כמי שעומד ברף ₪${CONFIG.thresholdAmount}`});
+  } else {
+    flags.push({type:'positive',text:`מחיר העסקה ₪${CONFIG.thresholdAmount} ומעלה — רף המחיר מתקיים`});
+  }
+
+  // All conditions met
+  flags.push({type:'positive',text:'לא זוהה חריג על סמך התשובות שמסרת'});
+  return {result:'LIKELY_APPLIES', flags};
+}
+
+// ══════════════════════════════════════════════════════
+// ANALYTICS
+// ══════════════════════════════════════════════════════
+function trackEvent(name, data){
+  if(window.plTrack) window.plTrack(name, data||{});
+  else if(window.gtag) window.gtag('event', name);
+  // No personal data sent
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
+function render(){
+  const w = document.getElementById('wizard');
+  if(!w) return;
+
+  const pct = progressPct();
+  const progressHTML = STATE.screen !== 'intro' ? `
+    <div class="progress-row">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">${pct < 100 ? pct+'%' : '✓ הושלם'}</div>
+    </div>` : '';
+
+  let content = '';
+  switch(STATE.screen){
+    case 'intro':    content = renderIntro(); break;
+    case 'customer': content = renderCustomer(); break;
+    case 'voice':    content = renderVoice(); break;
+    case 'category': content = renderCategory(); break;
+    case 'initiator':content = renderInitiator(); break;
+    case 'price':    content = renderPrice(); break;
+    case 'result':   content = renderResult(); break;
+  }
+
+  w.innerHTML = progressHTML + content;
+
+  // Bind option buttons
+  w.querySelectorAll('.opt-btn[data-val]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const field = btn.dataset.field;
+      const val = btn.dataset.val;
+      if(field) STATE[field] = val;
+      w.querySelectorAll(`.opt-btn[data-field="${field}"]`).forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const nextBtn = document.getElementById('btn-next');
+      if(nextBtn) nextBtn.disabled = false;
+    });
+  });
+
+  if(window.lucide) lucide.createIcons();
+}
+
+function tip(text){
+  return `<div class="opt-tip" tabindex="0">
+    <div class="tip-icon">?</div>
+    <div class="tip-popup">${text}</div>
+  </div>`;
+}
+
+function opt(field, val, icon, label, sublabel, tipText){
+  return `<button class="opt-btn${STATE[field]===val?' selected':''}" data-field="${field}" data-val="${val}">
+    <div class="opt-icon">${icon}</div>
+    <div class="opt-text"><strong>${label}</strong>${sublabel?`<small>${sublabel}</small>`:''}</div>
+    ${tipText?tip(tipText):''}
+    <div class="opt-check"></div>
+  </button>`;
+}
+
+// ── INTRO SCREEN ──
+function renderIntro(){
+  return `<div class="step-card">
+    <div style="text-align:center;padding:8px 0 16px">
+      <div style="font-size:52px;margin-bottom:12px">🎙️</div>
+      <h2 style="font-size:clamp(19px,3.5vw,26px);margin-bottom:10px">בדיקת תחולת חובת הקלטת שיחות</h2>
+      <p style="color:var(--muted);font-size:14.5px;line-height:1.7;max-width:480px;margin:0 auto 20px">הכלי יבצע בדיקה ראשונית האם תיקון 74 לחוק הגנת הצרכן עשוי לחול על העסק שלך — באמצעות מספר שאלות פשוטות.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px;text-align:right">
+        <div style="background:#f8faff;border:1px solid #d0e4f7;border-radius:10px;padding:12px">
+          <div style="font-size:20px;margin-bottom:5px">⏱️</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text)">2-3 דקות</div>
+          <div style="font-size:11px;color:var(--muted)">זמן הבדיקה</div>
+        </div>
+        <div style="background:#f8faff;border:1px solid #d0e4f7;border-radius:10px;padding:12px">
+          <div style="font-size:20px;margin-bottom:5px">🔒</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text)">ללא פרטים אישיים</div>
+          <div style="font-size:11px;color:var(--muted)">לקבלת תוצאה</div>
+        </div>
+        <div style="background:#f8faff;border:1px solid #d0e4f7;border-radius:10px;padding:12px">
+          <div style="font-size:20px;margin-bottom:5px">📋</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text)">בדיקה ראשונית</div>
+          <div style="font-size:11px;color:var(--muted)">לא ייעוץ משפטי</div>
+        </div>
+      </div>
+      <button class="btn-next" style="font-size:15px;padding:13px 32px;margin:0 auto" onclick="goNext()">▶ התחל בדיקה</button>
+    </div>
+  </div>
+  <div class="updated-lbl">עודכן לאחרונה: ${CONFIG.lastLegalReviewDate}</div>`;
+}
+
+// ── CUSTOMER TYPE ──
+function renderCustomer(){
+  return `<div class="step-card">
+    <div class="step-badge">שלב 1 מתוך 5</div>
+    <h2>מי הלקוח ומהי מטרת הרכישה?</h2>
+    <p class="step-desc">תיקון 74 חל על עסקאות עם "צרכן" — אדם הרוכש לשימוש אישי, ביתי או משפחתי. עסק הרוכש לצורך פעילותו העסקית אינו בגדר "צרכן".</p>
+    <div class="options-list">
+      ${opt('customerType','b2c','👤','אדם פרטי — שימוש אישי, ביתי או משפחתי','למשל: משפחה הרוכשת מכשיר חשמלי לבית','הצרכן הוא מי שרוכש לשימוש שעיקרו אישי, ביתי או משפחתי לפי חוק הגנת הצרכן')}
+      ${opt('customerType','b2b','🏢','עסק / חברה / עצמאי — לצורך פעילות עסקית','למשל: מסעדה הרוכשת ציוד מטבח, עסק הרוכש שירות לפעילותו','רכישה לצורך עסקי אינה בגדר "עסקה צרכנית" לפי חוק הגנת הצרכן')}
+      ${opt('customerType','mixed','🔄','שימוש מעורב — גם אישי וגם עסקי','המוצר/שירות משמש גם לצרכים פרטיים וגם לצרכים עסקיים','מקרים של שימוש מעורב עשויים לדרוש בדיקה פרטנית')}
+      ${opt('customerType','unsure','❓','לא בטוח','איני בטוח אם הלקוח רוכש לשימוש אישי או עסקי','')}
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">→ חזרה</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!STATE.customerType?'disabled':''}>הבא ←</button>
+    </div>
+  </div>`;
+}
+
+// ── VOICE CALL ──
+function renderVoice(){
+  return `<div class="step-card">
+    <div class="step-badge">שלב 2 מתוך 5</div>
+    <h2>האם מתקיימת שיחה קולית עם הצרכן בקשר לעסקה?</h2>
+    <p class="step-desc">תיקון 74 חל על שיחות קוליות המתנהלות בינך לבין הצרכן בקשר לעסקה — גם שיחות טלפון רגילות וגם שיחות קוליות אלקטרוניות. תקשורת בכתב (מייל, וואטסאפ טקסט) אינה נכללת.</p>
+    <div class="options-list">
+      ${opt('voiceCall','yes','📞','כן — מתקיימות שיחות קוליות עם הצרכנים','שיחות טלפון, שיחות VoIP, שיחות קוליות אחרות','')}
+      ${opt('voiceCall','no','💬','לא — אין שיחה קולית','כל התקשורת בכתב בלבד (מייל, וואטסאפ, אתר)','')}
+      ${opt('voiceCall','unsure','❓','לא בטוח','ייתכן שחלק מהתקשורת קולית וחלק בכתב','')}
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">→ חזרה</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!STATE.voiceCall?'disabled':''}>הבא ←</button>
+    </div>
+  </div>`;
+}
+
+// ── CATEGORY ──
+function renderCategory(){
+  const catsHTML = CONFIG.categories.map(c=>`
+    <button class="opt-btn${STATE.category===c.id?' selected':''}" data-field="category" data-val="${c.id}" style="position:relative">
+      <div class="opt-text" style="flex:1">
+        <strong>${c.label}</strong>
+        <small>${c.example||c.desc}</small>
+        ${c.note?`<small style="color:var(--orange)">${c.note}</small>`:''}
+        ${c.exclusion?`<small style="color:#7c3aed">חריג: ${c.exclusion}</small>`:''}
+      </div>
+      ${c.desc?tip(c.desc):''}
+      <div class="opt-check"></div>
+    </button>`).join('');
+  return `<div class="step-card">
+    <div class="step-badge">שלב 3 מתוך 5</div>
+    <h2>מהו סוג המוצר, השירות או העסקה?</h2>
+    <p class="step-desc">בחר את הקטגוריה המתאימה ביותר לעסקה שלך. החוק חל רק על סוגי עסקאות המנויים בתוספת התשיעית — לא על כל עסקה.</p>
+    <div class="options-list" style="max-height:460px;overflow-y:auto;padding-left:4px">${catsHTML}</div>
+    <div class="nav-row" style="margin-top:16px">
+      <button class="btn-back" onclick="goBack()">→ חזרה</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!STATE.category?'disabled':''}>הבא ←</button>
+    </div>
+  </div>`;
+}
+
+// ── INITIATOR ──
+function renderInitiator(){
+  return `<div class="step-card">
+    <div class="step-badge">שלב 4 מתוך 5 — שאלה נוספת</div>
+    <h2>מי יזם את הפנייה?</h2>
+    <p class="step-desc">לגבי מכירת טובין בעקבות פנייה שיווקית — לחוק יש חריג חשוב: אם הצרכן הוא שביקש מהעסק לחזור אליו, ייתכן שהחריג חל.</p>
+    <div class="options-list">
+      ${opt('initiator','business','📢','העסק פנה לצרכן ביוזמתו','יצרנו קשר עם הצרכן (טלפון, פרסום) והצענו את המוצר','')}
+      ${opt('initiator','consumer_callback','↩️','הצרכן ביקש מהעסק לחזור אליו','הצרכן הוא שפנה אלינו וביקש שנחזור אליו','לפי התוספת התשיעית, פנייה שנעשתה לאחר שהצרכן ביקש שיחזרו אליו אינה בגדר "פנייה שיווקית" לצורך הסעיף')}
+      ${opt('initiator','consumer','🙋','הצרכן פנה לעסק מיוזמתו','הצרכן נכנס לחנות, פנה בטלפון מיוזמתו, ביקש הצעת מחיר','יש לבדוק את תנאי הקטגוריה ואפשרות החריג')}
+      ${opt('initiator','unsure','❓','לא בטוח','לא ברור מי יזם את הפנייה','')}
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">→ חזרה</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!STATE.initiator?'disabled':''}>הבא ←</button>
+    </div>
+  </div>`;
+}
+
+// ── PRICE ──
+function renderPrice(){
+  return `<div class="step-card">
+    <div class="step-badge">שלב ${STATE.category==='goods_marketing'?'5':'4'} מתוך 5</div>
+    <h2>מהו המחיר הכולל של העסקה?</h2>
+    <p class="step-desc">החוק קובע סף של ₪${CONFIG.thresholdAmount} למחיר הכולל של העסקה. אם המחיר אינו ידוע בזמן השיחה, הסעיף קובע כלל מיוחד לגביו.</p>
+    <div class="options-list">
+      ${opt('price','below','💰',`פחות מ-₪${CONFIG.thresholdAmount}`,`המחיר הכולל של העסקה נמוך מ-₪${CONFIG.thresholdAmount}`,'')}
+      ${opt('price','above','💳',`₪${CONFIG.thresholdAmount} ומעלה`,`המחיר הכולל של העסקה הוא ₪${CONFIG.thresholdAmount} או יותר`,'')}
+      ${opt('price','unknown','❓','המחיר עדיין אינו ידוע בזמן השיחה','הסכום הסופי ייקבע בהמשך — בזמן השיחה אינו ידוע','לפי הוראות הסעיף, אם המחיר אינו ידוע במועד השיחה — אין לסווגו אוטומטית כמתחת לרף')}
+      ${opt('price','unsure','🤷','לא בטוח','איני בטוח מהו מחיר העסקה','')}
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">→ חזרה</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()" ${!STATE.price?'disabled':''}>הבא ←</button>
+    </div>
+  </div>`;
+}
+
+// ── RESULT ──
+function renderResult(){
+  const decision = decide();
+  STATE.result = decision.result;
+  STATE.reasonFlags = decision.flags;
+
+  trackEvent('compliance_checker_completed');
+  if(decision.result==='LIKELY_APPLIES') trackEvent('compliance_result_likely_applies');
+  else if(decision.result==='LIKELY_NOT_APPLICABLE') trackEvent('compliance_result_likely_not_applies');
+  else trackEvent('compliance_result_review_required');
+
+  const resultConfig = {
+    LIKELY_APPLIES: {
+      cls:'red', icon:'🔴',
+      label:'עשויה לחול — תוצאה ראשונית',
+      title:'נראה שחובת ההקלטה עשויה לחול',
+      desc:'על סמך התשובות שמסרת, נראה שהעסקה עשויה להיכלל בסעיף 16ד ובתוספת התשיעית לחוק הגנת הצרכן.'
+    },
+    LIKELY_NOT_APPLICABLE: {
+      cls:'green', icon:'🟢',
+      label:'לא נראה שחלה — תוצאה ראשונית',
+      title:'לא נראה שחובת ההקלטה חלה',
+      desc:'על סמך התשובות שמסרת, לא נראה שחובת ההקלטה לפי סעיף 16ד חלה על העסקה שתיארת.'
+    },
+    REVIEW_REQUIRED: {
+      cls:'orange', icon:'🟡',
+      label:'נדרשת בדיקה פרטנית',
+      title:'נדרשת בדיקה פרטנית',
+      desc:'על סמך התשובות שמסרת, לא ניתן לקבוע בוודאות אם החובה חלה. ישנם גורמים שדורשים בחינה נוספת.'
+    }
+  };
+  const rc = resultConfig[decision.result];
+
+  // Build answers summary
+  const catObj = CONFIG.categories.find(c=>c.id===STATE.category);
+  const customerLabels = {b2c:'אדם פרטי (צרכן)',b2b:'עסק/חברה',mixed:'שימוש מעורב',unsure:'לא בטוח'};
+  const voiceLabels = {yes:'כן',no:'לא',unsure:'לא בטוח'};
+  const initiatorLabels = {business:'העסק יזם',consumer_callback:'הצרכן ביקש שיחזרו אליו',consumer:'הצרכן פנה',unsure:'לא בטוח'};
+  const priceLabels = {below:`פחות מ-₪${CONFIG.thresholdAmount}`,above:`₪${CONFIG.thresholdAmount} ומעלה`,unknown:'לא ידוע בזמן השיחה',unsure:'לא בטוח'};
+
+  const answersRows = [
+    ['סוג לקוח', customerLabels[STATE.customerType]||'—'],
+    ['שיחה קולית', voiceLabels[STATE.voiceCall]||'—'],
+    ['סוג עסקה', catObj?catObj.label:'—'],
+    STATE.category==='goods_marketing'?['מי יזם', initiatorLabels[STATE.initiator]||'—']:null,
+    ['מחיר העסקה', priceLabels[STATE.price]||'—'],
+  ].filter(Boolean);
+
+  const whyHTML = decision.flags.map(f=>`
+    <div class="why-item ${f.type}">
+      <span class="wi-icon">${f.type==='positive'?'✓':f.type==='negative'?'✕':'→'}</span>
+      <span>${f.text}</span>
+    </div>`).join('');
+
+  const obligationsHTML = decision.result==='LIKELY_APPLIES'?`
+    <div class="why-card" style="margin-top:0">
+      <h3>📋 החובות העיקריות לפי הסעיף</h3>
+      <ul class="oblig-list">
+        <li>להקליט את השיחות הרלוונטיות עם הצרכן</li>
+        <li>להודיע בתחילת השיחה שהיא מוקלטת וכי הצרכן זכאי לקבל את ההקלטה</li>
+        <li>אם <strong>נכרתה עסקה</strong> — לשמור את ההקלטה לפחות <strong>${CONFIG.retentionPeriods.dealConcluded}</strong></li>
+        <li>אם <strong>לא נכרתה עסקה</strong> — לשמור את ההקלטה לפחות <strong>${CONFIG.retentionPeriods.noDeal}</strong></li>
+        <li>לפי בקשת הצרכן — למסור את ההקלטה ופירוט מועדי השיחות</li>
+      </ul>
+    </div>` : '';
+
+  const checklistHTML = decision.result==='LIKELY_APPLIES'?`
+    <div class="why-card">
+      <h3>✅ כיצד להיערך — רשימת משימות</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><div><span>לוודא שמערכת הטלפוניה מסוגלת להקליט, לשמור ולאתר שיחות</span><span class="cl-info">בדוק עם ספק הטלפוניה שלך</span></div></li>
+        <li><div class="cb"></div><div><span>להכין הודעת פתיחה לשיחה — יידוע הצרכן שהשיחה מוקלטת וכי הוא זכאי לקבלה</span><span class="cl-info">לפי הסעיף — חובה להודיע בתחילת כל שיחה</span></div></li>
+        <li><div class="cb"></div><div><span>ליצור מערכת שמירת הקלטות מאובטחת עם גישה מבוקרת</span><span class="cl-info">שמירה לפחות שנתיים (עסקה שנכרתה) / 6 חודשים (לא נכרתה)</span></div></li>
+        <li><div class="cb"></div><div><span>ליצור תהליך לאיתור הקלטה לפי לקוח ותאריך</span><span class="cl-info">לצורך מענה לבקשת צרכן</span></div></li>
+        <li><div class="cb"></div><div><span>ליצור תהליך מסודר לטיפול בבקשת צרכן לקבלת הקלטה</span><span class="cl-info">לפי החוק — מסירה תוך 10 ימי עסקים מהבקשה</span></div></li>
+        <li><div class="cb"></div><div><span>להגדיר הרשאות גישה לעובדים להקלטות</span><span class="cl-info">אבטחת מידע ומניעת גישה לא מורשית</span></div></li>
+        <li><div class="cb"></div><div><span>לכתוב נוהל פנימי לעובדים ונציגי שירות/מכירות</span><span class="cl-info">כולל הסבר על החובות ועל זכויות הצרכן</span></div></li>
+        <li><div class="cb"></div><div><span>לבצע הדרכת עובדים לפני מועד תחילת החובה</span><span class="cl-info">לפני ${CONFIG.effectiveDate}</span></div></li>
+        <li><div class="cb"></div><div><span>לבדוק חובות נוספות מכוח דיני הגנת פרטיות ואבטחת מידע</span><span class="cl-info">חוק הגנת הפרטיות, תקנות אבטחת מידע</span></div></li>
+      </ul>
+    </div>
+    <div class="why-card">
+      <h3>🗓️ תוכנית היערכות לעסק</h3>
+      <div class="plan-steps">
+        <div class="plan-step"><div class="ps-num">1</div><div class="ps-body"><strong>מיפוי</strong><span>זיהוי סוגי השיחות והעסקאות שעשויות להיכלל בחוק</span></div></div>
+        <div class="plan-step"><div class="ps-num">2</div><div class="ps-body"><strong>טכנולוגיה</strong><span>בדיקה האם מערכת הטלפוניה תומכת בהקלטה, שמירה ואיתור</span></div></div>
+        <div class="plan-step"><div class="ps-num">3</div><div class="ps-body"><strong>נהלים</strong><span>כתיבת נוסח הודעה ללקוח ונוהל פנימי לטיפול בהקלטות</span></div></div>
+        <div class="plan-step"><div class="ps-num">4</div><div class="ps-body"><strong>פרטיות ואבטחת מידע</strong><span>קביעת הרשאות, שמירת מידע ומחיקה בהתאם לדין</span></div></div>
+        <div class="plan-step"><div class="ps-num">5</div><div class="ps-body"><strong>הדרכת עובדים</strong><span>הדרכה לפני תחילת החובה ב-${CONFIG.effectiveDate}</span></div></div>
+        <div class="plan-step"><div class="ps-num">6</div><div class="ps-body"><strong>בדיקה סופית</strong><span>בדיקת המערכת והנהלים סמוך למועד התחילה ווידוא עמידה בדרישות</span></div></div>
+      </div>
+    </div>`:''
+
+  const waText = encodeURIComponent(`בדיקת תיקון 74: "${rc.title}" — ${rc.desc.slice(0,80)}... לפרטים: https://primels.co.il/tikun74.html`);
+
+  const leadFormHTML = `
+    <div class="lead-form-wrap">
+      <h3>רוצים שנחזור אליכם לגבי היערכות העסק?</h3>
+      <p>כדי להיערך בצורה מסודרת ניתן לפנות אלינו לבדיקת מאפייני הפעילות והדרישות הרלוונטיות לעסק. אין בכך ייעוץ משפטי.</p>
+      <div id="lead-form-inner">
+        <div class="form-row">
+          <div class="f-group"><label>שם מלא</label><input id="lf-name" placeholder="ישראל ישראלי"></div>
+          <div class="f-group"><label>שם העסק</label><input id="lf-biz" placeholder="שם העסק"></div>
+        </div>
+        <div class="form-row">
+          <div class="f-group"><label>טלפון</label><input id="lf-phone" type="tel" placeholder="05X-XXXXXXX"></div>
+          <div class="f-group"><label>דוא"ל</label><input id="lf-email" type="email" placeholder="your@email.com"></div>
+        </div>
+        <div class="f-group" style="margin-bottom:10px"><label>סוג העסק / תחום</label><input id="lf-sector" placeholder="לדוגמה: קמעונאות, טלקום, שירותים פיננסיים..."></div>
+        <div class="consent-row">
+          <input type="checkbox" id="lf-consent">
+          <label for="lf-consent">אני מאשר/ת שיחזרו אליי בקשר לפנייה זו.</label>
+        </div>
+        <button class="form-submit-btn" onclick="submitLeadForm()" id="lf-submit" disabled>שלח פנייה</button>
+        <div class="form-success" id="lf-success">✅ תודה! נחזור אליך בהקדם.</div>
+      </div>
+    </div>`;
+
+  return `
+    <div class="result-card ${rc.cls}">
+      <div class="result-icon">${rc.icon}</div>
+      <div class="result-label">${rc.label}</div>
+      <div class="result-title">${rc.title}</div>
+      <div class="result-desc">${rc.desc}</div>
+      <div class="effective-note">⏰ מועד תחילת הוראות תיקון 74: <strong>${CONFIG.effectiveDate}</strong> — ייתכנו שינויים, דחייה או הוראות נוספות. מומלץ לבדוק סמוך למועד.</div>
+    </div>
+
+    <div class="answers-summary">
+      <h4>📋 סיכום תשובותיך</h4>
+      ${answersRows.map(([q,a])=>`<div class="ans-row"><span class="ans-q">${q}</span><span class="ans-v">${a}</span></div>`).join('')}
+    </div>
+
+    <div class="why-card">
+      <h3>🔍 למה קיבלת את התוצאה הזאת?</h3>
+      ${whyHTML}
+    </div>
+
+    ${obligationsHTML}
+    ${checklistHTML}
+
+    <div class="why-card">
+      <div style="background:var(--brand);color:#fff;border-radius:8px;padding:14px 16px;margin-bottom:12px">
+        <strong style="font-size:14px">📅 תיקון 74 — היערכות לכניסה לתוקף</strong><br>
+        <span style="font-size:13px;opacity:.88">מועד התחילה שנקבע בחוק: ${CONFIG.effectiveDate}. ייתכנו שינויים, דחייה, תקנות או הוראות נוספות. מומלץ לבדוק עדכונים סמוך למועד.</span>
+      </div>
+    </div>
+
+    <div class="why-card" style="padding-bottom:12px">
+      <h3>❓ לא בטוחים אם הדרישות חלות על העסק שלכם?</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:14px">כדי להיערך בצורה מסודרת ניתן לפנות אלינו לבדיקת מאפייני הפעילות. אין בכך ייעוץ משפטי.</p>
+      <div class="cta-row">
+        <a class="cta-primary" href="contact.html" onclick="trackEvent('compliance_contact_clicked')">📞 אני רוצה בדיקת התאמה לעסק</a>
+        <a class="cta-wa" href="https://wa.me/972526643244?text=${waText}" target="_blank" onclick="trackEvent('compliance_whatsapp_clicked')">💬 שלח ב-WhatsApp</a>
+        <button class="cta-secondary" onclick="window.print()">🖨️ הדפסה / שמירה</button>
+      </div>
+    </div>
+
+    ${leadFormHTML}
+
+    <div class="legal-source">
+      ⚖️ <strong>מקור משפטי רשמי:</strong>
+      <a href="${CONFIG.wikisourceURL}" target="_blank">חוק הגנת הצרכן — ויקיטקסט</a> |
+      <a href="https://www.nevo.co.il/law_html/law01/P170_001.htm" target="_blank">Nevo</a> |
+      <a href="https://www.consumers.org.il" target="_blank">הרשות להגנת הצרכן</a><br>
+      <span style="font-size:12px">המקור הרשמי ותנאי החוק המחייבים הם הנוסח הרשמי של החוק כפי שפורסם בספר החוקים.</span>
+    </div>
+
+    <div class="disclaimer">
+      <strong>הבהרה:</strong> הסימולטור נועד למידע ולבדיקה ראשונית בלבד. התוצאה מבוססת על המידע שהוזן ואינה מהווה ייעוץ משפטי, חוות דעת משפטית או קביעה מחייבת בדבר תחולת החוק. הוראות הדין עשויות להשתנות. במקרה של ספק מומלץ לבצע בדיקה פרטנית.
+    </div>
+
+    <div style="margin-top:16px;text-align:center">
+      <button class="btn-restart" onclick="restart()">🔄 התחל בדיקה מחדש</button>
+    </div>
+    <div class="updated-lbl">עודכן לאחרונה: ${CONFIG.lastLegalReviewDate}</div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════
+function goNext(){
+  const prev = STATE.screen;
+  switch(STATE.screen){
+    case 'intro':    STATE.screen='customer'; trackEvent('compliance_checker_started'); break;
+    case 'customer':
+      if(STATE.customerType==='b2b') { STATE.screen='result'; }
+      else STATE.screen='voice';
+      break;
+    case 'voice':
+      if(STATE.voiceCall==='no') { STATE.screen='result'; }
+      else STATE.screen='category';
+      break;
+    case 'category':
+      const cat = CONFIG.categories.find(c=>c.id===STATE.category);
+      if(cat&&cat.needsInitiatorQ) STATE.screen='initiator';
+      else if(cat&&(cat.isOther||cat.isUnsure)) { STATE.screen='result'; }
+      else STATE.screen='price';
+      break;
+    case 'initiator': STATE.screen='price'; break;
+    case 'price':    STATE.screen='result'; break;
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+}
+
+function goBack(){
+  switch(STATE.screen){
+    case 'customer': STATE.screen='intro'; break;
+    case 'voice':    STATE.screen='customer'; break;
+    case 'category': STATE.screen='voice'; break;
+    case 'initiator':STATE.screen='category'; break;
+    case 'price':
+      const cat=CONFIG.categories.find(c=>c.id===STATE.category);
+      STATE.screen=(cat&&cat.needsInitiatorQ)?'initiator':'category';
+      break;
+    case 'result':   STATE.screen='price'; break;
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+}
+
+function restart(){
+  STATE={screen:'intro',customerType:null,voiceCall:null,category:null,initiator:null,price:null,result:null,reasonFlags:[],uncertainty:false,formSubmitted:false};
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+}
+
+// Lead form
+function submitLeadForm(){
+  const consent = document.getElementById('lf-consent');
+  if(!consent||!consent.checked) return;
+  const name=document.getElementById('lf-name').value.trim();
+  const biz=document.getElementById('lf-biz').value.trim();
+  const phone=document.getElementById('lf-phone').value.trim();
+  const email=document.getElementById('lf-email').value.trim();
+  const sector=document.getElementById('lf-sector').value.trim();
+  const btn=document.getElementById('lf-submit');
+  if(btn) btn.disabled=true;
+  // Submit to Supabase site_leads
+  const SB_URL='https://urpzikwromhwtuffkhyr.supabase.co';
+  const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVycHppa3dyb21od3R1ZmZraHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5Njk4MDEsImV4cCI6MjA5NTU0NTgwMX0.lnnmGDSkQ8hPR0QGP2WnJAhDO2qIZSfJWaXh15c7Obo';
+  fetch(SB_URL+'/rest/v1/site_leads',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON,'Prefer':'return=minimal'},
+    body:JSON.stringify({full_name:name||'טופס תיקון 74',email:email,phone:phone,topic:'בדיקת תיקון 74 — '+STATE.result,message:`עסק: ${biz}, תחום: ${sector}, תוצאת סימולטור: ${STATE.result}`})
+  }).catch(()=>{});
+  trackEvent('compliance_contact_clicked');
+  const suc=document.getElementById('lf-success');
+  if(suc){suc.style.display='block';}
+  if(btn){btn.style.display='none';}
+}
+
+// Consent checkbox
+document.addEventListener('change',e=>{
+  if(e.target.id==='lf-consent'){
+    const btn=document.getElementById('lf-submit');
+    if(btn) btn.disabled=!e.target.checked;
+  }
+});
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>render());
+</script>
+</body>
+</html>
